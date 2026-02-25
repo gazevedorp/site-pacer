@@ -4,7 +4,7 @@ import { SplashScreen } from "@/components/SplashScreen";
 import { GridBackground } from "@/components/ui/grid-background";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { HomePage } from "@/pages/HomePage";
-import { UnitPage } from "@/pages/UnitPage";
+// import { UnitPage } from "@/pages/UnitPage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -29,7 +29,7 @@ export function App() {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/unidades/:slug" element={<UnitPage />} />
+          {/* <Route path="/unidades/:slug" element={<UnitPage />} /> */}
         </Routes>
         <WhatsAppFloat />
       </div>

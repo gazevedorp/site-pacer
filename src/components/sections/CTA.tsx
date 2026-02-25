@@ -42,7 +42,7 @@ export function CTA() {
             </Button>
             <Button variant="outline" size="lg" asChild>
               <a href="mailto:sac@paceracademia.com.br">
-                <Mail className="h-4 w-4" />
+                <Mail className="h-4 w-4 mr-2" />
                 sac@paceracademia.com.br
               </a>
             </Button>

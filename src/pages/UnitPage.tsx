@@ -123,9 +123,11 @@ export function UnitPage() {
                       <Clock className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
                       <div>
                         <p className="text-sm font-medium">Horários</p>
-                        <p className="text-sm text-muted-foreground">
-                          {unit.hours}
-                        </p>
+                        <div className="text-sm text-muted-foreground">
+                          {unit.hours.map((h, i) => (
+                            <p key={i}>{h}</p>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>

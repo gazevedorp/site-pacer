@@ -12,8 +12,8 @@ export function HomePage() {
       <Header />
       <main>
         <Hero />
-        <Features />
         <Units />
+        <Features />
         <Pricing />
         <CTA />
       </main>

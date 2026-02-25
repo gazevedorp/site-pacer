@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { label: "Modalidades", href: "/#modalidades" },
   { label: "Unidades", href: "/#unidades" },
+  { label: "Planos", href: "/#planos" },
   { label: "Contato", href: "/#contato" },
 ];
 
@@ -42,14 +43,17 @@ export function Header() {
         {/* Desktop Nav */}
         <nav className="hidden items-center gap-8 lg:flex">
           {navLinks.map((link) => (
-            <Link
+            <a
               key={link.label}
-              to={link.href}
-              onClick={() => handleNavClick(link.href)}
+              href={link.href}
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick(link.href);
+              }}
               className="text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               {link.label}
-            </Link>
+            </a>
           ))}
         </nav>
 
@@ -57,7 +61,13 @@ export function Header() {
           {/* <Button variant="ghost" size="sm">
             Área do aluno
           </Button> */}
-          <Button size="sm">#VemPraPacer</Button>
+          <a
+            href="https://wa.me/5516999999999"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button size="sm">#VemPraPacer</Button>
+          </a>
         </div>
 
         {/* Mobile toggle */}
@@ -96,7 +106,13 @@ export function Header() {
                 {/* <Button variant="outline" size="sm">
                   Área do aluno
                 </Button> */}
-                <Button size="sm">#VemPraPacer</Button>
+                <a
+                  href="https://wa.me/5516999999999"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button size="sm">#VemPraPacer</Button>
+                </a>
               </div>
             </nav>
           </motion.div>

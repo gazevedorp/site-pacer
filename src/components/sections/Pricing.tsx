@@ -13,8 +13,9 @@ const benefits = [
 
 export function Pricing() {
   return (
-    <section id="planos" className="relative py-24 sm:py-32">
+    <section id="planos" className="relative py-24 sm:py-32 bg-cover bg-center" style={{ backgroundImage: "url('/fundo.jpg')" }}>
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-border to-transparent" />
+      <div className="absolute inset-0 bg-black/50" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
