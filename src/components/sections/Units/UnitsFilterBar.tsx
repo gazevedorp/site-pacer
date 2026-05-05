@@ -1,8 +1,10 @@
+import { useRef } from "react";
 import { useSearchParams } from "react-router-dom";
-import { SlidersHorizontal, X } from "lucide-react";
+import { SlidersHorizontal, Navigation, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { units } from "@/data/units";
 import type { UnitAmenityId, UnitModalityId } from "@/data/units";
+import { formatCep } from "@/hooks/useCepGeocode";
 
 // ---------- static label maps ------------------------------------------
 
@@ -51,6 +53,7 @@ export type FilterState = {
   cidade: string;
   modalidade: string;
   facilidade: string;
+  cep: string;
 };
 
 export function readFiltersFromParams(params: URLSearchParams): FilterState {
@@ -58,6 +61,7 @@ export function readFiltersFromParams(params: URLSearchParams): FilterState {
     cidade: params.get("cidade") ?? "",
     modalidade: params.get("modalidade") ?? "",
     facilidade: params.get("facilidade") ?? "",
+    cep: params.get("cep") ?? "",
   };
 }
 
@@ -69,9 +73,10 @@ interface UnitsFilterBarProps {
 
 export function UnitsFilterBar({ resultCount }: UnitsFilterBarProps) {
   const [params, setParams] = useSearchParams();
-  const { cidade, modalidade, facilidade } = readFiltersFromParams(params);
+  const { cidade, modalidade, facilidade, cep } = readFiltersFromParams(params);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const hasActiveFilters = Boolean(cidade || modalidade || facilidade);
+  const hasActiveFilters = Boolean(cidade || modalidade || facilidade || cep);
 
   function update(key: string, value: string) {
     setParams(
@@ -100,6 +105,50 @@ export function UnitsFilterBar({ resultCount }: UnitsFilterBarProps) {
               className="h-4 w-4 shrink-0 text-white/40"
               aria-hidden
             />
+
+            {/* CEP search */}
+            <div className="relative min-w-45 flex-1 sm:flex-none sm:w-60">
+              <label htmlFor="filter-cep" className="sr-only">
+                Buscar por CEP
+              </label>
+              <Navigation
+                aria-hidden
+                className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground"
+              />
+              <input
+                ref={inputRef}
+                id="filter-cep"
+                type="text"
+                inputMode="numeric"
+                autoComplete="postal-code"
+                placeholder="Buscar pelo CEP…"
+                value={cep}
+                onChange={(e) => {
+                  const formatted = formatCep(e.target.value);
+                  setParams(
+                    (p) => {
+                      const next = new URLSearchParams(p);
+                      if (formatted.replace(/\D/g, "").length === 8) next.set("cep", formatted);
+                      else next.delete("cep");
+                      return next;
+                    },
+                    { replace: true }
+                  );
+                }}
+                maxLength={9}
+                className="w-full rounded-xl border border-white/10 bg-white/4 py-2.5 pl-9 pr-8 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-all focus:border-primary/50 focus:bg-white/7"
+              />
+              {cep ? (
+                <button
+                  type="button"
+                  onClick={() => { update("cep", ""); inputRef.current?.focus(); }}
+                  aria-label="Limpar CEP"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              ) : null}
+            </div>
 
             {/* City */}
             <div className="relative min-w-[140px] flex-1 sm:flex-none sm:w-44">

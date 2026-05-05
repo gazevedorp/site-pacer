@@ -18,7 +18,7 @@ export function Hero() {
           playsInline
         />
         {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/75" />
         {/* Bottom fade to background color */}
         <div className="absolute inset-x-0 bottom-0 h-32 sm:h-40 bg-gradient-to-t from-background to-transparent" />
       </div>
@@ -48,11 +48,8 @@ export function Hero() {
         </AnimatedSection>
 
         <AnimatedSection delay={0.15}>
-          <p className="mx-auto mt-3 sm:mt-4 max-w-2xl text-base sm:text-lg md:text-xl tracking-wide text-muted-foreground">
-            Saúde e{" "}
-            <span className="bg-gradient-to-r from-primary via-primary-hover to-accent bg-clip-text text-transparent font-semibold">
-              qualidade de vida
-            </span>
+          <p className="mx-auto mt-6 text-sm font-medium tracking-[0.3em] uppercase text-primary/70">
+            Saúde e qualidade de vida
           </p>
         </AnimatedSection>
 

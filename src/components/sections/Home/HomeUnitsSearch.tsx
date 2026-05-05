@@ -1,11 +1,13 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Search, MapPin, Clock, ArrowRight, Loader2, X } from "lucide-react";
+import { MapPin, Clock, ArrowRight, Loader2, X, Navigation } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { units } from "@/data/units";
 import gymCover from "@/assets/images/gym.png";
+import { useCepGeocode, haversineKm, formatCep } from "@/hooks/useCepGeocode";
+
 function getModalitiesForUnit(unit: { note?: string }): string[] {
   const base = ["Musculação", "Funcional", "Aulas Coletivas"];
   if (unit.note?.toLowerCase().includes("pilates")) base.push("Pilates");
@@ -14,42 +16,21 @@ function getModalitiesForUnit(unit: { note?: string }): string[] {
   return base.slice(0, 4);
 }
 
-function useDebounce<T>(value: T, delay: number): T {
-  const [debounced, setDebounced] = useState(value);
-  useEffect(() => {
-    const id = setTimeout(() => setDebounced(value), delay);
-    return () => clearTimeout(id);
-  }, [value, delay]);
-  return debounced;
-}
-
-const CITIES = [...new Set(units.map((u) => u.city))].sort();
-
 export function HomeUnitsSearch() {
   const reduced = useReducedMotion();
-  const [query, setQuery] = useState("");
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [cep, setCep] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
-  const debouncedQuery = useDebounce(query, 300);
+  const geocode = useCepGeocode(cep);
 
-  const suggestions = useMemo(() => {
-    if (!debouncedQuery.trim() || debouncedQuery.length < 2) return [];
-    const term = debouncedQuery.toLowerCase();
-    return CITIES.filter((c) => c.toLowerCase().includes(term)).slice(0, 4);
-  }, [debouncedQuery]);
-
-  const filteredUnits = useMemo(() => {
-    const term = debouncedQuery.trim().toLowerCase();
-    if (!term) return units.slice(0, 8);
-    return units.filter(
-      (u) =>
-        u.city.toLowerCase().includes(term) ||
-        u.name.toLowerCase().includes(term) ||
-        u.address.toLowerCase().includes(term)
-    );
-  }, [debouncedQuery]);
-
-  const isPending = query !== debouncedQuery;
+  const sortedUnits = useMemo(() => {
+    if (geocode.result) {
+      const { lat, lng } = geocode.result;
+      return [...units]
+        .map((u) => ({ ...u, distance: haversineKm(lat, lng, u.lat, u.lng) }))
+        .sort((a, b) => a.distance - b.distance);
+    }
+    return units.slice(0, 8).map((u) => ({ ...u, distance: null }));
+  }, [geocode.result]);
 
   return (
     <section
@@ -84,98 +65,59 @@ export function HomeUnitsSearch() {
           </p>
         </motion.div>
 
-        {/* ── Search input ───────────────────────────────────────── */}
+        {/* ── CEP Search input ───────────────────────────────────── */}
         <div className="mx-auto mt-10 max-w-md">
           <div className="relative">
-            <label htmlFor="units-search" className="sr-only">
-              Buscar unidade por cidade ou endereço
+            <label htmlFor="units-cep" className="sr-only">
+              Buscar unidade mais próxima pelo CEP
             </label>
-            <Search
+            <Navigation
               aria-hidden
               className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
             />
             <input
               ref={inputRef}
-              id="units-search"
-              type="search"
-              autoComplete="off"
-              placeholder="Cidade ou nome da unidade…"
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setShowSuggestions(true);
-              }}
-              onFocus={() => setShowSuggestions(true)}
-              onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+              id="units-cep"
+              type="text"
+              inputMode="numeric"
+              autoComplete="postal-code"
+              placeholder="Digite seu CEP…"
+              value={cep}
+              onChange={(e) => setCep(formatCep(e.target.value))}
+              maxLength={9}
               className="w-full rounded-xl border border-white/10 bg-white/[0.04] py-3.5 pl-11 pr-10 text-sm text-foreground placeholder:text-muted-foreground backdrop-blur-xl outline-none transition-all focus:border-primary/50 focus:bg-white/[0.07] focus:shadow-glow-sm"
-              aria-autocomplete="list"
-              aria-controls="units-suggestions"
-              aria-expanded={showSuggestions && suggestions.length > 0}
             />
-            {isPending ? (
+            {geocode.status === "loading" ? (
               <Loader2
                 aria-hidden
                 className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-primary"
               />
-            ) : query ? (
+            ) : cep ? (
               <button
-                onClick={() => { setQuery(""); inputRef.current?.focus(); }}
-                aria-label="Limpar busca"
+                onClick={() => { setCep(""); inputRef.current?.focus(); }}
+                aria-label="Limpar CEP"
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground touch-target flex items-center justify-center"
               >
                 <X className="h-4 w-4" />
               </button>
             ) : null}
-
-            {/* Suggestions dropdown */}
-            {showSuggestions && suggestions.length > 0 && (
-              <ul
-                id="units-suggestions"
-                role="listbox"
-                aria-label="Sugestões de cidades"
-                className="absolute top-full z-20 mt-1 w-full rounded-xl border border-white/10 bg-card shadow-card overflow-hidden"
-              >
-                {suggestions.map((city) => (
-                  <li key={city} role="option" aria-selected={query === city}>
-                    <button
-                      className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-muted-foreground hover:bg-white/5 hover:text-foreground text-left"
-                      onMouseDown={() => {
-                        setQuery(city);
-                        setShowSuggestions(false);
-                      }}
-                    >
-                      <MapPin className="h-3.5 w-3.5 text-primary/60" />
-                      {city}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
           </div>
+          {geocode.status === "success" && geocode.result && (
+            <p className="mt-2 text-center text-xs text-muted-foreground">
+              Mostrando unidades mais próximas de{" "}
+              <span className="text-primary">{geocode.result.label}</span>
+            </p>
+          )}
+          {geocode.status === "error" && (
+            <p className="mt-2 text-center text-xs text-destructive">
+              CEP não encontrado. Verifique e tente novamente.
+            </p>
+          )}
         </div>
 
         {/* ── Units grid ─────────────────────────────────────────── */}
-        {filteredUnits.length === 0 ? (
-          <motion.div
-            key="empty"
-            initial={reduced ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mt-16 flex flex-col items-center gap-4 text-center"
-          >
-            <MapPin className="h-12 w-12 text-muted-foreground/30" />
-            <p className="text-base text-muted-foreground">
-              Nenhuma unidade encontrada para &ldquo;{debouncedQuery}&rdquo;.
-            </p>
-            <button
-              onClick={() => setQuery("")}
-              className="text-sm text-primary hover:underline"
-            >
-              Limpar busca
-            </button>
-          </motion.div>
-        ) : (
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredUnits.map((unit, idx) => {
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {sortedUnits.map((unit, idx) => {
               const modalities = getModalitiesForUnit(unit);
               return (
                 <motion.article
@@ -213,6 +155,13 @@ export function HomeUnitsSearch() {
                       <h3 className="text-base font-semibold text-foreground leading-snug">
                         Pacer {unit.name}
                       </h3>
+                      {unit.distance !== null && (
+                        <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
+                          {unit.distance < 1
+                            ? `${Math.round(unit.distance * 1000)} m`
+                            : `${unit.distance.toFixed(1)} km`}
+                        </span>
+                      )}
                     </div>
 
                     <p className="mt-1.5 flex items-start gap-1.5 text-xs leading-snug text-muted-foreground">
@@ -255,10 +204,9 @@ export function HomeUnitsSearch() {
               );
             })}
           </div>
-        )}
 
         {/* See all link */}
-        {!debouncedQuery.trim() && (
+        {!cep && (
           <motion.div
             className="mt-10 text-center"
             initial={reduced ? false : { opacity: 0 }}

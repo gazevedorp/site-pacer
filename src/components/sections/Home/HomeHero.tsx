@@ -1,23 +1,14 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { MapPin, CalendarCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Spotlight } from "@/components/ui/spotlight";
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { whatsappNumber } from "@/data/home";
 
 export function HomeHero() {
   const prefersReduced = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoPlaying, setVideoPlaying] = useState(false);
-
-  const handlePlayVideo = () => {
-    if (videoRef.current) {
-      videoRef.current.play();
-      setVideoPlaying(true);
-    }
-  };
 
   const waLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
     "Olá! Gostaria de agendar uma aula experimental na Pacer Academia."
@@ -47,7 +38,7 @@ export function HomeHero() {
         />
 
         {/* Mobile play overlay — shown only when NOT playing */}
-        {!videoPlaying && (
+        {/* {!videoPlaying && (
           <button
             onClick={handlePlayVideo}
             aria-label="Reproduzir vídeo de apresentação"
@@ -59,7 +50,7 @@ export function HomeHero() {
               </svg>
             </span>
           </button>
-        )}
+        )} */}
 
         {/* Overlays */}
         <div className="absolute inset-0 bg-black/55" aria-hidden />
@@ -92,15 +83,14 @@ export function HomeHero() {
         />
 
         {/* H1 headline */}
-        <div className="mt-8">
-          <TextGenerateEffect
-            text="Saúde e qualidade de vida perto de você"
-            as="h1"
-            className="text-fluid-2xl font-bold leading-tight tracking-tight text-foreground"
-            wordDelay={70}
-            startDelay={300}
-          />
-        </div>
+        <motion.p
+          className="mt-6 text-sm font-medium tracking-[0.3em] uppercase text-primary/70"
+          initial={prefersReduced ? false : { opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
+          Saúde e qualidade de vida
+        </motion.p>
 
         {/* <motion.p
           className="mx-auto mt-5 max-w-xl text-fluid-md leading-relaxed text-muted-foreground"
