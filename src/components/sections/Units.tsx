@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { MapPin, Clock, Construction, ArrowRight, Search, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
@@ -43,6 +43,7 @@ export function Units() {
   const [search, setSearch] = useState("");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [cepCoords, setCepCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const reduced = useReducedMotion();
   const [loadingCep, setLoadingCep] = useState(false);
 
   const fetchCepCoords = useCallback(async (cep: string) => {
@@ -148,7 +149,7 @@ export function Units() {
           {displayedUnits.map((unit, index) => (
             <motion.div
               key={unit.slug}
-              initial={{ opacity: 0, y: 30 }}
+              initial={reduced ? false : { opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 duration: 0.5,
@@ -162,6 +163,10 @@ export function Units() {
                   <img
                     src={gymCover}
                     alt={`Pacer ${unit.name}`}
+                    width={400}
+                    height={144}
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover"
                   />
                   {cepCoords && index === 0 && (

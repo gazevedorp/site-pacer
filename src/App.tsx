@@ -1,38 +1,85 @@
-import { useState, useEffect } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { SplashScreen } from "@/components/SplashScreen";
-import { GridBackground } from "@/components/ui/grid-background";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
-import { HomePage } from "@/pages/HomePage";
-// import { UnitPage } from "@/pages/UnitPage";
+import { PageShell } from "@/components/layout/PageShell";
+import { PageSkeleton } from "@/components/layout/PageSkeleton";
+import { LenisProvider, useLenis } from "@/hooks/useLenis";
 
+// ─── Lazy page imports (code-split per route) ─────────────────────────────────
+const HomePage           = lazy(() => import("@/pages/HomePage"));
+const UnitsPage          = lazy(() => import("@/pages/UnitsPage"));
+const UnitDetailPage     = lazy(() => import("@/pages/UnitDetailPage"));
+const ModalitiesPage     = lazy(() => import("@/pages/ModalitiesPage"));
+const ModalityDetailPage = lazy(() => import("@/pages/ModalityDetailPage"));
+const SchedulePage       = lazy(() => import("@/pages/SchedulePage"));
+const TrainersPage       = lazy(() => import("@/pages/TrainersPage"));
+const PlansPage          = lazy(() => import("@/pages/PlansPage"));
+const CareersPage        = lazy(() => import("@/pages/CareersPage"));
+const ContactPage        = lazy(() => import("@/pages/ContactPage"));
+
+// ─── Scroll-to-top on route change (Lenis-aware) ─────────────────────────────
 function ScrollToTop() {
   const { pathname } = useLocation();
+  const lenisRef = useLenis();
+
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (lenisRef?.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, lenisRef]);
+
   return null;
 }
 
+// ─── Route tree ──────────────────────────────────────────────────────────────
+function AppRoutes() {
+  const wrap = (Page: React.ComponentType) => (
+    <Suspense fallback={<PageSkeleton />}>
+      <Page />
+    </Suspense>
+  );
+
+  return (
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route element={<PageShell />}>
+          <Route path="/"                    element={wrap(HomePage)} />
+          <Route path="/unidades"            element={wrap(UnitsPage)} />
+          <Route path="/unidades/:slug"      element={wrap(UnitDetailPage)} />
+          <Route path="/modalidades"         element={wrap(ModalitiesPage)} />
+          <Route path="/modalidades/:slug"   element={wrap(ModalityDetailPage)} />
+          <Route path="/aulas"               element={wrap(SchedulePage)} />
+          <Route path="/personais"           element={wrap(TrainersPage)} />
+          <Route path="/planos"              element={wrap(PlansPage)} />
+          <Route path="/trabalhe-conosco"    element={wrap(CareersPage)} />
+          <Route path="/contato"             element={wrap(ContactPage)} />
+        </Route>
+      </Routes>
+    </>
+  );
+}
+
+// ─── Root ─────────────────────────────────────────────────────────────────────
 export function App() {
   const [showSplash, setShowSplash] = useState(true);
 
   return (
     <BrowserRouter>
-      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
+      <LenisProvider lerp={0.1} wheelMultiplier={1}>
+        {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
 
-      <div
-        className="min-h-screen"
-        style={{ opacity: showSplash ? 0 : 1, transition: "opacity 0.5s ease" }}
-      >
-        <GridBackground />
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          {/* <Route path="/unidades/:slug" element={<UnitPage />} /> */}
-        </Routes>
-        <WhatsAppFloat />
-      </div>
+        <div
+          className="min-h-screen"
+          style={{ opacity: showSplash ? 0 : 1, transition: "opacity 0.5s ease" }}
+        >
+          <WhatsAppFloat />
+          <AppRoutes />
+        </div>
+      </LenisProvider>
     </BrowserRouter>
   );
 }

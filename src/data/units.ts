@@ -1,3 +1,23 @@
+export type UnitAmenityId =
+  | "estacionamento"
+  | "aulas-coletivas"
+  | "hidroginastica"
+  | "natacao-infantil"
+  | "pilates"
+  | "lanchonete"
+  | "vestiario"
+  | "climatizado";
+
+export type UnitModalityId =
+  | "musculacao"
+  | "funcional"
+  | "muay-thai"
+  | "pilates"
+  | "hidroginastica"
+  | "natacao"
+  | "danca"
+  | "zumba";
+
 export interface Unit {
   name: string;
   slug: string;
@@ -9,6 +29,10 @@ export interface Unit {
   mapQuery: string;
   lat: number;
   lng: number;
+  /** Facility toggles */
+  amenities: UnitAmenityId[];
+  /** Modalities offered at this unit */
+  unitModalities: UnitModalityId[];
 }
 
 export interface ComingSoonUnit {
@@ -28,6 +52,8 @@ export const units: Unit[] = [
     mapQuery: "Rua Odila Rosa da Silva Vianna, 535, Bonfim Paulista, SP",
     lat: -21.1590,
     lng: -47.8270,
+    amenities: ["aulas-coletivas", "climatizado", "vestiario"],
+    unitModalities: ["musculacao", "funcional", "muay-thai", "danca"],
   },
   {
     name: "Café",
@@ -39,6 +65,8 @@ export const units: Unit[] = [
     mapQuery: "Av. do Café, 2429, Vila Amélia, Ribeirão Preto, SP",
     lat: -21.2050,
     lng: -47.8190,
+    amenities: ["climatizado", "vestiario", "estacionamento"],
+    unitModalities: ["musculacao", "funcional"],
   },
   {
     name: "Fiusa",
@@ -50,6 +78,8 @@ export const units: Unit[] = [
       "Av. Wladimir Meirelles Ferreira, 1900, Fiusa Center, Ribeirão Preto, SP",
     lat: -21.2260,
     lng: -47.8260,
+    amenities: ["aulas-coletivas", "climatizado", "vestiario", "estacionamento"],
+    unitModalities: ["musculacao", "funcional", "muay-thai", "danca", "zumba"],
   },
   {
     name: "Galeria Ribeirão",
@@ -62,6 +92,8 @@ export const units: Unit[] = [
       "Av. Antonio e Helena Zerrener, 1500, Sumarezinho, Ribeirão Preto, SP",
     lat: -21.1760,
     lng: -47.8360,
+    amenities: ["aulas-coletivas", "climatizado", "vestiario", "pilates"],
+    unitModalities: ["musculacao", "funcional", "pilates", "danca", "zumba"],
   },
   {
     name: "Greenville",
@@ -73,6 +105,8 @@ export const units: Unit[] = [
       "Rua Sargento Rogério Antônio Maglia, 50, Ribeirão Preto, SP",
     lat: -21.2340,
     lng: -47.8120,
+    amenities: ["aulas-coletivas", "climatizado", "vestiario"],
+    unitModalities: ["musculacao", "funcional", "muay-thai", "danca"],
   },
   {
     name: "Mirante Sul",
@@ -84,6 +118,8 @@ export const units: Unit[] = [
       "Av. Heráclito Fontoura Sobral Pinto, 1175, Plaza Mirante Sul, Ribeirão Preto, SP",
     lat: -21.2380,
     lng: -47.7950,
+    amenities: ["aulas-coletivas", "climatizado", "vestiario", "estacionamento"],
+    unitModalities: ["musculacao", "funcional", "danca", "zumba"],
   },
   {
     name: "Nova Aliança Sul",
@@ -95,6 +131,8 @@ export const units: Unit[] = [
       "Rua Manoel Lopes Velludo, 55, Jd. Nova Aliança Sul, Ribeirão Preto, SP",
     lat: -21.2270,
     lng: -47.8350,
+    amenities: ["aulas-coletivas", "climatizado", "vestiario"],
+    unitModalities: ["musculacao", "funcional", "muay-thai", "danca"],
   },
   {
     name: "Novo Shopping",
@@ -105,6 +143,8 @@ export const units: Unit[] = [
     mapQuery: "Novo Shopping Ribeirão Preto, SP",
     lat: -21.1910,
     lng: -47.7980,
+    amenities: ["aulas-coletivas", "climatizado", "vestiario", "lanchonete"],
+    unitModalities: ["musculacao", "funcional", "danca", "zumba"],
   },
   {
     name: "Ribeirânia",
@@ -115,6 +155,8 @@ export const units: Unit[] = [
     mapQuery: "Av. Leão XIII, 540, Ribeirânia, Ribeirão Preto, SP",
     lat: -21.1880,
     lng: -47.7780,
+    amenities: ["aulas-coletivas", "climatizado", "vestiario"],
+    unitModalities: ["musculacao", "funcional", "muay-thai", "danca"],
   },
   {
     name: "Sertãozinho I",
@@ -127,6 +169,8 @@ export const units: Unit[] = [
       "Av. Nossa Senhora Aparecida, 2533, Conj. Lourenço Domenici, Sertãozinho, SP",
     lat: -21.1340,
     lng: -47.9830,
+    amenities: ["aulas-coletivas", "climatizado", "vestiario", "hidroginastica", "natacao-infantil", "estacionamento"],
+    unitModalities: ["musculacao", "funcional", "hidroginastica", "natacao", "danca", "zumba"],
   },
   {
     name: "Sertãozinho II",
@@ -139,6 +183,8 @@ export const units: Unit[] = [
       "Av. Beppe Olivare, 210, Jd. Lopes da Silva, Sertãozinho, SP",
     lat: -21.1290,
     lng: -47.9720,
+    amenities: ["aulas-coletivas", "climatizado", "vestiario", "hidroginastica", "estacionamento"],
+    unitModalities: ["musculacao", "funcional", "hidroginastica", "danca", "zumba"],
   },
   {
     name: "Jardim Paulista",
@@ -149,6 +195,8 @@ export const units: Unit[] = [
     mapQuery: "Rua Henrique Dumont, 1365, Ribeirão Preto, SP",
     lat: -21.1910,
     lng: -47.8140,
+    amenities: ["aulas-coletivas", "climatizado", "vestiario"],
+    unitModalities: ["musculacao", "funcional", "muay-thai", "danca"],
   },
 ];
 

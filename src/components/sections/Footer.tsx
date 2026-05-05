@@ -2,20 +2,20 @@ import { Link } from "react-router-dom";
 
 const footerLinks = {
   Academia: [
-    { label: "Modalidades", href: "/#modalidades" },
-    { label: "Unidades", href: "/#unidades" },
-    { label: "Planos", href: "/#planos" },
-    { label: "Contato", href: "/#contato" },
+    { label: "Modalidades",   href: "/modalidades" },
+    { label: "Unidades",      href: "/unidades" },
+    { label: "Planos",        href: "/planos" },
+    { label: "Grade de Aulas",href: "/aulas" },
   ],
   Institucional: [
-    { label: "Sobre nós", href: "#" },
-    { label: "Trabalhe conosco", href: "#" },
-    { label: "Blog", href: "#" },
+    { label: "Personais",          href: "/personais" },
+    { label: "Trabalhe conosco",   href: "/trabalhe-conosco" },
+    { label: "Contato",            href: "/contato" },
   ],
   Social: [
-    { label: "Instagram", href: "#" },
-    { label: "YouTube", href: "#" },
-    { label: "TikTok", href: "#" },
+    { label: "Instagram", href: "https://instagram.com/paceracademia" },
+    { label: "YouTube",   href: "https://youtube.com/@paceracademia" },
+    { label: "TikTok",    href: "https://tiktok.com/@paceracademia" },
   ],
 };
 
@@ -27,7 +27,7 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <Link to="/" className="inline-block">
-              <img src="/logo.png" alt="Pacer Academia" className="h-10 w-auto" />
+              <img src="/logo.png" alt="Pacer Academia" width={120} height={40} className="h-10 w-auto" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
               Saúde e qualidade de vida. A rede de academias que mais cresce na

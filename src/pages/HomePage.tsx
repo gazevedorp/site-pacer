@@ -1,23 +1,18 @@
-import { Header } from "@/components/sections/Header";
-import { Hero } from "@/components/sections/Hero";
-import { Features } from "@/components/sections/Features";
-import { Units } from "@/components/sections/Units";
-import { Pricing } from "@/components/sections/Pricing";
-import { CTA } from "@/components/sections/CTA";
-import { Footer } from "@/components/sections/Footer";
+import { HomeHero } from "@/components/sections/Home/HomeHero";
+import { HomeUnitsSearch } from "@/components/sections/Home/HomeUnitsSearch";
+import { HomeCTABand } from "@/components/sections/Home/HomeCTABand";
+import { HomePlans } from "@/components/sections/Home/HomePlans";
+import { HomeFooterCTA } from "@/components/sections/Home/HomeFooterCTA";
 
-export function HomePage() {
+// Header and Footer are provided by PageShell (layout route).
+export default function HomePage() {
   return (
-    <>
-      <Header />
-      <main>
-        <Hero />
-        <Units />
-        <Features />
-        <Pricing />
-        <CTA />
-      </main>
-      <Footer />
-    </>
+    <main>
+      <HomeHero />
+      <HomeUnitsSearch />
+      <HomeCTABand />
+      <HomePlans />
+      <HomeFooterCTA />
+    </main>
   );
 }

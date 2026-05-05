@@ -1,59 +1,50 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { label: "Modalidades", href: "/#modalidades" },
-  { label: "Unidades", href: "/#unidades" },
-  { label: "Planos", href: "/#planos" },
-  { label: "Contato", href: "/#contato" },
+  { label: "Modalidades", href: "/modalidades" },
+  { label: "Unidades",   href: "/unidades" },
+  { label: "Aulas",      href: "/aulas" },
+  { label: "Planos",     href: "/planos" },
+  { label: "Personais",  href: "/personais" },
+  { label: "Contato",    href: "/contato" },
 ];
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
-
-  const handleNavClick = (href: string) => {
-    setIsOpen(false);
-    if (location.pathname !== "/" && href.startsWith("/#")) {
-      return; // Link component will handle navigation
-    }
-    if (href.startsWith("/#")) {
-      const id = href.replace("/#", "");
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const reduced = useReducedMotion();
 
   return (
     <motion.header
-      initial={{ y: -100, opacity: 0 }}
+      initial={reduced ? false : { y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="fixed top-0 z-50 w-full border-b border-white/5 bg-background/60 backdrop-blur-2xl"
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2">
-          <img src="/logo.png" alt="Pacer Academia" className="h-9 w-auto" />
+          <img src="/logo.png" alt="Pacer Academia" width={120} height={36} className="h-9 w-auto" />
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav aria-label="Navegação principal" className="hidden items-center gap-8 lg:flex">
           {navLinks.map((link) => (
-            <a
+            <NavLink
               key={link.label}
-              href={link.href}
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick(link.href);
-              }}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              to={link.href}
+              className={({ isActive }) =>
+                cn(
+                  "text-sm transition-colors hover:text-foreground",
+                  isActive ? "text-primary font-semibold" : "text-muted-foreground"
+                )
+              }
             >
               {link.label}
-            </a>
+            </NavLink>
           ))}
         </nav>
 
@@ -91,16 +82,19 @@ export function Header() {
           >
             <nav className="flex flex-col gap-1 p-4">
               {navLinks.map((link) => (
-                <Link
+                <NavLink
                   key={link.label}
                   to={link.href}
-                  onClick={() => handleNavClick(link.href)}
-                  className={cn(
-                    "rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
-                  )}
+                  onClick={() => setIsOpen(false)}
+                  className={({ isActive }) =>
+                    cn(
+                      "rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5 hover:text-foreground",
+                      isActive ? "text-primary font-semibold" : "text-muted-foreground"
+                    )
+                  }
                 >
                   {link.label}
-                </Link>
+                </NavLink>
               ))}
               <div className="mt-3 flex flex-col gap-2">
                 {/* <Button variant="outline" size="sm">

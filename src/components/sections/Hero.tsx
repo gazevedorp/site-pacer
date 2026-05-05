@@ -1,9 +1,10 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Dumbbell, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AnimatedSection } from "@/components/ui/animated";
 
 export function Hero() {
+  const reduced = useReducedMotion();
   return (
     <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden">
       {/* Background video */}
@@ -40,7 +41,7 @@ export function Hero() {
             src="/logo.png"
             alt="Pacer Academia"
             className="mx-auto h-32 w-auto sm:h-40 md:h-48 lg:h-56"
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={reduced ? false : { opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           />
