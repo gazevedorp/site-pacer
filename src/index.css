@@ -24,12 +24,12 @@
   --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
 
   /* ─── Pacer Brand Colors ─────────────────────────────────── */
-  --color-background: #030712;
+  --color-background: #1c1f26;
   --color-foreground: #f9fafb;
-  --color-muted: #374151;
+  --color-muted: #3d4250;
   --color-muted-foreground: #9ca3af;
-  --color-border: #1f2937;
-  --color-border-subtle: #111827;
+  --color-border: #2a2e38;
+  --color-border-subtle: #22262f;
 
   /* Primary — Pacer Gold */
   --color-primary: #E9B51D;
@@ -43,11 +43,11 @@
   --color-accent-muted: rgba(249, 222, 7, 0.12);
 
   /* Surface variants */
-  --color-card: #111827;
+  --color-card: #22262f;
   --color-card-foreground: #f9fafb;
-  --color-card-border: #1f2937;
-  --color-surface: #0d1117;
-  --color-surface-raised: #161b27;
+  --color-card-border: #2a2e38;
+  --color-surface: #191c23;
+  --color-surface-raised: #20242d;
 
   /* Semantic */
   --color-success: #22c55e;

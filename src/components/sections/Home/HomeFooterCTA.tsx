@@ -2,29 +2,27 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Instagram, Youtube, Music2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { HoverEffect, type HoverEffectItem } from "@/components/ui/hover-effect";
 import type { ReactNode } from "react";
 
-interface SocialItem extends HoverEffectItem {
+interface SocialItem {
+  title: string;
+  link: string;
   icon: ReactNode;
 }
 
 const socialLinks: SocialItem[] = [
   {
     title: "Instagram",
-    description: "@paceracademia — fotos, vídeos e novidades das unidades.",
     link: "https://instagram.com/paceracademia",
     icon: <Instagram className="h-5 w-5" />,
   },
   {
     title: "YouTube",
-    description: "Treinos, dicas de saúde e tour pelas academias.",
     link: "https://youtube.com/@paceracademia",
     icon: <Youtube className="h-5 w-5" />,
   },
   {
     title: "TikTok",
-    description: "Conteúdo rápido sobre treino, nutrição e lifestyle.",
     link: "https://tiktok.com/@paceracademia",
     icon: <Music2 className="h-5 w-5" />,
   },
@@ -35,7 +33,7 @@ export function HomeFooterCTA() {
   return (
     <section
       aria-label="Redes sociais e fale conosco"
-      className="relative py-24 sm:py-32"
+      className="relative py-24 sm:py-32 bg-surface-raised"
     >
       {/* Top divider */}
       <div
@@ -80,14 +78,26 @@ export function HomeFooterCTA() {
             </div>
           </motion.div>
 
-          {/* ── Right: Social HoverEffect ───────────────────────── */}
+          {/* ── Right: Social compact links ─────────────────────── */}
           <motion.div
             initial={reduced ? false : { opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col gap-3"
           >
-            <HoverEffect items={socialLinks} className="grid-cols-1 md:grid-cols-3 lg:grid-cols-1" />
+            {socialLinks.map((item) => (
+              <a
+                key={item.title}
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 rounded-xl border border-card-border bg-card px-5 py-4 text-sm font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+              >
+                {item.icon}
+                {item.title}
+              </a>
+            ))}
           </motion.div>
         </div>
       </div>

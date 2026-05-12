@@ -13,7 +13,7 @@ export function HomeCTABand() {
   return (
     <section
       aria-label="Comece agora na Pacer"
-      className="relative overflow-hidden py-24 sm:py-32"
+      className="relative overflow-hidden py-24 sm:py-32 bg-surface-raised"
     >
       {/* Top divider */}
       <div
