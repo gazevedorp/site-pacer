@@ -46,9 +46,9 @@ function ChannelCard({
         ease: [0.22, 1, 0.36, 1],
       }}
       className={cn(
-        "group flex items-start gap-4 rounded-2xl border border-white/[0.07] bg-white/[0.03] p-5",
+        "group flex items-start gap-4 rounded-2xl border border-card-border bg-card p-5",
         "transition-all duration-300",
-        "hover:border-primary/25 hover:bg-white/[0.05] hover:shadow-lg hover:shadow-primary/5",
+        "hover:border-primary/40 hover:bg-surface-raised hover:shadow-lg hover:shadow-primary/5",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       )}
       aria-label={`${channel.label}: ${channel.value}`}
@@ -94,7 +94,7 @@ export function ContactInfo() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="mb-5 text-lg font-bold text-white"
+            className="mb-5 text-lg font-bold text-foreground"
           >
             Canais de atendimento
           </motion.h2>
@@ -118,7 +118,7 @@ export function ContactInfo() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="rounded-2xl border border-white/[0.07] bg-white/[0.03] p-6 lg:w-72"
+          className="rounded-2xl border border-card-border bg-card p-6 lg:w-72"
         >
           <div className="mb-4 flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-primary/20 bg-primary/10">

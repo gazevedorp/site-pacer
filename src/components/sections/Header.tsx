@@ -23,11 +23,11 @@ export function Header() {
       initial={reduced ? false : { y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed top-0 z-50 w-full border-b border-white/5 bg-background/60 backdrop-blur-2xl"
+      className="fixed top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-2xl"
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2">
-          <img src="/logo.png" alt="Pacer Academia" width={120} height={36} className="h-9 w-auto" />
+          <img src="/logo-sem-fundo.png" alt="Pacer Academia" width={120} height={36} className="h-9 w-auto" />
         </Link>
 
         {/* Desktop Nav */}
@@ -78,7 +78,7 @@ export function Header() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="overflow-hidden border-t border-white/5 bg-background/95 backdrop-blur-2xl lg:hidden"
+            className="overflow-hidden border-t border-border bg-background/95 backdrop-blur-2xl lg:hidden"
           >
             <nav className="flex flex-col gap-1 p-4">
               {navLinks.map((link) => (
@@ -88,7 +88,7 @@ export function Header() {
                   onClick={() => setIsOpen(false)}
                   className={({ isActive }) =>
                     cn(
-                      "rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5 hover:text-foreground",
+                      "rounded-lg px-3 py-2 text-sm transition-colors hover:bg-card hover:text-foreground",
                       isActive ? "text-primary font-semibold" : "text-muted-foreground"
                     )
                   }

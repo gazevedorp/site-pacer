@@ -24,8 +24,8 @@ export function CareersBanner() {
       />
 
       {/* Gradient layers */}
-      <div className="absolute inset-0 bg-linear-to-t from-background via-background/70 to-background/20" />
-      <div className="absolute inset-0 bg-linear-to-r from-background/60 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/55 to-black/20" />
+      <div className="absolute inset-0 bg-linear-to-r from-black/55 via-transparent to-transparent" />
 
       {/* Gold glow */}
       <div

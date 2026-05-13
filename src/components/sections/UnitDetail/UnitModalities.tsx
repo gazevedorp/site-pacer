@@ -37,10 +37,10 @@ export function UnitModalities({ unitModalities }: UnitModalitiesProps) {
       aria-label="Modalidades disponíveis nesta unidade"
       className="section-padding container mx-auto px-4 sm:px-6 lg:px-8"
     >
-      <h2 className="mb-2 text-fluid-xl font-bold text-white">
+      <h2 className="mb-2 text-fluid-xl font-bold text-foreground">
         Modalidades nesta Unidade
       </h2>
-      <p className="mb-8 text-sm text-white/50">
+      <p className="mb-8 text-sm text-muted-foreground">
         Tudo que você pode praticar aqui.
       </p>
 
@@ -62,7 +62,7 @@ export function UnitModalities({ unitModalities }: UnitModalitiesProps) {
                 delay: reduced ? 0 : Math.min(i * 0.08, 0.4),
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="group flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-white/[0.06]"
+              className="group flex flex-col gap-3 rounded-2xl border border-card-border bg-card p-5 backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-surface-raised"
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
                 <Icon className="h-5 w-5" aria-hidden />

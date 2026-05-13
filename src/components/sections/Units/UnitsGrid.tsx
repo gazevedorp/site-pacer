@@ -25,7 +25,7 @@ function UnitCard({ unit, index }: UnitCardProps) {
         delay: reduced ? 0 : Math.min(index * 0.07, 0.35),
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10"
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-card-border bg-card backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10"
     >
       {/* Image */}
       <div className="aspect-card relative overflow-hidden">
@@ -118,7 +118,7 @@ function ComingSoonCard({ unit, index }: ComingSoonCardProps) {
         ease: [0.22, 1, 0.36, 1],
       }}
       aria-label={`${unit.name} — em breve`}
-      className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] opacity-70"
+      className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-card-border bg-card/70 opacity-80"
     >
       {/* Blurred image placeholder */}
       <div className="aspect-card relative overflow-hidden">
@@ -165,14 +165,14 @@ function EmptyState({ onClear }: { onClear: () => void }) {
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       className="col-span-full flex flex-col items-center gap-4 py-20 text-center"
     >
-      <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/5">
-        <MapPin className="h-7 w-7 text-white/30" aria-hidden="true" />
+      <div className="flex h-16 w-16 items-center justify-center rounded-full border border-card-border bg-card">
+        <MapPin className="h-7 w-7 text-muted-foreground" aria-hidden="true" />
       </div>
       <div>
-        <p className="text-lg font-semibold text-white/70">
+        <p className="text-lg font-semibold text-foreground">
           Nenhuma unidade encontrada
         </p>
-        <p className="mt-1 text-sm text-white/40">
+        <p className="mt-1 text-sm text-muted-foreground">
           Tente remover alguns filtros para ver mais resultados.
         </p>
       </div>
@@ -230,7 +230,7 @@ export function UnitsGrid({
       {/* Coming soon section — only shown when no active filters */}
       {hasComingSoon && (
         <div className="mt-14">
-          <h2 className="mb-6 flex items-center gap-2 text-fluid-md font-bold text-white/60">
+          <h2 className="mb-6 flex items-center gap-2 text-fluid-md font-bold text-muted-foreground">
             <Construction className="h-5 w-5 text-primary/60" aria-hidden="true" />
             Em Breve
           </h2>

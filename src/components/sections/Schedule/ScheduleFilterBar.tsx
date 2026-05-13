@@ -19,7 +19,7 @@ export function readScheduleFilters(params: URLSearchParams) {
 // ─── Component ───────────────────────────────────────────────────────────────
 
 const selectBase =
-  "w-full appearance-none rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm text-white transition-colors hover:border-primary/30 focus:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-40 pr-8";
+  "w-full appearance-none rounded-xl border border-border bg-card/5 px-4 py-2.5 text-sm text-foreground transition-colors hover:border-primary/40 focus:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-40 pr-8";
 
 export function ScheduleFilterBar() {
   const [params, setParams] = useSearchParams();
@@ -55,7 +55,7 @@ export function ScheduleFilterBar() {
   const hasFilters = Boolean(unitSlug || modalityId || publico);
 
   return (
-    <div className="sticky top-16 z-30 border-b border-white/[0.06] bg-background/80 backdrop-blur-xl">
+    <div className="sticky top-16 z-30 border-b border-border bg-background/85 backdrop-blur-xl">
       <div className="container mx-auto px-4 py-3 sm:px-6 lg:px-8">
         <fieldset>
           <legend className="sr-only">Filtros da grade de aulas</legend>
@@ -63,7 +63,7 @@ export function ScheduleFilterBar() {
           <div className="flex flex-wrap items-center gap-3">
             {/* Filter icon */}
             <SlidersHorizontal
-              className="h-4 w-4 shrink-0 text-white/40"
+              className="h-4 w-4 shrink-0 text-muted-foreground"
               aria-hidden
             />
 
@@ -86,7 +86,7 @@ export function ScheduleFilterBar() {
                 ))}
               </select>
               <span
-                className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40"
+                className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground"
                 aria-hidden
               >
                 ▾
@@ -113,7 +113,7 @@ export function ScheduleFilterBar() {
                 ))}
               </select>
               <span
-                className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40"
+                className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground"
                 aria-hidden
               >
                 ▾
@@ -136,7 +136,7 @@ export function ScheduleFilterBar() {
                 <option value="kids">Kids</option>
               </select>
               <span
-                className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40"
+                className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground"
                 aria-hidden
               >
                 ▾
@@ -149,8 +149,8 @@ export function ScheduleFilterBar() {
                 type="button"
                 onClick={clearAll}
                 className={cn(
-                  "inline-flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/50 transition-colors",
-                  "hover:border-white/20 hover:text-white/80",
+                  "inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-xs text-muted-foreground transition-colors",
+                  "hover:border-primary/40 hover:text-foreground",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 )}
                 aria-label="Limpar filtros"

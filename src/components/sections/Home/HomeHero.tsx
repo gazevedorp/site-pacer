@@ -54,8 +54,6 @@ export function HomeHero() {
 
         {/* Overlays */}
         <div className="absolute inset-0 bg-black/55" aria-hidden />
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background to-transparent" aria-hidden />
-        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-background/30 to-transparent" aria-hidden />
       </div>
 
       {/* ── Spotlight glow ────────────────────────────────────────── */}
@@ -82,33 +80,23 @@ export function HomeHero() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         />
 
-        {/* H1 headline */}
+        {/* Eyebrow */}
         <motion.p
-          className="mt-6 text-sm font-medium tracking-[0.3em] uppercase text-primary/70"
+          className="mt-6 text-sm font-medium tracking-[0.3em] uppercase text-primary/80"
           initial={prefersReduced ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
           Saúde e qualidade de vida
         </motion.p>
 
-        {/* <motion.p
-          className="mx-auto mt-5 max-w-xl text-fluid-md leading-relaxed text-muted-foreground"
-          initial={prefersReduced ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        >
-          13 unidades em Ribeirão Preto e Sertãozinho. Musculação,&nbsp;
-          <span className="text-gradient-gold font-semibold">aulas coletivas</span>,
-          hidroginástica e muito mais — tudo incluso.
-        </motion.p> */}
 
         {/* CTAs */}
         <motion.div
           className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
           initial={prefersReduced ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
         >
           <Button size="lg" className="w-full max-w-xs sm:w-auto" asChild>
             <a
@@ -134,15 +122,28 @@ export function HomeHero() {
           </Button>
         </motion.div>
 
-        {/* Social proof micro-copy */}
-        <motion.p
-          className="mt-8 text-xs text-muted-foreground/70"
-          initial={prefersReduced ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
+        {/* Social proof stats */}
+        <motion.div
+          className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3"
+          initial={prefersReduced ? false : { opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1.3 }}
         >
-          +15 000 alunos ativos · 13 unidades · desde 2010
-        </motion.p>
+          <div className="flex flex-col items-center gap-0.5">
+            <span className="text-2xl font-black text-white">+15k</span>
+            <span className="text-[10px] uppercase tracking-widest text-white/50">alunos ativos</span>
+          </div>
+          <div className="h-8 w-px bg-white/15 hidden sm:block" aria-hidden />
+          <div className="flex flex-col items-center gap-0.5">
+            <span className="text-2xl font-black text-white">13</span>
+            <span className="text-[10px] uppercase tracking-widest text-white/50">unidades</span>
+          </div>
+          <div className="h-8 w-px bg-white/15 hidden sm:block" aria-hidden />
+          <div className="flex flex-col items-center gap-0.5">
+            <span className="text-2xl font-black text-gradient-gold">2010</span>
+            <span className="text-[10px] uppercase tracking-widest text-white/50">desde</span>
+          </div>
+        </motion.div>
       </div>
 
       {/* ── Scroll cue ────────────────────────────────────────────── */}

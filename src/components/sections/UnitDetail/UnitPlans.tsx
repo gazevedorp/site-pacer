@@ -31,8 +31,8 @@ function PlanCard({ plan, unit, index }: PlanCardProps) {
       className={cn(
         "relative flex flex-col rounded-2xl border p-6 transition-all duration-300",
         plan.highlighted
-          ? "sm:scale-[1.03] border-primary/50 bg-white/[0.06] shadow-xl shadow-primary/15"
-          : "border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.05]"
+          ? "sm:scale-[1.03] border-primary/50 bg-card shadow-xl shadow-primary/15"
+          : "border-card-border bg-card hover:border-primary/40 hover:bg-surface-raised"
       )}
     >
       {/* Highlighted badge */}
@@ -111,10 +111,10 @@ export function UnitPlans({ plans, unit }: UnitPlansProps) {
       aria-label="Planos disponíveis nesta unidade"
       className="section-padding container mx-auto px-4 sm:px-6 lg:px-8"
     >
-      <h2 className="mb-2 text-fluid-xl font-bold text-white">
+      <h2 className="mb-2 text-fluid-xl font-bold text-foreground">
         Planos da Unidade
       </h2>
-      <p className="mb-10 text-sm text-white/50">
+      <p className="mb-10 text-sm text-muted-foreground">
         Escolha o plano ideal e comece sua jornada na Pacer {unit.name}.
       </p>
 

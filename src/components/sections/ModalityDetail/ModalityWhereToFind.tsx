@@ -22,10 +22,10 @@ export function ModalityWhereToFind({ modality }: ModalityWhereToFindProps) {
         aria-label="Onde encontrar"
         className="section-padding container mx-auto px-4 sm:px-6 lg:px-8"
       >
-        <h2 className="mb-4 text-fluid-xl font-bold text-white">
+        <h2 className="mb-4 text-fluid-xl font-bold text-foreground">
           Onde encontrar
         </h2>
-        <p className="text-sm text-white/50">
+        <p className="text-sm text-muted-foreground">
           Modalidade disponível em breve em nossas unidades.
         </p>
       </section>
@@ -39,10 +39,10 @@ export function ModalityWhereToFind({ modality }: ModalityWhereToFindProps) {
     >
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="mb-1 text-fluid-xl font-bold text-white">
+          <h2 className="mb-1 text-fluid-xl font-bold text-foreground">
             Onde encontrar
           </h2>
-          <p className="text-sm text-white/50">
+          <p className="text-sm text-muted-foreground">
             {availableUnitData.length}{" "}
             {availableUnitData.length === 1
               ? "unidade oferece"
@@ -78,7 +78,7 @@ export function ModalityWhereToFind({ modality }: ModalityWhereToFindProps) {
           >
             <Link
               to={`/unidades/${unit.slug}`}
-              className="group flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-white/[0.06] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+              className="group flex flex-col gap-3 rounded-2xl border border-card-border bg-card p-4 backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-surface-raised hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               aria-label={`Ver unidade Pacer ${unit.name}`}
             >
               {/* Header */}

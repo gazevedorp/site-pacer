@@ -32,7 +32,7 @@ export function HomePlans() {
             Planos
           </p>
           <h2 className="mt-3 text-fluid-xl font-bold tracking-tight">
-            Invista em <span className="text-muted-foreground">você</span>
+            Invista em <span className="text-gradient-gold">você</span>
           </h2>
           <p className="mt-4 text-fluid-md leading-relaxed text-muted-foreground">
             Escolha o plano ideal. Todas as aulas coletivas já estão inclusas
@@ -83,8 +83,8 @@ export function HomePlans() {
                   // Base card styles
                   "relative flex flex-col rounded-2xl border p-6 transition-shadow duration-300",
                   plan.highlighted
-                    ? "border-primary/40 bg-card shadow-glow-sm sm:scale-[1.03] origin-center"
-                    : "border-card-border bg-card hover:shadow-card-hover"
+                    ? "border-primary/50 bg-white shadow-glow-sm sm:scale-[1.03] origin-center"
+                    : "border-border bg-white shadow-sm hover:shadow-md hover:border-primary/30"
                 )}
               >
                 {/* Badge */}
@@ -107,7 +107,7 @@ export function HomePlans() {
                   <span className="text-xs text-muted-foreground">R$</span>
                   <span className={cn(
                     "text-4xl font-bold leading-none tracking-tight",
-                    plan.highlighted ? "text-gradient-gold" : "text-foreground"
+                    plan.highlighted ? "text-foreground" : "text-foreground"
                   )}>
                     {plan.price}
                   </span>
@@ -117,7 +117,7 @@ export function HomePlans() {
                 {/* Features list */}
                 <ul className="mt-6 flex flex-1 flex-col gap-2.5" aria-label={`Benefícios do plano ${plan.name}`}>
                   {plan.features.map((feat) => (
-                    <li key={feat} className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                    <li key={feat} className="flex items-start gap-2.5 text-sm text-foreground/75">
                       <Check
                         className="mt-0.5 h-4 w-4 shrink-0 text-primary"
                         aria-hidden

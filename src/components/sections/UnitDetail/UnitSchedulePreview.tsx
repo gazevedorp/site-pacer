@@ -25,7 +25,7 @@ function ClassCard({
         delay: reduced ? 0 : index * 0.06,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm transition-colors hover:border-primary/20 hover:bg-white/[0.05]"
+      className="flex items-start gap-4 rounded-2xl border border-card-border bg-card p-4 backdrop-blur-sm transition-colors hover:border-primary/40 hover:bg-surface-raised"
     >
       {/* Time badge */}
       <div className="flex shrink-0 flex-col items-center justify-center rounded-xl bg-primary/10 px-3 py-2 text-center">
@@ -68,10 +68,10 @@ export function UnitSchedulePreview({ slug }: UnitSchedulePreviewProps) {
       {/* Header */}
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="mb-1 text-fluid-xl font-bold text-white">
+          <h2 className="mb-1 text-fluid-xl font-bold text-foreground">
             Aulas de hoje
           </h2>
-          <p className="flex items-center gap-1.5 text-sm text-white/50">
+          <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
             <CalendarDays className="h-3.5 w-3.5 text-primary/70" aria-hidden />
             {todayName} — próximas {classes.length} aulas
           </p>

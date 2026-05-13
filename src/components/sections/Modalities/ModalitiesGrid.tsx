@@ -25,10 +25,10 @@ function ModalityCard({ item, index }: { item: ModalityItem; index: number }) {
       <Link
         to={`/modalidades/${item.slug}`}
         className={cn(
-          "group relative block overflow-hidden rounded-2xl border border-white/10",
-          "bg-white/[0.03] backdrop-blur-sm transition-all duration-300",
+          "group relative block overflow-hidden rounded-2xl border border-card-border",
+          "bg-card backdrop-blur-sm transition-all duration-300",
           "hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         )}
         aria-label={`Ver detalhes de ${item.title}`}
       >
@@ -91,14 +91,14 @@ function EmptyState() {
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       className="col-span-full flex flex-col items-center gap-4 py-20 text-center"
     >
-      <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/5">
-        <Layers className="h-7 w-7 text-white/30" aria-hidden />
+      <div className="flex h-16 w-16 items-center justify-center rounded-full border border-card-border bg-card">
+        <Layers className="h-7 w-7 text-muted-foreground" aria-hidden />
       </div>
       <div>
-        <p className="text-lg font-semibold text-white/70">
+        <p className="text-lg font-semibold text-foreground">
           Nenhuma modalidade encontrada nesta unidade
         </p>
-        <p className="mt-1 text-sm text-white/40">
+        <p className="mt-1 text-sm text-muted-foreground">
           Tente selecionar outra unidade.
         </p>
       </div>

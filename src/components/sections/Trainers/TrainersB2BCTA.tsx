@@ -41,7 +41,7 @@ export function TrainersB2BCTA() {
         duration={reduced ? "9999s" : "5s"}
         borderWidth={1}
       >
-        <div className="relative overflow-hidden rounded-[calc(1.25rem-1px)] bg-linear-to-br from-white/[0.05] via-background to-background px-6 py-12 sm:px-10 lg:px-16">
+        <div className="relative overflow-hidden rounded-[calc(1.25rem-1px)] bg-linear-to-br from-surface-raised via-card to-card px-6 py-12 sm:px-10 lg:px-16">
           {/* Background glow */}
           <div
             aria-hidden
@@ -123,7 +123,7 @@ export function TrainersB2BCTA() {
                       delay: reduced ? 0 : 0.1 + i * 0.08,
                       ease: [0.22, 1, 0.36, 1],
                     }}
-                    className="flex flex-col gap-2 rounded-xl border border-white/[0.07] bg-white/[0.03] p-4"
+                    className="flex flex-col gap-2 rounded-xl border border-white/[0.07] bg-white/[0.04] p-4"
                   >
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-primary/20 bg-primary/10">
                       <Icon className="h-4 w-4 text-primary" aria-hidden />

@@ -42,8 +42,8 @@ function PerkCard({
         ease: [0.22, 1, 0.36, 1],
       }}
       className={cn(
-        "group relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-white/[0.07]",
-        "bg-white/[0.03] p-6 transition-all duration-300 hover:border-primary/25 hover:bg-white/[0.05]",
+        "group relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-card-border",
+        "bg-card p-6 transition-all duration-300 hover:border-primary/40 hover:bg-surface-raised",
         perk.span === 2 ? "lg:col-span-2" : "lg:col-span-1"
       )}
       aria-label={perk.title}
@@ -97,7 +97,7 @@ export function CareersPerks() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.06 }}
-          className="mt-2 text-fluid-2xl font-bold text-white"
+          className="mt-2 text-fluid-2xl font-bold text-foreground"
         >
           Diferenciais que importam
         </motion.h2>
@@ -106,7 +106,7 @@ export function CareersPerks() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mx-auto mt-3 max-w-md text-sm text-white/45"
+          className="mx-auto mt-3 max-w-md text-sm text-muted-foreground"
         >
           Não só mais um emprego — uma carreira com propósito, num ambiente que
           valoriza quem move o mundo.

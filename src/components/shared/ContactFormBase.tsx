@@ -52,7 +52,7 @@ export function FormField({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={htmlFor} className="text-sm font-medium text-white/70">
+      <label htmlFor={htmlFor} className="text-sm font-medium text-foreground">
         {label}
         {required && (
           <span className="ml-0.5 text-primary" aria-hidden>
@@ -84,7 +84,7 @@ export function FormField({
 }
 
 export const inputClass =
-  "w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder:text-white/25 transition-all duration-200 hover:border-white/20 focus:border-primary/50 focus:bg-white/[0.06] focus:outline-none focus:ring-2 focus:ring-primary/25 aria-invalid:border-error/50 aria-invalid:focus:ring-error/25";
+  "w-full rounded-xl border border-border bg-card/5 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground transition-all duration-200 hover:border-primary/40 focus:border-primary/60 focus:bg-card/10 focus:outline-none focus:ring-2 focus:ring-primary/25 aria-invalid:border-error/50 aria-invalid:focus:ring-error/25";
 
 // ─── Shared base fields ────────────────────────────────────────────────────────
 
@@ -325,8 +325,8 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
         <div className="flex h-16 w-16 items-center justify-center rounded-full border border-success/30 bg-success/10">
           <CheckCircle2 className="h-8 w-8 text-success" />
         </div>
-        <h3 className="text-xl font-bold text-white">{copy.heading}</h3>
-        <p className="max-w-sm text-sm text-white/50">{copy.body}</p>
+        <h3 className="text-xl font-bold text-foreground">{copy.heading}</h3>
+        <p className="max-w-sm text-sm text-muted-foreground">{copy.body}</p>
       </motion.div>
     );
   }
@@ -500,11 +500,11 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
       {variant === "careers" && (
         <>
           <div className="flex items-center gap-3">
-            <div className="h-px flex-1 bg-white/[0.06]" />
-            <span className="text-xs text-white/25">
+            <div className="h-px flex-1 bg-border" />
+            <span className="text-xs text-muted-foreground">
               Currículo ou LinkedIn — um dos dois
             </span>
-            <div className="h-px flex-1 bg-white/[0.06]" />
+            <div className="h-px flex-1 bg-border" />
           </div>
 
           <FormField
@@ -517,15 +517,15 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 className={cn(
-                  "flex flex-1 items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm transition-all duration-200",
-                  "hover:border-white/20 hover:bg-white/[0.06]",
+                  "flex flex-1 items-center gap-2.5 rounded-xl border border-border bg-card/5 px-4 py-3 text-sm transition-all duration-200",
+                  "hover:border-primary/40 hover:bg-card/10",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25",
-                  resume ? "text-white" : "text-white/25"
+                  resume ? "text-foreground" : "text-muted-foreground"
                 )}
                 aria-describedby={errors.resume ? "resume-error" : undefined}
               >
                 <Paperclip
-                  className="h-4 w-4 shrink-0 text-white/40"
+                  className="h-4 w-4 shrink-0 text-muted-foreground"
                   aria-hidden
                 />
                 <span className="truncate">
@@ -537,7 +537,7 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
                 <button
                   type="button"
                   onClick={clearFile}
-                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 text-white/40 transition-colors hover:border-error/30 hover:text-error focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/30"
+                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-border text-muted-foreground transition-colors hover:border-error/30 hover:text-error focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/30"
                   aria-label="Remover arquivo"
                 >
                   <X className="h-4 w-4" aria-hidden />
@@ -615,7 +615,7 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
                 "absolute bottom-3 right-4 text-xs tabular-nums",
                 ctf.message.length >= 480
                   ? "text-warning"
-                  : "text-white/25"
+                  : "text-muted-foreground"
               )}
             >
               {ctf.message.length}/500

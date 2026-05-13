@@ -57,7 +57,7 @@ export function HomeUnitsSearch() {
             Unidades
           </p>
           <h2 className="mt-3 text-fluid-xl font-bold tracking-tight">
-            Perto de <span className="text-muted-foreground">você</span>
+            Perto de <span className="text-primary">você</span>
           </h2>
           <p className="mt-4 text-fluid-md leading-relaxed text-muted-foreground">
             13 unidades em Ribeirão Preto e Sertãozinho. Mesma qualidade,
@@ -85,7 +85,7 @@ export function HomeUnitsSearch() {
               value={cep}
               onChange={(e) => setCep(formatCep(e.target.value))}
               maxLength={9}
-              className="w-full rounded-xl border border-white/10 bg-white/[0.04] py-3.5 pl-11 pr-10 text-sm text-foreground placeholder:text-muted-foreground backdrop-blur-xl outline-none transition-all focus:border-primary/50 focus:bg-white/[0.07] focus:shadow-glow-sm"
+              className="w-full rounded-xl border border-border bg-card/5 py-3.5 pl-11 pr-10 text-sm text-foreground placeholder:text-muted-foreground backdrop-blur-xl outline-none transition-all focus:border-primary/60 focus:bg-card/10 focus:shadow-glow-sm"
             />
             {geocode.status === "loading" ? (
               <Loader2
@@ -130,10 +130,10 @@ export function HomeUnitsSearch() {
                     delay: Math.min(idx, 7) * 0.06,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-card-border bg-card shadow-card transition-shadow duration-300 hover:shadow-card-hover"
+                  className="group flex flex-col overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/20"
                 >
                   {/* Card image */}
-                  <div className="relative aspect-thumb overflow-hidden bg-surface">
+                  <div className="relative aspect-thumb overflow-hidden bg-muted/30">
                     <img
                       src={gymCover}
                       alt={`Academia Pacer ${unit.name}`}
@@ -142,10 +142,6 @@ export function HomeUnitsSearch() {
                       loading="lazy"
                       decoding="async"
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div
-                      aria-hidden
-                      className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card to-transparent"
                     />
                   </div>
 
@@ -179,7 +175,7 @@ export function HomeUnitsSearch() {
                       {modalities.map((m) => (
                         <Badge
                           key={m}
-                          className="border-white/10 bg-white/[0.04] text-muted-foreground px-2 py-0.5 text-[10px]"
+                          className="border-border bg-foreground/5 text-foreground/70 px-2 py-0.5 text-[10px]"
                         >
                           {m}
                         </Badge>
@@ -188,7 +184,7 @@ export function HomeUnitsSearch() {
 
                     <div className="mt-auto pt-4">
                       <Button
-                        variant="outline"
+                        variant="default"
                         size="sm"
                         className="w-full justify-between"
                         asChild
@@ -214,7 +210,7 @@ export function HomeUnitsSearch() {
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.3 }}
           >
-            <Button variant="ghost" asChild>
+            <Button variant="ghost" className="text-foreground/60 hover:text-foreground hover:bg-foreground/5" asChild>
               <Link to="/unidades" className="gap-2">
                 Ver todas as unidades
                 <ArrowRight className="h-4 w-4" />

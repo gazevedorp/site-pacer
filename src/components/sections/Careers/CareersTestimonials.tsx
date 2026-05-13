@@ -23,11 +23,11 @@ export function CareersTestimonials() {
           </p>
           <h2
             id="testimonials-heading"
-            className="mt-2 text-fluid-2xl font-bold text-white"
+            className="mt-2 text-fluid-2xl font-bold text-foreground"
           >
             O time fala por si
           </h2>
-          <p className="mx-auto mt-3 max-w-md text-sm text-white/45">
+          <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
             Histórias reais de quem construiu carreira na Pacer Academia.
           </p>
         </motion.div>

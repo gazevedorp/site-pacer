@@ -24,8 +24,8 @@ export function TrainersBanner() {
       />
 
       {/* Gradient layers */}
-      <div className="absolute inset-0 bg-linear-to-t from-background via-background/65 to-background/15" />
-      <div className="absolute inset-0 bg-linear-to-r from-background/50 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/55 to-black/15" />
+      <div className="absolute inset-0 bg-linear-to-r from-black/50 via-transparent to-transparent" />
 
       {/* Gold glow */}
       <div

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Mail, MapPin } from "lucide-react";
 
 const footerLinks = {
   Academia: [
@@ -21,24 +22,26 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/5 bg-white/[0.01]">
+    <footer className="border-t border-border bg-background/80 backdrop-blur-2xl">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-5">
           {/* Brand */}
           <div className="md:col-span-2">
             <Link to="/" className="inline-block">
-              <img src="/logo.png" alt="Pacer Academia" width={120} height={40} className="h-10 w-auto" />
+              <img src="/logo-sem-fundo.png" alt="Pacer Academia" width={120} height={40} className="h-10 w-auto" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
               Saúde e qualidade de vida. A rede de academias que mais cresce na
               região de Ribeirão Preto e Sertãozinho.
             </p>
-            <div className="mt-4 space-y-1">
-              <p className="text-sm text-muted-foreground">
-                ✉️ sac@paceracademia.com.br
+            <div className="mt-4 space-y-1.5">
+              <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Mail className="h-3.5 w-3.5 shrink-0 text-primary/60" aria-hidden />
+                sac@paceracademia.com.br
               </p>
-              <p className="text-sm text-muted-foreground">
-                📍 Ribeirão Preto e Sertãozinho – SP
+              <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                <MapPin className="h-3.5 w-3.5 shrink-0 text-primary/60" aria-hidden />
+                Ribeirão Preto e Sertãozinho – SP
               </p>
             </div>
           </div>
@@ -63,11 +66,11 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 sm:flex-row">
-          <p className="text-xs text-muted">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 sm:flex-row">
+          <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} Pacer Academia. Todos os direitos reservados.
           </p>
-          <p className="text-xs text-muted">
+          <p className="text-xs text-muted-foreground">
             Ribeirão Preto e Sertãozinho – SP
           </p>
         </div>

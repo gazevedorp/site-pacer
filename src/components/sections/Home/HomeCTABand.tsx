@@ -1,7 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { MessageCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { BackgroundBeams } from "@/components/ui/background-beams";
 import { whatsappNumber } from "@/data/home";
 
 const waLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
@@ -13,8 +12,20 @@ export function HomeCTABand() {
   return (
     <section
       aria-label="Comece agora na Pacer"
-      className="relative overflow-hidden py-24 sm:py-32 bg-surface-raised"
+      className="relative overflow-hidden py-24 sm:py-32"
     >
+      {/* Background image */}
+      <div aria-hidden className="absolute inset-0">
+        <img
+          src="/fundo-section.jpeg"
+          alt=""
+          className="h-full w-full object-cover object-center"
+          loading="lazy"
+          decoding="async"
+        />
+        <div className="absolute inset-0 bg-black/70" />
+      </div>
+
       {/* Top divider */}
       <div
         aria-hidden
@@ -26,17 +37,11 @@ export function HomeCTABand() {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"
       />
 
-      {/* Animated beams background */}
-      <BackgroundBeams className="opacity-60" />
-
       {/* Gold radial glow */}
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{
-          background:
-            "radial-gradient(ellipse, rgba(233,181,29,0.12) 0%, transparent 65%)",
-        }}
+        style={{ background: "radial-gradient(ellipse, rgba(233,181,29,0.10) 0%, transparent 65%)" }}
       />
 
       <div className="relative z-10 mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
@@ -51,7 +56,7 @@ export function HomeCTABand() {
         </motion.p>
 
         <motion.h2
-          className="mt-4 text-fluid-2xl font-bold tracking-tight"
+          className="mt-4 text-fluid-2xl font-bold tracking-tight text-white"
           initial={reduced ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10%" }}
@@ -62,14 +67,14 @@ export function HomeCTABand() {
         </motion.h2>
 
         <motion.p
-          className="mx-auto mt-5 max-w-lg text-fluid-md leading-relaxed text-muted-foreground"
+          className="mx-auto mt-5 max-w-lg text-fluid-md leading-relaxed text-white/75"
           initial={reduced ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10%" }}
           transition={{ duration: 0.6, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
         >
           Fale com a gente pelo WhatsApp. Agendamos uma{" "}
-          <strong className="text-foreground">aula experimental gratuita</strong>{" "}
+          <strong className="text-white">aula experimental gratuita</strong>{" "}
           na unidade mais próxima de você.
         </motion.p>
 

@@ -33,15 +33,27 @@ export function HomeFooterCTA() {
   return (
     <section
       aria-label="Redes sociais e fale conosco"
-      className="relative py-24 sm:py-32 bg-surface-raised"
+      className="relative overflow-hidden py-24 sm:py-32"
     >
+      {/* Background image */}
+      <div aria-hidden className="absolute inset-0">
+        <img
+          src="/fundo-section-2.jpeg"
+          alt=""
+          className="h-full w-full object-cover object-center"
+          loading="lazy"
+          decoding="async"
+        />
+        <div className="absolute inset-0 bg-black/70" />
+      </div>
+
       {/* Top divider */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent"
       />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-16 lg:grid-cols-2 lg:items-center lg:gap-20">
           {/* ── Left: CTA copy ──────────────────────────────────── */}
           <motion.div
@@ -53,11 +65,11 @@ export function HomeFooterCTA() {
             <p className="text-sm font-semibold uppercase tracking-widest text-primary">
               Fale conosco
             </p>
-            <h2 className="mt-3 text-fluid-xl font-bold tracking-tight">
+            <h2 className="mt-3 text-fluid-xl font-bold tracking-tight text-white">
               Tem alguma{" "}
-              <span className="text-muted-foreground">dúvida?</span>
+              <span className="text-white/50">dúvida?</span>
             </h2>
-            <p className="mt-4 max-w-md text-fluid-md leading-relaxed text-muted-foreground">
+            <p className="mt-4 max-w-md text-fluid-md leading-relaxed text-white/75">
               Nossa equipe está pronta para te atender. Envie uma mensagem,
               visite uma unidade ou fique por dentro das novidades nas nossas
               redes sociais.
@@ -92,7 +104,7 @@ export function HomeFooterCTA() {
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 rounded-xl border border-card-border bg-card px-5 py-4 text-sm font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+                className="flex items-center gap-3 rounded-xl border border-card-border bg-card px-5 py-4 text-sm font-medium text-white transition-colors hover:border-primary/40 hover:text-primary"
               >
                 {item.icon}
                 {item.title}

@@ -26,7 +26,7 @@ function PlanCard({
         "relative flex flex-col rounded-2xl border p-6 transition-shadow duration-300 sm:p-8",
         plan.highlighted
           ? "border-primary/50 bg-primary/[0.06] shadow-2xl shadow-primary/15 sm:scale-[1.02] lg:scale-[1.05] z-10"
-          : "border-white/10 bg-white/[0.03] hover:border-white/20 hover:shadow-lg hover:shadow-black/30"
+          : "border-card-border bg-card hover:border-primary/30 hover:shadow-lg hover:shadow-black/30"
       )}
       aria-label={`Plano ${plan.name}`}
     >
@@ -128,7 +128,7 @@ export function PlansShowcase() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.06 }}
-          className="mt-2 text-fluid-2xl font-bold text-white"
+          className="mt-2 text-fluid-2xl font-bold text-foreground"
         >
           Escolha seu plano
         </motion.h2>
@@ -137,7 +137,7 @@ export function PlansShowcase() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mx-auto mt-3 max-w-md text-sm text-white/45"
+          className="mx-auto mt-3 max-w-md text-sm text-muted-foreground"
         >
           Todos os planos dão acesso ao melhor equipamento e à equipe mais
           qualificada de Ribeirão Preto e Sertãozinho.
@@ -162,7 +162,7 @@ export function PlansShowcase() {
       </div>
 
       {/* Footnote */}
-      <p className="mt-8 text-center text-xs text-white/25">
+      <p className="mt-8 text-center text-xs text-muted-foreground/80">
         * Valores sujeitos a alteração. Consulte a recepção da unidade para
         promoções e condições especiais.
       </p>

@@ -24,8 +24,8 @@ export function ScheduleBanner() {
       />
 
       {/* Gradient overlays */}
-      <div className="absolute inset-0 bg-linear-to-t from-background via-background/70 to-background/20" />
-      <div className="absolute inset-0 bg-linear-to-r from-background/60 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/55 to-black/20" />
+      <div className="absolute inset-0 bg-linear-to-r from-black/55 via-transparent to-transparent" />
 
       {/* Gold glow at bottom */}
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-24 w-3/4 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />

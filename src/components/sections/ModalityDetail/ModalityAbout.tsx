@@ -25,7 +25,7 @@ export function ModalityAbout({ modality }: ModalityAboutProps) {
         {/* Left — benefits */}
         <div>
           <motion.h2
-            className="mb-6 text-fluid-xl font-bold text-white"
+            className="mb-6 text-fluid-xl font-bold text-foreground"
             initial={reduced ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-5%" }}
@@ -38,7 +38,7 @@ export function ModalityAbout({ modality }: ModalityAboutProps) {
             {modality.benefits.map((benefit, i) => (
               <motion.li
                 key={benefit}
-                className="flex items-start gap-3 rounded-xl border border-white/8 bg-white/[0.03] px-4 py-3"
+                className="flex items-start gap-3 rounded-xl border border-card-border bg-card px-4 py-3"
                 initial={reduced ? false : { opacity: 0, x: -16 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-5%" }}
@@ -61,7 +61,7 @@ export function ModalityAbout({ modality }: ModalityAboutProps) {
         {/* Right — stats table */}
         <div className="flex flex-col gap-5">
           <motion.h2
-            className="mb-1 text-fluid-xl font-bold text-white"
+            className="mb-1 text-fluid-xl font-bold text-foreground"
             initial={reduced ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-5%" }}
@@ -73,7 +73,7 @@ export function ModalityAbout({ modality }: ModalityAboutProps) {
           {/* Calories */}
           {modality.caloriesAvg > 0 && (
             <motion.div
-              className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5"
+              className="flex items-start gap-4 rounded-2xl border border-card-border bg-card p-5"
               initial={reduced ? false : { opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-5%" }}
@@ -100,7 +100,7 @@ export function ModalityAbout({ modality }: ModalityAboutProps) {
           {/* Recommended for */}
           {modality.recommendedFor.length > 0 && (
             <motion.div
-              className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"
+              className="rounded-2xl border border-card-border bg-card p-5"
               initial={reduced ? false : { opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-5%" }}
@@ -127,7 +127,7 @@ export function ModalityAbout({ modality }: ModalityAboutProps) {
 
           {/* Units count */}
           <motion.div
-            className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5"
+            className="flex items-start gap-4 rounded-2xl border border-card-border bg-card p-5"
             initial={reduced ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-5%" }}

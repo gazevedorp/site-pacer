@@ -66,11 +66,11 @@ function TrainerCard({ trainer, index }: { trainer: Trainer; index: number }) {
         ease: [0.22, 1, 0.36, 1],
       }}
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-2xl border bg-white/[0.03] backdrop-blur-sm",
+        "group relative flex flex-col overflow-hidden rounded-2xl border bg-card backdrop-blur-sm",
         "transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/40",
         trainer.featured
-          ? "border-primary/30 hover:border-primary/50"
-          : "border-white/10 hover:border-white/20"
+          ? "border-primary/40 hover:border-primary/60"
+          : "border-card-border hover:border-primary/30"
       )}
       aria-label={trainer.name}
     >
@@ -187,14 +187,14 @@ export function TrainersGrid({ trainers: list }: TrainersGridProps) {
             className="flex flex-col items-center justify-center py-24 text-center"
           >
             <Users
-              className="mb-5 h-14 w-14 text-white/10"
+              className="mb-5 h-14 w-14 text-muted-foreground/40"
               aria-hidden
               strokeWidth={1.5}
             />
-            <p className="text-base font-medium text-white/40">
+            <p className="text-base font-medium text-foreground">
               Nenhum profissional encontrado
             </p>
-            <p className="mt-1 text-sm text-white/25">
+            <p className="mt-1 text-sm text-muted-foreground">
               Tente ajustar os filtros acima.
             </p>
           </motion.div>

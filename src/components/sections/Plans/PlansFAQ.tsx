@@ -30,7 +30,7 @@ export function PlansFAQ() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.06 }}
-            className="mt-2 text-fluid-2xl font-bold text-white"
+            className="mt-2 text-fluid-2xl font-bold text-foreground"
           >
             FAQ
           </motion.h2>
@@ -46,7 +46,7 @@ export function PlansFAQ() {
           <Accordion.Root
             type="single"
             collapsible
-            className="flex flex-col divide-y divide-white/[0.07] rounded-2xl border border-white/[0.07] bg-white/[0.02] overflow-hidden"
+            className="flex flex-col divide-y divide-card-border rounded-2xl border border-card-border bg-card overflow-hidden"
           >
             {faqItems.map((item) => (
               <Accordion.Item

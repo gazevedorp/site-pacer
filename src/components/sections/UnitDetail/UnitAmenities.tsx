@@ -88,7 +88,7 @@ function AmenityCard({ id, index }: AmenityCardProps) {
             delay: reduced ? 0 : index * 0.07,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="group flex flex-col items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-center backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-white/[0.06] hover:shadow-lg hover:shadow-primary/5"
+          className="group flex flex-col items-center gap-3 rounded-2xl border border-card-border bg-card p-5 text-center backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-surface-raised hover:shadow-lg hover:shadow-primary/5"
         >
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
             <Icon className="h-5 w-5" aria-hidden />
@@ -125,10 +125,10 @@ export function UnitAmenities({ amenities }: UnitAmenitiesProps) {
         aria-label="Estrutura e facilidades"
         className="section-padding container mx-auto px-4 sm:px-6 lg:px-8"
       >
-        <h2 className="mb-2 text-fluid-xl font-bold text-white">
+        <h2 className="mb-2 text-fluid-xl font-bold text-foreground">
           Estrutura &amp; Facilidades
         </h2>
-        <p className="mb-8 text-sm text-white/50">
+        <p className="mb-8 text-sm text-muted-foreground">
           Passe o mouse ou toque em cada item para saber mais.
         </p>
 
