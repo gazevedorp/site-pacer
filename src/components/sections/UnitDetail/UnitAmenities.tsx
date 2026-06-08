@@ -12,8 +12,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { UnitAmenityId } from "@/data/units";
-
-// ─── Amenity meta map ─────────────────────────────────────────────────────────
+import { UnitSection } from "@/components/sections/UnitDetail/UnitSection";
 
 const AMENITY_META: Record<
   UnitAmenityId,
@@ -61,14 +60,7 @@ const AMENITY_META: Record<
   },
 };
 
-// ─── Amenity Card ─────────────────────────────────────────────────────────────
-
-interface AmenityCardProps {
-  id: UnitAmenityId;
-  index: number;
-}
-
-function AmenityCard({ id, index }: AmenityCardProps) {
+function AmenityCard({ id, index }: { id: UnitAmenityId; index: number }) {
   const reduced = useReducedMotion();
   const meta = AMENITY_META[id];
   const Icon = meta.icon;
@@ -76,7 +68,7 @@ function AmenityCard({ id, index }: AmenityCardProps) {
   return (
     <Tooltip.Root>
       <Tooltip.Trigger
-        className="w-full rounded-2xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+        className="w-full rounded-2xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         aria-label={`${meta.label} — ${meta.description}`}
       >
         <motion.div
@@ -88,29 +80,27 @@ function AmenityCard({ id, index }: AmenityCardProps) {
             delay: reduced ? 0 : index * 0.07,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="group flex flex-col items-center gap-3 rounded-2xl border border-card-border bg-card p-5 text-center backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-surface-raised hover:shadow-lg hover:shadow-primary/5"
+          className="group flex flex-col items-center gap-3 rounded-2xl border border-border bg-white p-5 text-center shadow-sm transition-all hover:border-primary/30 hover:shadow-md"
         >
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/15">
             <Icon className="h-5 w-5" aria-hidden />
           </div>
-          <span className="text-sm font-semibold text-white/90">{meta.label}</span>
+          <span className="text-sm font-semibold text-foreground">{meta.label}</span>
         </motion.div>
       </Tooltip.Trigger>
 
       <Tooltip.Portal>
         <Tooltip.Content
-          className="z-50 max-w-[200px] rounded-xl border border-white/10 bg-zinc-900/95 px-3 py-2 text-xs text-white/80 shadow-xl backdrop-blur-sm"
+          className="z-50 max-w-[200px] rounded-xl border border-border bg-background px-3 py-2 text-xs text-muted-foreground shadow-lg"
           sideOffset={6}
         >
           {meta.description}
-          <Tooltip.Arrow className="fill-zinc-900/95" />
+          <Tooltip.Arrow className="fill-background" />
         </Tooltip.Content>
       </Tooltip.Portal>
     </Tooltip.Root>
   );
 }
-
-// ─── Section ──────────────────────────────────────────────────────────────────
 
 interface UnitAmenitiesProps {
   amenities: UnitAmenityId[];
@@ -121,17 +111,13 @@ export function UnitAmenities({ amenities }: UnitAmenitiesProps) {
 
   return (
     <Tooltip.Provider delayDuration={200}>
-      <section
-        aria-label="Estrutura e facilidades"
-        className="section-padding container mx-auto px-4 sm:px-6 lg:px-8"
+      <UnitSection
+        ariaLabel="Estrutura e facilidades"
+        variant="inset"
+        eyebrow="Estrutura"
+        title="Facilidades"
+        description="Passe o mouse ou toque em cada item para saber mais."
       >
-        <h2 className="mb-2 text-fluid-xl font-bold text-foreground">
-          Estrutura &amp; Facilidades
-        </h2>
-        <p className="mb-8 text-sm text-muted-foreground">
-          Passe o mouse ou toque em cada item para saber mais.
-        </p>
-
         <div
           className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
           role="list"
@@ -143,7 +129,7 @@ export function UnitAmenities({ amenities }: UnitAmenitiesProps) {
             </div>
           ))}
         </div>
-      </section>
+      </UnitSection>
     </Tooltip.Provider>
   );
 }

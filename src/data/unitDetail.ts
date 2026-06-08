@@ -1,5 +1,45 @@
 import type { UnitClassPreview, UnitPlan } from "@/types/unit";
 import type { Unit } from "@/data/units";
+import gymCover from "@/assets/images/gym.png";
+
+// ─── Gallery ──────────────────────────────────────────────────────────────────
+
+export interface UnitGalleryImage {
+  src: string;
+  alt: string;
+}
+
+const GALLERY_POOL: Omit<UnitGalleryImage, "alt">[] = [
+  { src: gymCover },
+  { src: "/fundo-section.jpeg" },
+  { src: "/fundo-section-2.jpeg" },
+  { src: gymCover },
+  { src: "/fundo-section.jpeg" },
+];
+
+const GALLERY_CAPTIONS = [
+  "Área de musculação",
+  "Ambiente climatizado",
+  "Espaço de treino",
+  "Equipamentos de alto padrão",
+  "Recepção e área comum",
+] as const;
+
+export function getUnitGallery(slug: string, unitName: string): UnitGalleryImage[] {
+  let offset = 0;
+  for (let i = 0; i < slug.length; i++) {
+    offset = (offset * 31 + slug.charCodeAt(i)) | 0;
+  }
+  offset = Math.abs(offset) % GALLERY_POOL.length;
+
+  return GALLERY_POOL.map((item, i) => {
+    const caption = GALLERY_CAPTIONS[(i + offset) % GALLERY_CAPTIONS.length];
+    return {
+      src: item.src,
+      alt: `${caption} — Pacer ${unitName}`,
+    };
+  });
+}
 
 // ─── WhatsApp ─────────────────────────────────────────────────────────────────
 

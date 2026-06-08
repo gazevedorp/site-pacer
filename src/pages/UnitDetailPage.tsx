@@ -5,6 +5,7 @@ import { getUnitPlans, buildWhatsAppLink, CENTRAL_WHATSAPP } from "@/data/unitDe
 import { useSeoMeta } from "@/hooks/useSeoMeta";
 import { UnitHero } from "@/components/sections/UnitDetail/UnitHero";
 import { UnitAmenities } from "@/components/sections/UnitDetail/UnitAmenities";
+import { UnitGallery } from "@/components/sections/UnitDetail/UnitGallery";
 import { UnitModalities } from "@/components/sections/UnitDetail/UnitModalities";
 import { UnitSchedulePreview } from "@/components/sections/UnitDetail/UnitSchedulePreview";
 import { UnitPlans } from "@/components/sections/UnitDetail/UnitPlans";
@@ -69,6 +70,7 @@ export default function UnitDetailPage() {
     <main>
       <UnitHero unit={unit} whatsappHref={whatsappHref} />
       <UnitAmenities amenities={unit.amenities} />
+      <UnitGallery slug={unit.slug} unitName={unit.name} />
       <UnitModalities unitModalities={unit.unitModalities} />
       <UnitSchedulePreview slug={unit.slug} />
       <UnitPlans plans={plans} unit={unit} />
