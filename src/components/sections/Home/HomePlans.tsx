@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { Check, MessageCircle, Star } from "lucide-react";
+import { Check, MessageCircle, Star, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -29,14 +30,16 @@ export function HomePlans() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           <p className="text-sm font-semibold uppercase tracking-widest text-primary">
-            Planos
+            Planos feito para você
           </p>
           <h2 className="mt-3 text-fluid-xl font-bold tracking-tight">
             Invista em <span className="text-gradient-gold">você</span>
           </h2>
           <p className="mt-4 text-fluid-md leading-relaxed text-muted-foreground">
-            Escolha o plano ideal. Todas as aulas coletivas já estão inclusas
-            na mensalidade — sem surpresas.
+            Uma mensalidade com acesso a todas as unidades.
+          </p>
+          <p className="mt-2 text-xs text-muted-foreground/70">
+            * Exceto setor aquático
           </p>
         </motion.div>
 
@@ -144,15 +147,20 @@ export function HomePlans() {
           })}
         </div>
 
-        <motion.p
-          className="mt-8 text-center text-xs text-muted-foreground/60"
+        <motion.div
+          className="mt-10 text-center"
           initial={reduced ? false : { opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.4 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
         >
-          * Valores ilustrativos. Consulte a unidade mais próxima para confirmar preços vigentes.
-        </motion.p>
+          <Button variant="outline" size="lg" asChild>
+            <Link to="/planos" className="gap-2">
+              Ver todos
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+        </motion.div>
       </div>
     </section>
   );

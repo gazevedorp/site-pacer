@@ -86,6 +86,9 @@ export function FormField({
 export const inputClass =
   "w-full rounded-xl border border-border bg-card/5 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground transition-all duration-200 hover:border-primary/40 focus:border-primary/60 focus:bg-card/10 focus:outline-none focus:ring-2 focus:ring-primary/25 aria-invalid:border-error/50 aria-invalid:focus:ring-error/25";
 
+export const careersInputClass =
+  "w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground transition-all duration-200 hover:border-primary/40 focus:border-primary/60 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/25 aria-invalid:border-error/50 aria-invalid:focus:ring-error/25";
+
 // ─── Shared base fields ────────────────────────────────────────────────────────
 
 interface BaseFields {
@@ -100,7 +103,6 @@ interface BaseFields {
 
 interface CareersFields extends BaseFields {
   area: string;
-  linkedin: string;
 }
 
 interface ContactFields extends BaseFields {
@@ -116,6 +118,22 @@ type FieldsByVariant<V extends FormVariant> = V extends "careers"
 
 type FormErrors = Partial<Record<string, string>>;
 
+const RESUME_MAX_BYTES = 5 * 1024 * 1024;
+const RESUME_ACCEPT = "application/pdf,image/jpeg,image/png,image/webp";
+const RESUME_ALLOWED_TYPES = new Set([
+  "application/pdf",
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+]);
+const RESUME_ALLOWED_EXTENSIONS = /\.(pdf|jpe?g|png|webp)$/i;
+
+function isAllowedResumeFile(file: File): boolean {
+  if (RESUME_ALLOWED_TYPES.has(file.type)) return true;
+  if (!file.type && RESUME_ALLOWED_EXTENSIONS.test(file.name)) return true;
+  return false;
+}
+
 function validateCareers(fields: CareersFields, resume: File | null): FormErrors {
   const errors: FormErrors = {};
 
@@ -128,26 +146,12 @@ function validateCareers(fields: CareersFields, resume: File | null): FormErrors
   if (!fields.area)
     errors.area = "Selecione a área de interesse.";
 
-  const hasLinkedin = fields.linkedin.trim().length > 0;
-  const hasResume = resume !== null;
-
-  if (!hasLinkedin && !hasResume) {
-    errors.linkedin = "Anexe seu currículo ou informe o LinkedIn.";
-  } else if (hasLinkedin) {
-    try {
-      const url = new URL(fields.linkedin.trim());
-      if (!["http:", "https:"].includes(url.protocol))
-        errors.linkedin = "URL inválida (use https://).";
-    } catch {
-      errors.linkedin = "Informe uma URL válida (ex: https://linkedin.com/in/...).";
-    }
-  }
-
-  if (hasResume && resume) {
-    if (resume.type !== "application/pdf")
-      errors.resume = "Apenas arquivos PDF são aceitos.";
-    else if (resume.size > 5 * 1024 * 1024)
-      errors.resume = "O arquivo deve ter no máximo 5MB.";
+  if (!resume || resume.size === 0) {
+    errors.resume = "Currículo é obrigatório (PDF ou imagem).";
+  } else if (!isAllowedResumeFile(resume)) {
+    errors.resume = "Apenas PDF ou imagens (JPG, PNG, WEBP) são aceitos.";
+  } else if (resume.size > RESUME_MAX_BYTES) {
+    errors.resume = "O arquivo deve ter no máximo 5MB.";
   }
 
   return errors;
@@ -201,7 +205,6 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
     email: "",
     phone: "",
     area: "",
-    linkedin: "",
     _hp: "",
   });
 
@@ -224,6 +227,7 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
   const [formState, setFormState] = useState<FormState>("idle");
   const [rateLimited, setRateLimited] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const resumeUploadRef = useRef<HTMLButtonElement>(null);
 
   // ── Handlers ───────────────────────────────────────────────────────────────
 
@@ -251,11 +255,7 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
     (e: ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0] ?? null;
       setResume(file);
-      setErrors((prev) => ({
-        ...prev,
-        resume: undefined,
-        ...(file ? { linkedin: undefined } : {}),
-      }));
+      setErrors((prev) => ({ ...prev, resume: undefined }));
     },
     []
   );
@@ -294,7 +294,11 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
       if (Object.keys(errs).length > 0) {
         setErrors(errs);
         const firstKey = Object.keys(errs)[0];
-        document.getElementById(firstKey)?.focus();
+        if (firstKey === "resume") {
+          resumeUploadRef.current?.focus();
+        } else {
+          document.getElementById(firstKey)?.focus();
+        }
         return;
       }
 
@@ -335,6 +339,7 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
 
   const cf = careersFields;
   const ctf = contactFields;
+  const fieldClass = variant === "careers" ? careersInputClass : inputClass;
   const sharedName = variant === "careers" ? cf.name : ctf.name;
   const sharedEmail = variant === "careers" ? cf.email : ctf.email;
   const sharedPhone = variant === "careers" ? cf.phone : ctf.phone;
@@ -388,7 +393,7 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
             value={sharedName}
             onChange={handleChange}
             placeholder="João da Silva"
-            className={inputClass}
+            className={fieldClass}
             aria-required
             aria-invalid={!!errors.name}
             aria-describedby={errors.name ? "name-error" : undefined}
@@ -409,7 +414,7 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
             value={sharedEmail}
             onChange={handleChange}
             placeholder="joao@email.com"
-            className={inputClass}
+            className={fieldClass}
             aria-required
             aria-invalid={!!errors.email}
             aria-describedby={errors.email ? "email-error" : undefined}
@@ -432,7 +437,7 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
             onChange={handleChange}
             placeholder="(16) 99999-9999"
             inputMode="numeric"
-            className={inputClass}
+            className={fieldClass}
             aria-required
             aria-invalid={!!errors.phone}
             aria-describedby={errors.phone ? "phone-error" : undefined}
@@ -451,7 +456,7 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
               name="area"
               value={cf.area}
               onChange={handleChange}
-              className={cn(inputClass, "cursor-pointer appearance-none")}
+              className={cn(fieldClass, "cursor-pointer appearance-none")}
               aria-required
               aria-invalid={!!errors.area}
               aria-describedby={errors.area ? "area-error" : undefined}
@@ -478,7 +483,7 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
               name="subject"
               value={ctf.subject}
               onChange={handleChange}
-              className={cn(inputClass, "cursor-pointer appearance-none")}
+              className={cn(fieldClass, "cursor-pointer appearance-none")}
               aria-required
               aria-invalid={!!errors.subject}
               aria-describedby={errors.subject ? "subject-error" : undefined}
@@ -496,87 +501,66 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
         )}
       </div>
 
-      {/* ── Careers-specific: resume / LinkedIn ─── */}
+      {/* ── Careers-specific: resume ─── */}
       {variant === "careers" && (
-        <>
+        <FormField
+          label="Currículo (obrigatório — PDF ou imagem, máx. 5MB)"
+          htmlFor="resume"
+          error={errors.resume}
+          required
+        >
           <div className="flex items-center gap-3">
-            <div className="h-px flex-1 bg-border" />
-            <span className="text-xs text-muted-foreground">
-              Currículo ou LinkedIn — um dos dois
-            </span>
-            <div className="h-px flex-1 bg-border" />
-          </div>
+            <button
+              ref={resumeUploadRef}
+              id="resume-upload"
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className={cn(
+                "flex flex-1 items-center gap-2.5 rounded-xl border border-border px-4 py-3 text-sm transition-all duration-200",
+                variant === "careers"
+                  ? "bg-white hover:border-primary/40 hover:bg-white"
+                  : "bg-card/5 hover:border-primary/40 hover:bg-card/10",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25",
+                resume ? "text-foreground" : "text-muted-foreground",
+                errors.resume && "border-error/50"
+              )}
+              aria-describedby={errors.resume ? "resume-error" : undefined}
+              aria-invalid={!!errors.resume}
+            >
+              <Paperclip
+                className="h-4 w-4 shrink-0 text-muted-foreground"
+                aria-hidden
+              />
+              <span className="truncate">
+                {resume ? resume.name : "Selecionar PDF ou imagem..."}
+              </span>
+            </button>
 
-          <FormField
-            label="Currículo (PDF, máx. 5MB)"
-            htmlFor="resume"
-            error={errors.resume}
-          >
-            <div className="flex items-center gap-3">
+            {resume && (
               <button
                 type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className={cn(
-                  "flex flex-1 items-center gap-2.5 rounded-xl border border-border bg-card/5 px-4 py-3 text-sm transition-all duration-200",
-                  "hover:border-primary/40 hover:bg-card/10",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25",
-                  resume ? "text-foreground" : "text-muted-foreground"
-                )}
-                aria-describedby={errors.resume ? "resume-error" : undefined}
+                onClick={clearFile}
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-border text-muted-foreground transition-colors hover:border-error/30 hover:text-error focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/30"
+                aria-label="Remover arquivo"
               >
-                <Paperclip
-                  className="h-4 w-4 shrink-0 text-muted-foreground"
-                  aria-hidden
-                />
-                <span className="truncate">
-                  {resume ? resume.name : "Selecionar arquivo PDF..."}
-                </span>
+                <X className="h-4 w-4" aria-hidden />
               </button>
-
-              {resume && (
-                <button
-                  type="button"
-                  onClick={clearFile}
-                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-border text-muted-foreground transition-colors hover:border-error/30 hover:text-error focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/30"
-                  aria-label="Remover arquivo"
-                >
-                  <X className="h-4 w-4" aria-hidden />
-                </button>
-              )}
-            </div>
-            <input
-              ref={fileInputRef}
-              id="resume"
-              name="resume"
-              type="file"
-              accept="application/pdf"
-              className="sr-only"
-              onChange={handleFileChange}
-              aria-describedby={errors.resume ? "resume-error" : undefined}
-            />
-          </FormField>
-
-          <FormField
-            label="LinkedIn"
-            htmlFor="linkedin"
-            error={errors.linkedin}
-          >
-            <input
-              id="linkedin"
-              name="linkedin"
-              type="url"
-              autoComplete="url"
-              value={cf.linkedin}
-              onChange={handleChange}
-              placeholder="https://linkedin.com/in/seu-perfil"
-              className={inputClass}
-              aria-invalid={!!errors.linkedin}
-              aria-describedby={
-                errors.linkedin ? "linkedin-error" : undefined
-              }
-            />
-          </FormField>
-        </>
+            )}
+          </div>
+          <input
+            ref={fileInputRef}
+            id="resume"
+            name="resume"
+            type="file"
+            accept={RESUME_ACCEPT}
+            required
+            className="sr-only"
+            onChange={handleFileChange}
+            aria-required
+            aria-invalid={!!errors.resume}
+            aria-describedby={errors.resume ? "resume-error" : undefined}
+          />
+        </FormField>
       )}
 
       {/* ── Contact-specific: message textarea ─── */}
@@ -597,7 +581,7 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
               onChange={handleChange}
               placeholder="Descreva sua dúvida, elogio ou reclamação..."
               className={cn(
-                inputClass,
+                fieldClass,
                 "resize-none leading-relaxed",
                 "pb-8" // room for char counter
               )}

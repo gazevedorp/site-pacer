@@ -49,7 +49,7 @@ export function Hero() {
 
         <AnimatedSection delay={0.15}>
           <p className="mx-auto mt-6 text-sm font-medium tracking-[0.3em] uppercase text-primary/70">
-            Saúde e qualidade de vida
+            PACER, NO SEU RITMO.
           </p>
         </AnimatedSection>
 

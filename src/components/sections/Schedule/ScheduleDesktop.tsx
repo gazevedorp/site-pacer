@@ -19,21 +19,21 @@ function ClassCard({ cls }: { cls: ScheduleClass }) {
       role="article"
       aria-label={`${cls.modalityLabel} às ${cls.time} com ${cls.instructor}`}
     >
-      <div className={cn("mb-1 text-[11px] font-semibold uppercase tracking-wide", color.text)}>
+      <div className={cn("mb-1 text-[13px] font-semibold uppercase tracking-wide", color.text)}>
         {cls.modalityLabel}
       </div>
-      <div className="flex items-center gap-1 text-[11px] text-white/70">
+      <div className="flex items-center gap-1 text-[13px] text-white/70">
         <Clock className="h-2.5 w-2.5 shrink-0" aria-hidden />
         <span>{cls.time}</span>
         <span className="text-white/30">·</span>
         <span>{cls.durationMin}min</span>
       </div>
-      <div className="mt-1 flex items-center gap-1 text-[11px] text-white/50">
+      <div className="mt-1 flex items-center gap-1 text-[13px] text-white/50">
         <User className="h-2.5 w-2.5 shrink-0" aria-hidden />
         <span className="truncate">{cls.instructor}</span>
       </div>
       {cls.room && (
-        <div className="mt-0.5 flex items-center gap-1 text-[11px] text-white/40">
+        <div className="mt-0.5 flex items-center gap-1 text-[13px] text-white/40">
           <MapPin className="h-2.5 w-2.5 shrink-0" aria-hidden />
           <span className="truncate">{cls.room}</span>
         </div>

@@ -8,7 +8,7 @@ export function CareersTestimonials() {
   return (
     <section
       aria-labelledby="testimonials-heading"
-      className="overflow-hidden py-12"
+      className="overflow-hidden pb-6 pt-12"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -34,16 +34,19 @@ export function CareersTestimonials() {
       </div>
 
       <motion.div
-        initial={reduced ? false : { opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7, delay: 0.1 }}
+        initial={reduced ? false : { opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ duration: 0.55, delay: 0.05 }}
       >
         <InfiniteMovingCards
           items={employeeTestimonials}
           direction="left"
           speed="slow"
           pauseOnHover
+          hideAvatar
+          italicQuote
+          attributionRight
         />
       </motion.div>
     </section>

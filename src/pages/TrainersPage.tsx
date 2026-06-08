@@ -18,7 +18,7 @@ export default function TrainersPage() {
   });
 
   useSeoMeta({
-    title: "Personal Trainers | Pacer Academia — Ribeirão Preto e Sertãozinho",
+    title: "Personal Trainers | Pacer Academia — Ribeirão e região",
     description:
       "Conheça os personal trainers certificados da Pacer Academia. Profissionais experientes em musculação, funcional, Muay Thai, Pilates, hidroginástica e muito mais.",
     jsonLd: JSON.stringify({

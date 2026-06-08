@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { MapPin, Clock, ChevronRight, Construction } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { MapPin, Clock, ArrowRight, Construction } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import type { Unit, ComingSoonUnit } from "@/data/units";
 import gymCover from "@/assets/images/gym.png";
 
@@ -17,80 +17,60 @@ function UnitCard({ unit, index }: UnitCardProps) {
 
   return (
     <motion.article
-      initial={reduced ? false : { opacity: 0, y: 32 }}
+      initial={reduced ? false : { opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-5%" }}
       transition={{
         duration: 0.5,
-        delay: reduced ? 0 : Math.min(index * 0.07, 0.35),
+        delay: reduced ? 0 : Math.min(index * 0.06, 0.35),
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-card-border bg-card backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10"
+      className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:border-primary/20 hover:shadow-md"
     >
-      {/* Image */}
-      <div className="aspect-card relative overflow-hidden">
+      <div className="relative aspect-thumb overflow-hidden bg-muted/30">
         <img
           src={gymCover}
-          alt={`Fachada da unidade Pacer Academia ${unit.name}`}
+          alt={`Academia Pacer ${unit.name}`}
           loading="lazy"
           decoding="async"
-          width={480}
-          height={320}
+          width={400}
+          height={267}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        {/* Gradient overlay */}
-        <div
-          className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
-          aria-hidden="true"
-        />
-        {/* City badge */}
-        <span className="absolute bottom-3 left-3 rounded-full bg-black/60 px-2.5 py-0.5 text-xs font-medium text-white/80 backdrop-blur-sm">
-          {unit.city.split(" –")[0]}
-        </span>
       </div>
 
-      {/* Content */}
-      <div className="flex flex-1 flex-col gap-3 p-4">
-        {/* Name */}
-        <h3 className="text-fluid-md font-bold leading-tight text-white">
+      <div className="flex flex-1 flex-col p-4">
+        <h3 className="text-base font-semibold leading-snug text-foreground">
           Pacer {unit.name}
         </h3>
 
-        {/* Address */}
-        <p className="flex items-start gap-1.5 text-sm text-white/60">
-          <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
-          {unit.address}
+        <p className="mt-1.5 flex items-start gap-1.5 text-xs leading-snug text-muted-foreground">
+          <MapPin
+            className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary/60"
+            aria-hidden
+          />
+          <span className="line-clamp-2">
+            {unit.address} · {unit.city}
+          </span>
         </p>
 
-        {/* Hours */}
-        <div className="flex flex-col gap-0.5">
-          {unit.hours.map((h) => (
-            <p key={h} className="flex items-center gap-1.5 text-xs text-white/50">
-              <Clock className="h-3 w-3 shrink-0 text-primary/70" aria-hidden="true" />
-              {h}
-            </p>
-          ))}
-        </div>
+        <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+          <Clock className="h-3.5 w-3.5 shrink-0 text-primary/60" aria-hidden />
+          {unit.hours[0]}
+        </p>
 
-        {/* Note */}
-        {unit.note && (
-          <p className="rounded-lg bg-primary/10 px-2.5 py-1.5 text-xs font-medium text-primary/90">
-            {unit.note}
-          </p>
-        )}
-
-        {/* Spacer + CTA */}
-        <div className="mt-auto pt-2">
-          <Link
-            to={`/unidades/${unit.slug}`}
-            className={cn(
-              "inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-primary/40 bg-primary/10 px-4 py-2.5 text-sm font-semibold text-primary",
-              "transition-all duration-200 hover:bg-primary hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-            )}
+        <div className="mt-auto pt-4">
+          <Button
+            variant="default"
+            size="sm"
+            className="w-full justify-between"
+            asChild
           >
-            Ver unidade
-            <ChevronRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
+            <Link to={`/unidades/${unit.slug}`}>
+              Ver unidade
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+            </Link>
+          </Button>
         </div>
       </div>
     </motion.article>

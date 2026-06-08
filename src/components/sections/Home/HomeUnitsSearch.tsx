@@ -3,18 +3,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { MapPin, Clock, ArrowRight, Loader2, X, Navigation } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { units } from "@/data/units";
 import gymCover from "@/assets/images/gym.png";
 import { useCepGeocode, haversineKm, formatCep } from "@/hooks/useCepGeocode";
-
-function getModalitiesForUnit(unit: { note?: string }): string[] {
-  const base = ["Musculação", "Funcional", "Aulas Coletivas"];
-  if (unit.note?.toLowerCase().includes("pilates")) base.push("Pilates");
-  if (unit.note?.toLowerCase().includes("hidroginástica") || unit.note?.toLowerCase().includes("hidroginastica")) base.push("Hidroginástica");
-  if (unit.note?.toLowerCase().includes("natação") || unit.note?.toLowerCase().includes("natacao")) base.push("Natação");
-  return base.slice(0, 4);
-}
 
 export function HomeUnitsSearch() {
   const reduced = useReducedMotion();
@@ -60,7 +51,7 @@ export function HomeUnitsSearch() {
             Perto de <span className="text-primary">você</span>
           </h2>
           <p className="mt-4 text-fluid-md leading-relaxed text-muted-foreground">
-            13 unidades em Ribeirão Preto e Sertãozinho. Mesma qualidade,
+            13 unidades em Ribeirão e região. Mesma qualidade,
             equipamentos de alto padrão e ambiente 100% climatizado.
           </p>
         </motion.div>
@@ -117,9 +108,7 @@ export function HomeUnitsSearch() {
 
         {/* ── Units grid ─────────────────────────────────────────── */}
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {sortedUnits.map((unit, idx) => {
-              const modalities = getModalitiesForUnit(unit);
-              return (
+            {sortedUnits.map((unit, idx) => (
                 <motion.article
                   key={unit.slug}
                   initial={reduced ? false : { opacity: 0, y: 20 }}
@@ -152,7 +141,7 @@ export function HomeUnitsSearch() {
                         Pacer {unit.name}
                       </h3>
                       {unit.distance !== null && (
-                        <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
+                        <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-[12px] font-medium text-primary">
                           {unit.distance < 1
                             ? `${Math.round(unit.distance * 1000)} m`
                             : `${unit.distance.toFixed(1)} km`}
@@ -170,18 +159,6 @@ export function HomeUnitsSearch() {
                       {unit.hours[0]}
                     </p>
 
-                    {/* Modality badges */}
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      {modalities.map((m) => (
-                        <Badge
-                          key={m}
-                          className="border-border bg-foreground/5 text-foreground/70 px-2 py-0.5 text-[10px]"
-                        >
-                          {m}
-                        </Badge>
-                      ))}
-                    </div>
-
                     <div className="mt-auto pt-4">
                       <Button
                         variant="default"
@@ -197,8 +174,7 @@ export function HomeUnitsSearch() {
                     </div>
                   </div>
                 </motion.article>
-              );
-            })}
+              ))}
           </div>
 
         {/* See all link */}

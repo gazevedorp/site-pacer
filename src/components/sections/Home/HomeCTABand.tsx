@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { MessageCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { whatsappNumber } from "@/data/home";
@@ -52,18 +53,17 @@ export function HomeCTABand() {
           viewport={{ once: true, margin: "-10%" }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
-          #VemPraPacer
+          #pacernoseuritmo
         </motion.p>
 
         <motion.h2
-          className="mt-4 text-fluid-2xl font-bold tracking-tight text-white"
+          className="mt-4 text-fluid-2xl font-bold uppercase tracking-tight text-white"
           initial={reduced ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10%" }}
           transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
-          Sua transformação{" "}
-          <span className="text-gradient-gold">começa hoje</span>
+          Saúde e bem estar
         </motion.h2>
 
         <motion.p
@@ -79,23 +79,26 @@ export function HomeCTABand() {
         </motion.p>
 
         <motion.div
-          className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
+          className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:items-start sm:gap-4"
           initial={reduced ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10%" }}
           transition={{ duration: 0.6, delay: 0.26, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Button
-            size="lg"
-            className="w-full max-w-xs sm:w-auto"
-            style={{ backgroundColor: "#25D366", color: "#fff" }}
-            asChild
-          >
-            <a href={waLink} target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="h-4 w-4" />
-              Falar pelo WhatsApp
-            </a>
-          </Button>
+          <div className="flex w-full max-w-xs flex-col items-center gap-2 sm:w-auto">
+            <Button
+              size="lg"
+              className="w-full sm:w-auto"
+              style={{ backgroundColor: "#25D366", color: "#fff" }}
+              asChild
+            >
+              <a href={waLink} target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="h-4 w-4" />
+                Fale com a gente pelo WhatsApp
+              </a>
+            </Button>
+            <p className="text-xs text-white/60">Fale conosco e tire suas dúvidas!</p>
+          </div>
 
           <Button
             variant="outline"
@@ -103,10 +106,10 @@ export function HomeCTABand() {
             className="w-full max-w-xs sm:w-auto"
             asChild
           >
-            <a href="/planos">
-              Ver planos
+            <Link to="/faq">
+              Ver FAQ
               <ArrowRight className="h-4 w-4" />
-            </a>
+            </Link>
           </Button>
         </motion.div>
       </div>

@@ -16,7 +16,7 @@ export default function ModalityDetailPage() {
   }, [modality, navigate]);
 
   const seoTitle = modality
-    ? `${modality.title} — Pacer Academia | Ribeirão Preto e Sertãozinho`
+    ? `${modality.title} — Pacer Academia | Ribeirão e região`
     : "Pacer Academia";
   const seoDescription = modality
     ? `Conheça a modalidade ${modality.title} na Pacer Academia. ${modality.description} Disponível em ${modality.availableUnits.length} unidades.`

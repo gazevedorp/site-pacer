@@ -1,10 +1,11 @@
 import { lazy, Suspense, useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { SplashScreen } from "@/components/SplashScreen";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageSkeleton } from "@/components/layout/PageSkeleton";
 import { LenisProvider, useLenis } from "@/hooks/useLenis";
+import { SCHEDULE_PAGE_ENABLED } from "@/config/features";
 
 // ─── Lazy page imports (code-split per route) ─────────────────────────────────
 const HomePage           = lazy(() => import("@/pages/HomePage"));
@@ -17,6 +18,7 @@ const TrainersPage       = lazy(() => import("@/pages/TrainersPage"));
 const PlansPage          = lazy(() => import("@/pages/PlansPage"));
 const CareersPage        = lazy(() => import("@/pages/CareersPage"));
 const ContactPage        = lazy(() => import("@/pages/ContactPage"));
+const FAQPage            = lazy(() => import("@/pages/FAQPage"));
 
 // ─── Scroll-to-top on route change (Lenis-aware) ─────────────────────────────
 function ScrollToTop() {
@@ -52,11 +54,17 @@ function AppRoutes() {
           <Route path="/unidades/:slug"      element={wrap(UnitDetailPage)} />
           <Route path="/modalidades"         element={wrap(ModalitiesPage)} />
           <Route path="/modalidades/:slug"   element={wrap(ModalityDetailPage)} />
-          <Route path="/aulas"               element={wrap(SchedulePage)} />
+          <Route
+            path="/aulas"
+            element={
+              SCHEDULE_PAGE_ENABLED ? wrap(SchedulePage) : <Navigate to="/" replace />
+            }
+          />
           <Route path="/personais"           element={wrap(TrainersPage)} />
           <Route path="/planos"              element={wrap(PlansPage)} />
           <Route path="/trabalhe-conosco"    element={wrap(CareersPage)} />
           <Route path="/contato"             element={wrap(ContactPage)} />
+          <Route path="/faq"                  element={wrap(FAQPage)} />
         </Route>
       </Routes>
     </>

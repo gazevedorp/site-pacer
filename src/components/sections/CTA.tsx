@@ -22,11 +22,10 @@ export function CTA() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <AnimatedSection className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-            #VemPraPacer
+            #pacernoseuritmo
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Venha conhecer a unidade mais perto de você. Saúde e qualidade
-            de vida estão a um passo.
+            Venha conhecer a unidade mais perto de você.
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -51,7 +50,7 @@ export function CTA() {
           <div className="mt-8 flex flex-col items-center gap-2 text-sm text-muted-foreground sm:flex-row sm:justify-center sm:gap-6">
             <div className="flex items-center gap-1.5">
               <MapPin className="h-4 w-4 text-primary/60" />
-              Ribeirão Preto e Sertãozinho – SP
+              Ribeirão e região – SP
             </div>
             <span className="hidden sm:block">•</span>
             <span>Seg-Sex 5h–22h • Sáb/Dom/Fer 8h–13h</span>

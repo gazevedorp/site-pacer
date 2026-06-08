@@ -1,6 +1,14 @@
 import type { UnitModalityId } from "@/data/units";
+import { buildWhatsAppLink, CENTRAL_WHATSAPP } from "@/data/unitDetail";
 
 // ─── Type ─────────────────────────────────────────────────────────────────────
+
+export interface TrainerContact {
+  whatsapp: string;
+  phone: string;
+  email: string;
+  instagram: string;
+}
 
 export interface Trainer {
   id: string;
@@ -16,6 +24,30 @@ export interface Trainer {
   /** Optional extra credential / tagline */
   credential?: string;
   featured?: boolean;
+  contact?: TrainerContact;
+}
+
+function slugToEmailLocal(id: string): string {
+  return id.replace(/-/g, ".");
+}
+
+export function getTrainerContact(trainer: Trainer): TrainerContact {
+  if (trainer.contact) return trainer.contact;
+
+  return {
+    whatsapp: CENTRAL_WHATSAPP,
+    phone: "(16) 95782-0040",
+    email: `${slugToEmailLocal(trainer.id)}@paceracademia.com.br`,
+    instagram: "paceracademia",
+  };
+}
+
+export function getTrainerWhatsAppLink(trainer: Trainer): string {
+  const contact = getTrainerContact(trainer);
+  return buildWhatsAppLink(
+    `Olá! Gostaria de saber mais sobre os serviços de ${trainer.name} na Pacer Academia.`,
+    contact.whatsapp
+  );
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────

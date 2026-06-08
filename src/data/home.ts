@@ -1,4 +1,5 @@
 import type { PlanCard } from "@/types/home";
+import { CENTRAL_WHATSAPP } from "./unitDetail";
 
 export const homePlans: PlanCard[] = [
   {
@@ -49,4 +50,4 @@ export const homePlans: PlanCard[] = [
   },
 ];
 
-export const whatsappNumber = "5516999999999";
+export const whatsappNumber = CENTRAL_WHATSAPP;

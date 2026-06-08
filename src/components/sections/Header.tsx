@@ -4,15 +4,49 @@ import { Menu, X } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { CENTRAL_WHATSAPP } from "@/data/unitDetail";
+import { SCHEDULE_PAGE_ENABLED } from "@/config/features";
 
 const navLinks = [
   { label: "Modalidades", href: "/modalidades" },
-  { label: "Unidades",   href: "/unidades" },
-  { label: "Aulas",      href: "/aulas" },
-  { label: "Planos",     href: "/planos" },
-  { label: "Personais",  href: "/personais" },
-  { label: "Contato",    href: "/contato" },
-];
+  { label: "Unidades", href: "/unidades" },
+  { label: "Aulas", href: "/aulas", disabled: !SCHEDULE_PAGE_ENABLED },
+  { label: "Planos", href: "/planos" },
+  { label: "Personais", href: "/personais" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Contato", href: "/contato" },
+] as const;
+
+function NavItem({
+  link,
+  className,
+  onNavigate,
+}: {
+  link: (typeof navLinks)[number];
+  className: string | ((props: { isActive: boolean }) => string);
+  onNavigate?: () => void;
+}) {
+  if ("disabled" in link && link.disabled) {
+    return (
+      <span
+        className={cn(
+          typeof className === "string" ? className : className({ isActive: false }),
+          "cursor-not-allowed opacity-40"
+        )}
+        aria-disabled="true"
+        title="Em breve"
+      >
+        {link.label}
+      </span>
+    );
+  }
+
+  return (
+    <NavLink to={link.href} onClick={onNavigate} className={className}>
+      {link.label}
+    </NavLink>
+  );
+}
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,18 +67,16 @@ export function Header() {
         {/* Desktop Nav */}
         <nav aria-label="Navegação principal" className="hidden items-center gap-8 lg:flex">
           {navLinks.map((link) => (
-            <NavLink
+            <NavItem
               key={link.label}
-              to={link.href}
+              link={link}
               className={({ isActive }) =>
                 cn(
                   "text-sm transition-colors hover:text-foreground",
                   isActive ? "text-primary font-semibold" : "text-muted-foreground"
                 )
               }
-            >
-              {link.label}
-            </NavLink>
+            />
           ))}
         </nav>
 
@@ -53,11 +85,11 @@ export function Header() {
             Área do aluno
           </Button> */}
           <a
-            href="https://wa.me/5516999999999"
+            href={`https://wa.me/${CENTRAL_WHATSAPP}`}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button size="sm">#VemPraPacer</Button>
+            <Button size="sm">#pacernoseuritmo</Button>
           </a>
         </div>
 
@@ -82,30 +114,28 @@ export function Header() {
           >
             <nav className="flex flex-col gap-1 p-4">
               {navLinks.map((link) => (
-                <NavLink
+                <NavItem
                   key={link.label}
-                  to={link.href}
-                  onClick={() => setIsOpen(false)}
+                  link={link}
+                  onNavigate={() => setIsOpen(false)}
                   className={({ isActive }) =>
                     cn(
                       "rounded-lg px-3 py-2 text-sm transition-colors hover:bg-card hover:text-foreground",
                       isActive ? "text-primary font-semibold" : "text-muted-foreground"
                     )
                   }
-                >
-                  {link.label}
-                </NavLink>
+                />
               ))}
               <div className="mt-3 flex flex-col gap-2">
                 {/* <Button variant="outline" size="sm">
                   Área do aluno
                 </Button> */}
                 <a
-                  href="https://wa.me/5516999999999"
+                  href={`https://wa.me/${CENTRAL_WHATSAPP}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Button size="sm">#VemPraPacer</Button>
+                  <Button size="sm">#pacernoseuritmo</Button>
                 </a>
               </div>
             </nav>

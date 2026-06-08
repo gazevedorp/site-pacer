@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Clock, MapPin, ArrowRight, CalendarDays } from "lucide-react";
 import { getUnitClasses, getTodayName } from "@/data/unitDetail";
 import type { UnitClassPreview } from "@/types/unit";
+import { SCHEDULE_PAGE_ENABLED } from "@/config/features";
 
 // ─── Class Card ──────────────────────────────────────────────────────────────
 
@@ -76,13 +77,23 @@ export function UnitSchedulePreview({ slug }: UnitSchedulePreviewProps) {
             {todayName} — próximas {classes.length} aulas
           </p>
         </div>
-        <Link
-          to={`/aulas?unidade=${slug}`}
-          className="inline-flex items-center gap-1.5 rounded-xl border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition-all hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-        >
-          Ver grade completa
-          <ArrowRight className="h-4 w-4" aria-hidden />
-        </Link>
+        {SCHEDULE_PAGE_ENABLED ? (
+          <Link
+            to={`/aulas?unidade=${slug}`}
+            className="inline-flex items-center gap-1.5 rounded-xl border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition-all hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          >
+            Ver grade completa
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
+        ) : (
+          <span
+            className="inline-flex cursor-not-allowed items-center gap-1.5 rounded-xl border border-border bg-muted/20 px-4 py-2 text-sm font-semibold text-muted-foreground/50"
+            aria-disabled="true"
+            title="Em breve"
+          >
+            Grade em breve
+          </span>
+        )}
       </div>
 
       {/* Class cards grid */}

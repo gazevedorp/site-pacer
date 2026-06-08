@@ -7,9 +7,9 @@ import { CareersForm } from "@/components/sections/Careers/CareersForm";
 export default function CareersPage() {
   useSeoMeta({
     title:
-      "Trabalhe Conosco | Pacer Academia — Ribeirão Preto e Sertãozinho",
+      "Trabalhe Conosco | Pacer Academia — Ribeirão e região",
     description:
-      "Faça parte do time Pacer! Vagas para Recepção, Professores, Personal Trainers, Limpeza e mais. Envie seu currículo e construa sua carreira com a gente.",
+      "Faça parte do time Pacer! Vagas para Recepção, Professores, Estagiários, Cargos Administrativos e mais. Envie seu currículo e construa sua carreira com a gente.",
   });
 
   return (
@@ -21,26 +21,25 @@ export default function CareersPage() {
       {/* Form section */}
       <section
         aria-labelledby="form-heading"
-        className="container mx-auto px-4 pb-20 pt-4 sm:px-6 lg:px-8"
+        className="container mx-auto px-4 pb-20 pt-6 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-2xl">
-          <div className="mb-8 text-center">
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-              Candidate-se agora
-            </p>
+          <div className="mb-7 text-center">
             <h2
               id="form-heading"
-              className="mt-2 text-fluid-2xl font-bold text-white"
+              className="text-fluid-2xl font-bold text-foreground"
             >
-              Envie sua candidatura
+              Candidate-se agora
             </h2>
-            <p className="mx-auto mt-3 max-w-md text-sm text-white/45">
-              Preencha os dados abaixo. Nossa equipe de RH entrará em contato
-              em até 5 dias úteis.
+            <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
+              Preencha os dados abaixo e anexe seu currículo (obrigatório).
+              Nossa equipe de RH entrará em contato em até 5 dias úteis.
             </p>
           </div>
 
-          <CareersForm />
+          <div className="rounded-2xl border border-border bg-white p-6 shadow-sm sm:p-8">
+            <CareersForm />
+          </div>
         </div>
       </section>
     </main>

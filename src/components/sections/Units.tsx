@@ -118,7 +118,7 @@ export function Units() {
             <span className="text-muted-foreground">você</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            13 unidades em Ribeirão Preto e Sertãozinho. Todas com a mesma
+            13 unidades em Ribeirão e região. Todas com a mesma
             qualidade, equipamentos de alto padrão e ambiente 100% climatizado.
           </p>
         </AnimatedSection>

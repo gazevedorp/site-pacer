@@ -1,28 +1,20 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Handshake, Star, TrendingUp, Users } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { MovingBorder } from "@/components/ui/moving-border";
 
 const PERKS = [
   {
-    icon: Users,
     label: "Base de alunos",
     description: "Acesso a milhares de alunos ativos em 12 unidades.",
   },
   {
-    icon: TrendingUp,
     label: "Visibilidade",
-    description: "Perfil destacado no site e app da Pacer Academia.",
+    description: "Perfil destacado no nosso site.",
   },
   {
-    icon: Star,
     label: "Estrutura premium",
     description: "Equipamentos de alto padrão e espaços dedicados.",
-  },
-  {
-    icon: Handshake,
-    label: "Parceria flexível",
-    description: "Modelos de contrato adaptados ao seu perfil profissional.",
   },
 ] as const;
 
@@ -62,7 +54,7 @@ export function TrainersB2BCTA() {
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 className="mb-3 text-xs font-semibold uppercase tracking-widest text-primary"
               >
-                Para profissionais
+                Para personais externos
               </motion.p>
 
               <motion.h2
@@ -85,8 +77,7 @@ export function TrainersB2BCTA() {
                 transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className="mt-4 text-sm leading-relaxed text-white/55"
               >
-                Faça parte da maior rede de academias de Ribeirão Preto e
-                Sertãozinho. Amplie sua carteira de clientes, trabalhe em
+                Amplie sua carteira de clientes, trabalhe em
                 estrutura de ponta e construa uma carreira sólida.
               </motion.p>
 
@@ -110,9 +101,7 @@ export function TrainersB2BCTA() {
 
             {/* Right: perks grid */}
             <div className="grid w-full grid-cols-2 gap-3 lg:max-w-sm">
-              {PERKS.map((perk, i) => {
-                const Icon = perk.icon;
-                return (
+              {PERKS.map((perk, i) => (
                   <motion.div
                     key={perk.label}
                     initial={reduced ? false : { opacity: 0, scale: 0.95 }}
@@ -125,18 +114,14 @@ export function TrainersB2BCTA() {
                     }}
                     className="flex flex-col gap-2 rounded-xl border border-white/[0.07] bg-white/[0.04] p-4"
                   >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-primary/20 bg-primary/10">
-                      <Icon className="h-4 w-4 text-primary" aria-hidden />
-                    </div>
                     <p className="text-xs font-semibold text-white/80">
                       {perk.label}
                     </p>
-                    <p className="text-[11px] leading-relaxed text-white/40">
+                    <p className="text-[13px] leading-relaxed text-white/40">
                       {perk.description}
                     </p>
                   </motion.div>
-                );
-              })}
+                ))}
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ const steps = [
   {
     step: "01",
     title: "Escolha sua unidade",
-    description: "São 13 unidades em Ribeirão Preto e Sertãozinho. Encontre a mais perto de você e venha conhecer.",
+    description: "São 13 unidades em Ribeirão e região. Encontre a mais perto de você e venha conhecer.",
   },
   {
     step: "02",
@@ -14,7 +14,7 @@ const steps = [
   {
     step: "03",
     title: "Comece a treinar",
-    description: "Montamos um programa de exercícios para seus objetivos: perder peso, tonificar ou ganhar massa. #MudeDeVida",
+    description: "Montamos um programa de exercícios para seus objetivos: perder peso, tonificar ou ganhar massa. #pacernoseuritmo",
   },
 ];
 
