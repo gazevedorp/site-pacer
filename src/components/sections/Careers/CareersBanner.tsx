@@ -69,8 +69,8 @@ export function CareersBanner() {
             <span className="text-primary">Conosco</span>
           </h1>
           <p className="mt-3 max-w-lg text-sm text-white/50 sm:text-base">
-            Construa sua carreira na maior rede de academias de Ribeirão Preto e
-            Sertãozinho. Aqui o seu talento encontra propósito.
+            Construa sua carreira na maior rede de academias de Ribeirão e
+            região. Aqui o seu talento encontra propósito.
           </p>
         </motion.div>
       </div>

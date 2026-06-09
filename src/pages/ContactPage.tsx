@@ -5,7 +5,7 @@ import { ContactFormBase } from "@/components/shared/ContactFormBase";
 
 export default function ContactPage() {
   useSeoMeta({
-    title: "Contato | Pacer Academia — Ribeirão Preto e Sertãozinho",
+    title: "Contato | Pacer Academia — Ribeirão e região",
     description:
       "Entre em contato com a Pacer Academia. Dúvidas, cancelamentos, elogios ou reclamações — nosso time responde em até 2 dias úteis.",
   });

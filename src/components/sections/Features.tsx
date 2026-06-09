@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { AnimatedSection, StaggerContainer, StaggerItem } from "@/components/ui/animated";
+import { getModalityIcon } from "@/lib/cms/iconMap";
 import { modalities } from "@/data/modalities";
 
 export function Features() {
@@ -23,11 +24,13 @@ export function Features() {
         </AnimatedSection>
 
         <StaggerContainer className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {modalities.map((mod) => (
+          {modalities.map((mod) => {
+            const Icon = getModalityIcon(mod.icon);
+            return (
             <StaggerItem key={mod.title}>
               <Card className="group h-full">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 transition-all group-hover:border-primary/40 group-hover:shadow-md group-hover:shadow-primary/10">
-                  <mod.icon className="h-6 w-6 text-primary" />
+                  <Icon className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="text-lg font-semibold">{mod.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -35,7 +38,8 @@ export function Features() {
                 </p>
               </Card>
             </StaggerItem>
-          ))}
+            );
+          })}
         </StaggerContainer>
       </div>
     </section>

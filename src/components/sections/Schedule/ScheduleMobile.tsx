@@ -35,7 +35,7 @@ function MobileClassCard({
         <p className={cn("text-lg font-bold leading-none", color.text)}>
           {cls.time}
         </p>
-        <p className="mt-1 text-[10px] text-white/35">{cls.durationMin}min</p>
+        <p className="mt-1 text-[12px] text-white/35">{cls.durationMin}min</p>
       </div>
 
       {/* Divider */}
@@ -134,7 +134,7 @@ export function ScheduleMobile({
               {count > 0 && (
                 <span
                   className={cn(
-                    "text-[10px] leading-none",
+                    "text-[12px] leading-none",
                     isActive ? "text-primary/70" : "text-white/30"
                   )}
                 >

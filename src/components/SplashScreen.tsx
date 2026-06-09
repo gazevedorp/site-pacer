@@ -81,7 +81,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1 }}
             >
-              Saúde e qualidade de vida
+              PACER, NO SEU RITMO
             </motion.p>
           </motion.div>
         </motion.div>

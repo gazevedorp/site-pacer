@@ -1,18 +1,13 @@
 import { useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { MapPin, CalendarCheck } from "lucide-react";
+import { MapPin, Dumbbell } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Spotlight } from "@/components/ui/spotlight";
-import { whatsappNumber } from "@/data/home";
 
 export function HomeHero() {
   const prefersReduced = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
-
-  const waLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-    "Olá! Gostaria de agendar uma aula experimental na Pacer Academia."
-  )}`;
 
   return (
     <section
@@ -87,7 +82,7 @@ export function HomeHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
-          Saúde e qualidade de vida
+          Pacer, no seu ritmo
         </motion.p>
 
 
@@ -99,14 +94,10 @@ export function HomeHero() {
           transition={{ duration: 0.6, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
         >
           <Button size="lg" className="w-full max-w-xs sm:w-auto" asChild>
-            <a
-              href={waLink}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <CalendarCheck className="h-4 w-4" />
-              Agende sua aula
-            </a>
+            <Link to="/unidades">
+              <MapPin className="h-4 w-4" />
+              Conheça as unidades
+            </Link>
           </Button>
 
           <Button
@@ -115,9 +106,9 @@ export function HomeHero() {
             className="w-full max-w-xs sm:w-auto"
             asChild
           >
-            <Link to="/unidades">
-              <MapPin className="h-4 w-4" />
-              Conheça as unidades
+            <Link to="/modalidades">
+              <Dumbbell className="h-4 w-4" />
+              Conheça nossas aulas
             </Link>
           </Button>
         </motion.div>
@@ -130,18 +121,13 @@ export function HomeHero() {
           transition={{ duration: 0.5, delay: 1.3 }}
         >
           <div className="flex flex-col items-center gap-0.5">
-            <span className="text-2xl font-black text-white">+15k</span>
-            <span className="text-[10px] uppercase tracking-widest text-white/50">alunos ativos</span>
+            <span className="text-2xl font-black text-white">+ de 1500</span>
+            <span className="text-[12px] uppercase tracking-widest text-white/50">aulas coletivas no mês</span>
           </div>
           <div className="h-8 w-px bg-white/15 hidden sm:block" aria-hidden />
           <div className="flex flex-col items-center gap-0.5">
             <span className="text-2xl font-black text-white">13</span>
-            <span className="text-[10px] uppercase tracking-widest text-white/50">unidades</span>
-          </div>
-          <div className="h-8 w-px bg-white/15 hidden sm:block" aria-hidden />
-          <div className="flex flex-col items-center gap-0.5">
-            <span className="text-2xl font-black text-gradient-gold">2010</span>
-            <span className="text-[10px] uppercase tracking-widest text-white/50">desde</span>
+            <span className="text-[12px] uppercase tracking-widest text-white/50">unidades</span>
           </div>
         </motion.div>
       </div>

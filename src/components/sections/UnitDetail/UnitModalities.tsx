@@ -1,58 +1,36 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { modalities } from "@/data/modalities";
-import type { UnitModalityId } from "@/data/units";
-
-// ─── ID → modality title map ─────────────────────────────────────────────────
-
-const MODALITY_TITLE: Record<UnitModalityId, string> = {
-  musculacao: "Musculação",
-  funcional: "Funcional",
-  "muay-thai": "Muay Thai",
-  pilates: "Pilates",
-  hidroginastica: "Hidroginástica",
-  natacao: "Natação Infantil",
-  danca: "Zumba & Dança",
-  zumba: "Zumba & Dança",
-};
-
-// ─── Component ───────────────────────────────────────────────────────────────
+import type { Modalidade } from "@/types/cms";
+import { getModalityIcon } from "@/lib/cms/iconMap";
+import { UnitSection } from "@/components/sections/UnitDetail/UnitSection";
 
 interface UnitModalitiesProps {
-  unitModalities: UnitModalityId[];
+  modalidades: Modalidade[];
 }
 
-export function UnitModalities({ unitModalities }: UnitModalitiesProps) {
+export function UnitModalities({ modalidades }: UnitModalitiesProps) {
   const reduced = useReducedMotion();
 
-  // Deduplicate titles then filter modalities array
-  const titleSet = new Set(unitModalities.map((id) => MODALITY_TITLE[id]));
-  const items = modalities.filter((m) => titleSet.has(m.title));
-
-  if (items.length === 0) return null;
+  if (modalidades.length === 0) return null;
 
   return (
-    <section
-      aria-label="Modalidades disponíveis nesta unidade"
-      className="section-padding container mx-auto px-4 sm:px-6 lg:px-8"
+    <UnitSection
+      ariaLabel="Modalidades disponíveis nesta unidade"
+      variant="dark"
+      eyebrow="Modalidades"
+      title="O que você pode praticar"
+      description="Tudo que esta unidade oferece para o seu treino."
     >
-      <h2 className="mb-2 text-fluid-xl font-bold text-foreground">
-        Modalidades nesta Unidade
-      </h2>
-      <p className="mb-8 text-sm text-muted-foreground">
-        Tudo que você pode praticar aqui.
-      </p>
-
       <div
         className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         role="list"
       >
-        {items.map((mod, i) => {
-          const Icon = mod.icon;
+        {modalidades.map((mod, i) => {
+          const Icon = getModalityIcon(mod.iconName);
           return (
             <motion.div
-              key={mod.title}
+              key={mod.slug}
               role="listitem"
               initial={reduced ? false : { opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -62,30 +40,28 @@ export function UnitModalities({ unitModalities }: UnitModalitiesProps) {
                 delay: reduced ? 0 : Math.min(i * 0.08, 0.4),
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="group flex flex-col gap-3 rounded-2xl border border-card-border bg-card p-5 backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-surface-raised"
+              className="group flex flex-col gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.04] p-5 backdrop-blur-sm transition-all hover:border-primary/35 hover:bg-white/[0.07]"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/15 text-primary">
                 <Icon className="h-5 w-5" aria-hidden />
               </div>
-              <h3 className="text-sm font-bold text-white">{mod.title}</h3>
-              <p className="flex-1 text-xs leading-relaxed text-white/60">
-                {mod.description}
-              </p>
+              <div>
+                <h3 className="font-semibold text-white">{mod.title}</h3>
+                <p className="mt-1 line-clamp-2 text-sm text-white/60">
+                  {mod.description}
+                </p>
+              </div>
+              <Link
+                to={`/modalidades/${mod.slug}`}
+                className="mt-auto inline-flex items-center gap-1 text-xs font-semibold text-primary transition-colors group-hover:text-primary/80"
+              >
+                Saiba mais
+                <ArrowRight className="h-3 w-3" aria-hidden />
+              </Link>
             </motion.div>
           );
         })}
       </div>
-
-      {/* Link to full modalities page */}
-      <div className="mt-6 flex justify-end">
-        <Link
-          to="/modalidades"
-          className="inline-flex items-center gap-1.5 text-sm text-primary/70 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-        >
-          Ver todas as modalidades
-          <ArrowRight className="h-3.5 w-3.5" aria-hidden />
-        </Link>
-      </div>
-    </section>
+    </UnitSection>
   );
 }

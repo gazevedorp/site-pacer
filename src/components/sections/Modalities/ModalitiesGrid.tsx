@@ -2,14 +2,10 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { modalities } from "@/data/modalities";
-import gymCover from "@/assets/images/gym.png";
+import type { Modalidade } from "@/types/cms";
 
-type ModalityItem = (typeof modalities)[number];
-
-function ModalityCard({ item, index }: { item: ModalityItem; index: number }) {
+function ModalityCard({ item, index }: { item: Modalidade; index: number }) {
   const reduced = useReducedMotion();
-  const Icon = item.icon;
 
   return (
     <motion.div
@@ -32,10 +28,9 @@ function ModalityCard({ item, index }: { item: ModalityItem; index: number }) {
         )}
         aria-label={`Ver detalhes de ${item.title}`}
       >
-        {/* Cover image */}
         <div className="aspect-card relative overflow-hidden">
           <img
-            src={gymCover}
+            src={item.coverImageUrl}
             alt={`${item.title} na Pacer Academia`}
             loading="lazy"
             decoding="async"
@@ -47,19 +42,7 @@ function ModalityCard({ item, index }: { item: ModalityItem; index: number }) {
             className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"
             aria-hidden="true"
           />
-          {/* Calorie badge */}
-          {item.caloriesAvg > 0 && (
-            <span className="absolute top-3 right-3 rounded-full bg-black/60 px-2.5 py-1 text-xs font-semibold text-primary backdrop-blur-sm">
-              ~{item.caloriesAvg} kcal/h
-            </span>
-          )}
-          {/* Icon overlay */}
-          <div className="absolute bottom-3 left-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/20 text-primary backdrop-blur-sm">
-            <Icon className="h-5 w-5" aria-hidden />
-          </div>
         </div>
-
-        {/* Content */}
         <div className="p-4">
           <h3 className="text-base font-bold text-white group-hover:text-primary/90 transition-colors">
             {item.title}
@@ -67,16 +50,6 @@ function ModalityCard({ item, index }: { item: ModalityItem; index: number }) {
           <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-white/55">
             {item.description}
           </p>
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {item.recommendedFor.slice(0, 2).map((r) => (
-              <span
-                key={r}
-                className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-xs text-white/50"
-              >
-                {r}
-              </span>
-            ))}
-          </div>
         </div>
       </Link>
     </motion.div>
@@ -107,7 +80,7 @@ function EmptyState() {
 }
 
 interface ModalitiesGridProps {
-  filteredItems: ModalityItem[];
+  filteredItems: Modalidade[];
 }
 
 export function ModalitiesGrid({ filteredItems }: ModalitiesGridProps) {
@@ -127,7 +100,7 @@ export function ModalitiesGrid({ filteredItems }: ModalitiesGridProps) {
             role="list"
           >
             {filteredItems.map((item, i) => (
-              <div key={item.id} role="listitem">
+              <div key={item.slug} role="listitem">
                 <ModalityCard item={item} index={i} />
               </div>
             ))}

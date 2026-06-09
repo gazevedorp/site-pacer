@@ -1,0 +1,74 @@
+import { motion, useReducedMotion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ChevronRight, Home } from "lucide-react";
+
+export function FAQBanner() {
+  const reduced = useReducedMotion();
+
+  return (
+    <section
+      aria-label="Perguntas frequentes"
+      className="relative flex min-h-[300px] items-end overflow-hidden pt-16 sm:min-h-[340px]"
+    >
+      <img
+        src="/fundo.jpg"
+        alt=""
+        role="presentation"
+        loading="eager"
+        decoding="sync"
+        fetchPriority="high"
+        width={1920}
+        height={340}
+        className="absolute inset-0 h-full w-full object-cover object-center"
+      />
+
+      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/55 to-black/15" />
+      <div className="absolute inset-0 bg-linear-to-r from-black/50 via-transparent to-transparent" />
+
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 left-1/2 h-28 w-3/4 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl"
+      />
+
+      <div className="relative z-10 container mx-auto w-full px-4 pb-10 sm:px-6 lg:px-8">
+        <nav aria-label="Navegação estrutural" className="mb-4">
+          <ol className="flex items-center gap-1.5 text-xs text-white/40">
+            <li>
+              <Link
+                to="/"
+                className="inline-flex items-center gap-1 transition-colors hover:text-white/70 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
+              >
+                <Home className="h-3 w-3" aria-hidden />
+                Home
+              </Link>
+            </li>
+            <li aria-hidden>
+              <ChevronRight className="h-3 w-3" />
+            </li>
+            <li>
+              <span className="text-white/70">FAQ</span>
+            </li>
+          </ol>
+        </nav>
+
+        <motion.div
+          initial={reduced ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-primary">
+            Dúvidas frequentes
+          </p>
+          <h1 className="font-display text-fluid-3xl font-bold leading-tight text-white">
+            Perguntas{" "}
+            <span className="text-primary">Frequentes</span>
+          </h1>
+          <p className="mt-3 max-w-lg text-sm text-white/50 sm:text-base">
+            Encontre respostas sobre planos, unidades, aulas e matrícula. Não
+            achou o que procura? Fale com a gente pelo WhatsApp ou contato.
+          </p>
+        </motion.div>
+      </div>
+    </section>
+  );
+}

@@ -1,25 +1,26 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getModalityBySlug } from "@/data/modalities";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
+import { useModalidade } from "@/hooks/cms/useModalidades";
 import { ModalityHero } from "@/components/sections/ModalityDetail/ModalityHero";
 import { ModalityAbout } from "@/components/sections/ModalityDetail/ModalityAbout";
 import { ModalityWhereToFind } from "@/components/sections/ModalityDetail/ModalityWhereToFind";
+import { CmsLoading } from "@/components/shared/CmsStates";
 
 export default function ModalityDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const modality = getModalityBySlug(slug ?? "");
+  const { data: modality, isLoading } = useModalidade(slug);
 
   useEffect(() => {
-    if (!modality) navigate("/modalidades", { replace: true });
-  }, [modality, navigate]);
+    if (!isLoading && !modality) navigate("/modalidades", { replace: true });
+  }, [modality, isLoading, navigate]);
 
   const seoTitle = modality
-    ? `${modality.title} — Pacer Academia | Ribeirão Preto e Sertãozinho`
+    ? `${modality.title} — Pacer Academia | Ribeirão e região`
     : "Pacer Academia";
   const seoDescription = modality
-    ? `Conheça a modalidade ${modality.title} na Pacer Academia. ${modality.description} Disponível em ${modality.availableUnits.length} unidades.`
+    ? `Conheça a modalidade ${modality.title} na Pacer Academia. ${modality.description} Disponível em ${modality.unitSlugs.length} unidades.`
     : "";
   const jsonLd = modality
     ? JSON.stringify({
@@ -33,6 +34,14 @@ export default function ModalityDetailPage() {
     : undefined;
 
   useSeoMeta({ title: seoTitle, description: seoDescription, jsonLd });
+
+  if (isLoading) {
+    return (
+      <main>
+        <CmsLoading className="min-h-[60vh]" />
+      </main>
+    );
+  }
 
   if (!modality) return null;
 

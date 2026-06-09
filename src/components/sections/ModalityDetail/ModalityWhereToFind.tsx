@@ -1,20 +1,23 @@
+import { useMemo } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { MapPin, ChevronRight } from "lucide-react";
-import { units } from "@/data/units";
-import { modalities } from "@/data/modalities";
-
-type ModalityItem = (typeof modalities)[number];
+import { useUnidades } from "@/hooks/cms/useUnidades";
+import { isActiveUnit } from "@/lib/cms/mappers/unidade";
+import type { Modalidade } from "@/types/cms";
 
 interface ModalityWhereToFindProps {
-  modality: ModalityItem;
+  modality: Modalidade;
 }
 
 export function ModalityWhereToFind({ modality }: ModalityWhereToFindProps) {
   const reduced = useReducedMotion();
-  const availableUnitData = units.filter((u) =>
-    modality.availableUnits.includes(u.slug)
-  );
+  const { data: unidades } = useUnidades();
+
+  const availableUnitData = useMemo(() => {
+    const slugSet = new Set(modality.unitSlugs);
+    return unidades.filter((u) => isActiveUnit(u) && slugSet.has(u.slug));
+  }, [unidades, modality.unitSlugs]);
 
   if (availableUnitData.length === 0) {
     return (
@@ -52,13 +55,12 @@ export function ModalityWhereToFind({ modality }: ModalityWhereToFindProps) {
         </div>
         <Link
           to="/unidades"
-          className="inline-flex items-center gap-1.5 text-sm text-primary/70 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          className="inline-flex items-center gap-1.5 text-sm text-primary/70 transition-colors hover:text-primary"
         >
           Ver todas as unidades
           <ChevronRight className="h-3.5 w-3.5" aria-hidden />
         </Link>
       </div>
-
       <div
         className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         role="list"
@@ -78,30 +80,18 @@ export function ModalityWhereToFind({ modality }: ModalityWhereToFindProps) {
           >
             <Link
               to={`/unidades/${unit.slug}`}
-              className="group flex flex-col gap-3 rounded-2xl border border-card-border bg-card p-4 backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-surface-raised hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              aria-label={`Ver unidade Pacer ${unit.name}`}
+              className="group flex flex-col gap-3 rounded-2xl border border-card-border bg-card p-4 backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-surface-raised hover:-translate-y-0.5"
             >
-              {/* Header */}
-              <div className="flex items-start justify-between gap-2">
-                <div>
-                  <h3 className="text-sm font-bold text-white group-hover:text-primary/90 transition-colors">
-                    Pacer {unit.name}
-                  </h3>
-                  <p className="mt-0.5 text-xs text-white/40">{unit.city}</p>
-                </div>
-                <ChevronRight
-                  className="mt-0.5 h-4 w-4 shrink-0 text-white/30 transition-colors group-hover:text-primary"
-                  aria-hidden
-                />
+              <div>
+                <h3 className="text-sm font-bold text-white group-hover:text-primary/90 transition-colors">
+                  Pacer {unit.name}
+                </h3>
+                <p className="mt-0.5 text-xs text-white/40">{unit.city}</p>
               </div>
-
-              {/* Address */}
               <p className="flex items-start gap-1.5 text-xs text-white/55">
                 <MapPin className="mt-0.5 h-3 w-3 shrink-0 text-primary/60" aria-hidden />
                 {unit.address}
               </p>
-
-              {/* Hours */}
               {unit.hours[0] && (
                 <p className="text-xs text-white/35">{unit.hours[0]}</p>
               )}

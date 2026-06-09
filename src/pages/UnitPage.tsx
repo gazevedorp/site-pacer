@@ -7,8 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AnimatedSection, StaggerContainer, StaggerItem } from "@/components/ui/animated";
-import { getUnitBySlug, getOtherUnits, GOOGLE_MAPS_API_KEY } from "@/data/units";
+import { getUnitBySlug, getOtherUnits } from "@/data/units";
 import { modalities } from "@/data/modalities";
+import { getModalityIcon } from "@/lib/cms/iconMap";
+
+function mapsSearchUrl(query: string): string {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
 
 export function UnitPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -35,7 +40,7 @@ export function UnitPage() {
     );
   }
 
-  const mapSrc = `https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(unit.mapQuery)}`;
+  const mapUrl = mapsSearchUrl(unit.mapQuery);
 
   return (
     <>
@@ -159,17 +164,12 @@ export function UnitPage() {
 
               {/* Map */}
               <AnimatedSection delay={0.1}>
-                <div className="overflow-hidden rounded-2xl border border-white/10">
-                  <iframe
-                    title={`Mapa Pacer ${unit.name}`}
-                    width="100%"
-                    height="400"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    src={mapSrc}
-                    allowFullScreen
-                  />
-                </div>
+                <Button variant="outline" className="w-full" asChild>
+                  <a href={mapUrl} target="_blank" rel="noopener noreferrer">
+                    <MapPin className="h-4 w-4" />
+                    Abrir localização no mapa
+                  </a>
+                </Button>
               </AnimatedSection>
             </div>
           </div>
@@ -204,16 +204,19 @@ export function UnitPage() {
             </AnimatedSection>
 
             <StaggerContainer className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {modalities.map((mod) => (
+              {modalities.map((mod) => {
+                const Icon = getModalityIcon(mod.icon);
+                return (
                 <StaggerItem key={mod.title}>
                   <Card className="flex items-center gap-3">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-primary/10">
-                      <mod.icon className="h-5 w-5 text-primary" />
+                      <Icon className="h-5 w-5 text-primary" />
                     </div>
                     <span className="text-sm font-medium">{mod.title}</span>
                   </Card>
                 </StaggerItem>
-              ))}
+                );
+              })}
             </StaggerContainer>
           </div>
         </section>
