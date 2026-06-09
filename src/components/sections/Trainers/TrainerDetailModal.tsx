@@ -1,55 +1,36 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { X, MapPin, MessageCircle, Instagram, Mail, Phone } from "lucide-react";
-import { MODALITY_LABELS } from "@/data/schedule";
-import { units } from "@/data/units";
-import {
-  getTrainerContact,
-  getTrainerWhatsAppLink,
-  type Trainer,
-} from "@/data/trainers";
+import { useMemo } from "react";
+import { useUnidades } from "@/hooks/cms/useUnidades";
+import { useModalidades } from "@/hooks/cms/useModalidades";
+import { getTrainerWhatsAppLink } from "@/lib/cms/trainerHelpers";
+import { isActiveUnit } from "@/lib/cms/mappers/unidade";
+import type { Personal } from "@/types/cms";
 import { cn } from "@/lib/utils";
-import gymCover from "@/assets/images/gym.png";
-
-const AVATAR_COLORS = [
-  "from-blue-600 to-blue-400",
-  "from-orange-600 to-orange-400",
-  "from-red-600 to-red-400",
-  "from-teal-600 to-teal-400",
-  "from-cyan-600 to-cyan-400",
-  "from-indigo-600 to-indigo-400",
-  "from-purple-600 to-purple-400",
-  "from-pink-600 to-pink-400",
-  "from-amber-600 to-amber-400",
-  "from-emerald-600 to-emerald-400",
-] as const;
-
-function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
-}
-
-function getAvatarColor(id: string): string {
-  let hash = 0;
-  for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) | 0;
-  return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
-}
 
 interface TrainerDetailModalProps {
-  trainer: Trainer | null;
+  trainer: Personal | null;
   onClose: () => void;
 }
 
 export function TrainerDetailModal({ trainer, onClose }: TrainerDetailModalProps) {
   const open = trainer !== null;
-  const trainerUnits = trainer
-    ? units.filter((u) => trainer.unitSlugs.includes(u.slug))
-    : [];
-  const contact = trainer ? getTrainerContact(trainer) : null;
+  const { data: unidades } = useUnidades();
+  const { data: modalidades } = useModalidades();
+
+  const trainerUnits = useMemo(() => {
+    if (!trainer) return [];
+    const slugSet = new Set(trainer.unitSlugs);
+    return unidades.filter((u) => isActiveUnit(u) && slugSet.has(u.slug));
+  }, [trainer, unidades]);
+
+  const modalityLabels = useMemo(() => {
+    if (!trainer) return [];
+    const slugSet = new Set(trainer.modalitySlugs);
+    return modalidades.filter((m) => slugSet.has(m.slug));
+  }, [trainer, modalidades]);
+
+  const contact = trainer?.contact;
   const phoneHref = contact
     ? `tel:+${contact.phone.replace(/\D/g, "")}`
     : undefined;
@@ -61,35 +42,20 @@ export function TrainerDetailModal({ trainer, onClose }: TrainerDetailModalProps
         <Dialog.Content
           className={cn(
             "fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] max-w-3xl -translate-x-1/2 -translate-y-1/2",
-            "overflow-hidden rounded-2xl border border-border bg-background shadow-xl",
-            "focus:outline-none"
+            "overflow-hidden rounded-2xl border border-border bg-background shadow-xl focus:outline-none"
           )}
           aria-describedby={trainer ? "trainer-modal-bio" : undefined}
         >
           {trainer && (
             <div className="flex max-h-[min(85vh,560px)] flex-col md:flex-row">
-              {/* Photo panel */}
               <div className="relative min-h-[200px] shrink-0 overflow-hidden bg-muted/20 md:w-[38%] md:min-h-0">
                 <img
-                  src={gymCover}
-                  alt=""
-                  role="presentation"
-                  className="absolute inset-0 h-full w-full object-cover opacity-50"
+                  src={trainer.photoUrl}
+                  alt={trainer.name}
+                  className="h-full w-full object-cover"
                 />
-                <div className="absolute inset-0 flex items-center justify-center p-6">
-                  <div
-                    className={cn(
-                      "flex h-24 w-24 items-center justify-center rounded-full bg-linear-to-br text-3xl font-bold text-white shadow-lg md:h-28 md:w-28",
-                      getAvatarColor(trainer.id)
-                    )}
-                    aria-hidden
-                  >
-                    {getInitials(trainer.name)}
-                  </div>
-                </div>
               </div>
 
-              {/* Content panel */}
               <div className="flex min-h-0 flex-1 flex-col overflow-y-auto p-5 sm:p-6">
                 <Dialog.Title className="pr-10 text-xl font-bold text-foreground">
                   {trainer.name}
@@ -115,17 +81,16 @@ export function TrainerDetailModal({ trainer, onClose }: TrainerDetailModalProps
                       Modalidades
                     </p>
                     <div className="mt-2 flex flex-wrap gap-1.5">
-                      {trainer.modalityIds.map((id) => (
+                      {modalityLabels.map((m) => (
                         <span
-                          key={id}
+                          key={m.slug}
                           className="rounded-full border border-border bg-muted/40 px-2.5 py-0.5 text-xs text-foreground/80"
                         >
-                          {MODALITY_LABELS[id]}
+                          {m.title}
                         </span>
                       ))}
                     </div>
                   </div>
-
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
                       Unidades
@@ -153,8 +118,7 @@ export function TrainerDetailModal({ trainer, onClose }: TrainerDetailModalProps
                         href={getTrainerWhatsAppLink(trainer)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#25D366]/30 bg-[#25D366]/10 px-3 py-2.5 text-xs font-semibold text-[#128C7E] transition-colors hover:bg-[#25D366]/20"
-                        aria-label={`WhatsApp de ${trainer.name}`}
+                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#25D366]/30 bg-[#25D366]/10 px-3 py-2.5 text-xs font-semibold text-[#128C7E]"
                       >
                         <MessageCircle className="h-4 w-4 shrink-0" aria-hidden />
                         WhatsApp
@@ -163,24 +127,21 @@ export function TrainerDetailModal({ trainer, onClose }: TrainerDetailModalProps
                         href={`https://instagram.com/${contact.instagram.replace(/^@/, "")}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-muted/30 px-3 py-2.5 text-xs font-semibold text-foreground transition-colors hover:border-primary/30 hover:bg-primary/5"
-                        aria-label={`Instagram de ${trainer.name}`}
+                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-muted/30 px-3 py-2.5 text-xs font-semibold text-foreground"
                       >
                         <Instagram className="h-4 w-4 shrink-0" aria-hidden />
                         Instagram
                       </a>
                       <a
                         href={`mailto:${contact.email}`}
-                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-muted/30 px-3 py-2.5 text-xs font-semibold text-foreground transition-colors hover:border-primary/30 hover:bg-primary/5"
-                        aria-label={`E-mail de ${trainer.name}`}
+                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-muted/30 px-3 py-2.5 text-xs font-semibold text-foreground"
                       >
                         <Mail className="h-4 w-4 shrink-0" aria-hidden />
                         E-mail
                       </a>
                       <a
                         href={phoneHref}
-                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-muted/30 px-3 py-2.5 text-xs font-semibold text-foreground transition-colors hover:border-primary/30 hover:bg-primary/5"
-                        aria-label={`Telefone de ${trainer.name}`}
+                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-muted/30 px-3 py-2.5 text-xs font-semibold text-foreground"
                       >
                         <Phone className="h-4 w-4 shrink-0" aria-hidden />
                         Telefone
@@ -191,7 +152,7 @@ export function TrainerDetailModal({ trainer, onClose }: TrainerDetailModalProps
               </div>
 
               <Dialog.Close
-                className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/90 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/90 text-muted-foreground transition-colors hover:text-foreground"
                 aria-label="Fechar"
               >
                 <X className="h-4 w-4" />

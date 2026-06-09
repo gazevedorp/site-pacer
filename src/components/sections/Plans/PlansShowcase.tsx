@@ -1,8 +1,31 @@
 import { motion } from "framer-motion";
-import { networkPlans } from "@/data/plans";
+import { usePlanosTerrestres } from "@/hooks/cms/usePlanos";
 import { PlanCard } from "@/components/sections/Plans/PlanCard";
+import { CmsLoading } from "@/components/shared/CmsStates";
+import type { Plano } from "@/types/cms";
+
+function toPlanCardData(plan: Plano) {
+  return {
+    id: plan.slug,
+    name: plan.name,
+    tagline: plan.tagline,
+    price: plan.price,
+    priceLabel: plan.priceLabel,
+    features: plan.features,
+    notIncluded: plan.notIncluded,
+    highlighted: plan.highlighted,
+    badge: plan.badge,
+    whatsappText: plan.whatsappText,
+    unitsLabel: plan.unitsLabel,
+  };
+}
 
 export function PlansShowcase() {
+  const { data: plans, isLoading } = usePlanosTerrestres();
+
+  if (isLoading) return <CmsLoading className="py-16" />;
+  if (plans.length === 0) return null;
+
   return (
     <section
       aria-labelledby="plans-heading"
@@ -16,7 +39,7 @@ export function PlansShowcase() {
           transition={{ duration: 0.5 }}
           className="text-xs font-semibold uppercase tracking-widest text-primary"
         >
-          Planos da rede
+          Planos Terrestres
         </motion.p>
         <motion.h2
           id="plans-heading"
@@ -45,13 +68,13 @@ export function PlansShowcase() {
         role="list"
         aria-label="Opções de planos"
       >
-        {networkPlans.map((plan, i) => (
+        {plans.map((plan, i) => (
           <div
-            key={plan.id}
+            key={plan.slug}
             role="listitem"
             className="w-[82vw] shrink-0 snap-center sm:w-[360px] lg:w-auto"
           >
-            <PlanCard plan={plan} index={i} />
+            <PlanCard plan={toPlanCardData(plan)} index={i} />
           </div>
         ))}
       </div>

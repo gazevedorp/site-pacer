@@ -9,6 +9,8 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Send, Loader2, CheckCircle2, AlertCircle, Paperclip, X } from "lucide-react";
 import { jobAreaOptions } from "@/data/careers";
 import { contactSubjectOptions } from "@/data/contact";
+import { submitContato } from "@/lib/cms/mutations/contatos";
+import { submitCandidatura } from "@/lib/cms/mutations/candidaturas";
 import { cn } from "@/lib/utils";
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
@@ -305,10 +307,28 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
       setFormState("loading");
       lastSubmitTimes[variant] = Date.now();
 
-      // Simulate network call — replace with real endpoint
-      await new Promise<void>((resolve) => setTimeout(resolve, 1500));
-
-      setFormState("success");
+      try {
+        if (variant === "careers") {
+          await submitCandidatura({
+            name: careersFields.name,
+            email: careersFields.email,
+            phone: careersFields.phone,
+            area: careersFields.area,
+            resume: resume!,
+          });
+        } else {
+          await submitContato({
+            name: contactFields.name,
+            email: contactFields.email,
+            phone: contactFields.phone,
+            subject: contactFields.subject,
+            message: contactFields.message,
+          });
+        }
+        setFormState("success");
+      } catch {
+        setFormState("error");
+      }
     },
     [variant, fields, careersFields, contactFields, resume]
   );

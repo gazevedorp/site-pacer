@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Check, X, MessageCircle, Star, MapPin } from "lucide-react";
-import { buildWhatsAppLink } from "@/data/plans";
+import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 export interface PlanCardData {

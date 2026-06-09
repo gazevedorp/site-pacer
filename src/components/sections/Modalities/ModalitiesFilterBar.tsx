@@ -1,24 +1,16 @@
+import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SlidersHorizontal, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { units } from "@/data/units";
-
-// Derive city → unit options from units data
-const UNIT_OPTIONS = units.map((u) => ({
-  value: u.slug,
-  label: `Pacer ${u.name} — ${u.city.split(" –")[0]}`,
-}));
+import { useUnidades } from "@/hooks/cms/useUnidades";
+import { isActiveUnit } from "@/lib/cms/mappers/unidade";
 
 export function readModalityFilter(params: URLSearchParams): string {
   return params.get("unidade") ?? "";
 }
 
-// ─── Shared select style ─────────────────────────────────────────────────────
-
 const selectBase =
   "w-full appearance-none rounded-xl border border-border bg-card/5 px-4 py-2.5 text-sm text-foreground transition-colors hover:border-primary/40 focus:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-40 pr-8";
-
-// ─── Component ───────────────────────────────────────────────────────────────
 
 interface ModalitiesFilterBarProps {
   resultCount: number;
@@ -27,6 +19,16 @@ interface ModalitiesFilterBarProps {
 export function ModalitiesFilterBar({ resultCount }: ModalitiesFilterBarProps) {
   const [params, setParams] = useSearchParams();
   const selected = readModalityFilter(params);
+  const { data: unidades } = useUnidades();
+
+  const unitOptions = useMemo(
+    () =>
+      unidades.filter(isActiveUnit).map((u) => ({
+        value: u.slug,
+        label: `Pacer ${u.name} — ${u.city.split(" –")[0]}`,
+      })),
+    [unidades]
+  );
 
   function setUnit(value: string) {
     setParams(
@@ -49,14 +51,11 @@ export function ModalitiesFilterBar({ resultCount }: ModalitiesFilterBarProps) {
       <div className="container mx-auto px-4 py-3 sm:px-6 lg:px-8">
         <fieldset>
           <legend className="sr-only">Filtros de modalidades</legend>
-
           <div className="flex flex-wrap items-center gap-3">
             <SlidersHorizontal
               className="h-4 w-4 shrink-0 text-muted-foreground"
               aria-hidden
             />
-
-            {/* Unit */}
             <div className="relative min-w-[180px] flex-1 sm:flex-none sm:w-56">
               <label htmlFor="filter-unidade" className="sr-only">
                 Unidade
@@ -68,7 +67,7 @@ export function ModalitiesFilterBar({ resultCount }: ModalitiesFilterBarProps) {
                 className={selectBase}
               >
                 <option value="">Todas as unidades</option>
-                {UNIT_OPTIONS.map((o) => (
+                {unitOptions.map((o) => (
                   <option key={o.value} value={o.value}>
                     {o.label}
                   </option>
@@ -81,14 +80,10 @@ export function ModalitiesFilterBar({ resultCount }: ModalitiesFilterBarProps) {
                 ▾
               </span>
             </div>
-
-            {/* Result count */}
             <p className="ml-auto hidden text-xs text-muted-foreground sm:block">
               {resultCount}{" "}
               {resultCount === 1 ? "modalidade" : "modalidades"}
             </p>
-
-            {/* Clear */}
             {selected && (
               <button
                 type="button"

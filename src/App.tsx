@@ -1,6 +1,7 @@
 import { lazy, Suspense, useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { SplashScreen } from "@/components/SplashScreen";
+import { AlertModal } from "@/components/AlertModal";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageSkeleton } from "@/components/layout/PageSkeleton";
@@ -85,6 +86,7 @@ export function App() {
           style={{ opacity: showSplash ? 0 : 1, transition: "opacity 0.5s ease" }}
         >
           <WhatsAppFloat />
+          <AlertModal enabled={!showSplash} />
           <AppRoutes />
         </div>
       </LenisProvider>

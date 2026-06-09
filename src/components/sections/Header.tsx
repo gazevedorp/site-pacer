@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { CENTRAL_WHATSAPP } from "@/data/unitDetail";
+import { CENTRAL_WHATSAPP } from "@/lib/whatsapp";
 import { SCHEDULE_PAGE_ENABLED } from "@/config/features";
 
 const navLinks = [

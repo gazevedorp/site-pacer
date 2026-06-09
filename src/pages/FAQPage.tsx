@@ -1,22 +1,24 @@
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { faqItems } from "@/data/faq";
+import { useFaqs } from "@/hooks/cms/useFaqs";
 import { FAQBanner } from "@/components/sections/FAQ/FAQBanner";
 import { FAQSection } from "@/components/sections/FAQ/FAQSection";
 
-const faqJsonLd = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqItems.map((item) => ({
-    "@type": "Question",
-    name: item.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: item.answer,
-    },
-  })),
-});
-
 export default function FAQPage() {
+  const { data: faqItems } = useFaqs();
+
+  const faqJsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  });
+
   useSeoMeta({
     title: "FAQ | Pacer Academia — Ribeirão e região",
     description:

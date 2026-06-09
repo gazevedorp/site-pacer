@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Mail, MessageCircle } from "lucide-react";
-import { CENTRAL_WHATSAPP } from "@/data/unitDetail";
+import { CENTRAL_WHATSAPP } from "@/lib/whatsapp";
 import { SCHEDULE_PAGE_ENABLED } from "@/config/features";
 
 const footerLinks = {

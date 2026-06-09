@@ -2,11 +2,10 @@ import { useRef } from "react";
 import { motion, AnimatePresence, useInView, useReducedMotion } from "framer-motion";
 import { MapPin, Clock, ChevronRight, MessageCircle } from "lucide-react";
 import { ImagesSlider } from "@/components/ui/images-slider";
-import type { Unit } from "@/data/units";
-import gymCover from "@/assets/images/gym.png";
+import type { Unidade } from "@/types/cms";
 
 interface UnitHeroProps {
-  unit: Unit;
+  unit: Unidade;
   whatsappHref: string;
 }
 
@@ -19,7 +18,7 @@ export function UnitHero({ unit, whatsappHref }: UnitHeroProps) {
     <>
       <section ref={heroRef} className="relative h-[72vh] min-h-[520px]">
         <ImagesSlider
-          images={[gymCover]}
+          images={[unit.coverImageUrl]}
           alts={[`Pacer Academia ${unit.name} — visão geral`]}
           className="h-full"
           overlay={false}

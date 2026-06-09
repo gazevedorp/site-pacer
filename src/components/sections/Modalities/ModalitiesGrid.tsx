@@ -2,12 +2,9 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { modalities } from "@/data/modalities";
-import gymCover from "@/assets/images/gym.png";
+import type { Modalidade } from "@/types/cms";
 
-type ModalityItem = (typeof modalities)[number];
-
-function ModalityCard({ item, index }: { item: ModalityItem; index: number }) {
+function ModalityCard({ item, index }: { item: Modalidade; index: number }) {
   const reduced = useReducedMotion();
 
   return (
@@ -31,10 +28,9 @@ function ModalityCard({ item, index }: { item: ModalityItem; index: number }) {
         )}
         aria-label={`Ver detalhes de ${item.title}`}
       >
-        {/* Cover image */}
         <div className="aspect-card relative overflow-hidden">
           <img
-            src={gymCover}
+            src={item.coverImageUrl}
             alt={`${item.title} na Pacer Academia`}
             loading="lazy"
             decoding="async"
@@ -47,8 +43,6 @@ function ModalityCard({ item, index }: { item: ModalityItem; index: number }) {
             aria-hidden="true"
           />
         </div>
-
-        {/* Content */}
         <div className="p-4">
           <h3 className="text-base font-bold text-white group-hover:text-primary/90 transition-colors">
             {item.title}
@@ -86,7 +80,7 @@ function EmptyState() {
 }
 
 interface ModalitiesGridProps {
-  filteredItems: ModalityItem[];
+  filteredItems: Modalidade[];
 }
 
 export function ModalitiesGrid({ filteredItems }: ModalitiesGridProps) {
@@ -106,7 +100,7 @@ export function ModalitiesGrid({ filteredItems }: ModalitiesGridProps) {
             role="list"
           >
             {filteredItems.map((item, i) => (
-              <div key={item.id} role="listitem">
+              <div key={item.slug} role="listitem">
                 <ModalityCard item={item} index={i} />
               </div>
             ))}

@@ -11,15 +11,16 @@ import {
   Snowflake,
   type LucideIcon,
 } from "lucide-react";
-import type { UnitAmenityId } from "@/data/units";
+import type { FacilidadeId } from "@/types/cms";
+import { FACILIDADE_LABELS } from "@/lib/cms/facilidadeMeta";
 import { UnitSection } from "@/components/sections/UnitDetail/UnitSection";
 
-const AMENITY_META: Record<
-  UnitAmenityId,
+const FACILIDADE_META: Record<
+  FacilidadeId,
   { label: string; description: string; icon: LucideIcon }
 > = {
   estacionamento: {
-    label: "Estacionamento",
+    label: FACILIDADE_LABELS.estacionamento,
     description: "Estacionamento gratuito exclusivo para alunos.",
     icon: Car,
   },
@@ -60,9 +61,9 @@ const AMENITY_META: Record<
   },
 };
 
-function AmenityCard({ id, index }: { id: UnitAmenityId; index: number }) {
+function FacilidadeCard({ id, index }: { id: FacilidadeId; index: number }) {
   const reduced = useReducedMotion();
-  const meta = AMENITY_META[id];
+  const meta = FACILIDADE_META[id];
   const Icon = meta.icon;
 
   return (
@@ -103,11 +104,11 @@ function AmenityCard({ id, index }: { id: UnitAmenityId; index: number }) {
 }
 
 interface UnitAmenitiesProps {
-  amenities: UnitAmenityId[];
+  facilidades: FacilidadeId[];
 }
 
-export function UnitAmenities({ amenities }: UnitAmenitiesProps) {
-  if (amenities.length === 0) return null;
+export function UnitAmenities({ facilidades }: UnitAmenitiesProps) {
+  if (facilidades.length === 0) return null;
 
   return (
     <Tooltip.Provider delayDuration={200}>
@@ -123,9 +124,9 @@ export function UnitAmenities({ amenities }: UnitAmenitiesProps) {
           role="list"
           aria-label="Lista de facilidades"
         >
-          {amenities.map((id, i) => (
+          {facilidades.map((id, i) => (
             <div key={id} role="listitem">
-              <AmenityCard id={id} index={i} />
+              <FacilidadeCard id={id} index={i} />
             </div>
           ))}
         </div>

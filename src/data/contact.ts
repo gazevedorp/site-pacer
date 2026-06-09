@@ -1,4 +1,4 @@
-import { buildWhatsAppLink, CENTRAL_WHATSAPP } from "@/data/unitDetail";
+import { CENTRAL_WHATSAPP, buildWhatsAppLink } from "@/lib/whatsapp";
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 

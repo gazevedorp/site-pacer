@@ -1,8 +1,10 @@
 import { useState, useCallback, useEffect } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { X, ChevronLeft, ChevronRight, Images } from "lucide-react";
-import { getUnitGallery, type UnitGalleryImage } from "@/data/unitDetail";
 import { UnitSection } from "@/components/sections/UnitDetail/UnitSection";
+import { CmsLoading } from "@/components/shared/CmsStates";
+import { useGaleria } from "@/hooks/cms/useGaleria";
+import type { GaleriaImage } from "@/types/cms";
 import { cn } from "@/lib/utils";
 
 interface UnitGalleryProps {
@@ -17,7 +19,7 @@ function GalleryLightbox({
   onPrev,
   onNext,
 }: {
-  images: UnitGalleryImage[];
+  images: GaleriaImage[];
   index: number;
   onClose: () => void;
   onPrev: () => void;
@@ -101,9 +103,9 @@ function GalleryLightbox({
   );
 }
 
-export function UnitGallery({ slug, unitName }: UnitGalleryProps) {
+export function UnitGallery({ slug }: UnitGalleryProps) {
   const reduced = useReducedMotion();
-  const images = getUnitGallery(slug, unitName);
+  const { data: images, isLoading } = useGaleria(slug);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const close = useCallback(() => setActiveIndex(null), []);
@@ -120,6 +122,7 @@ export function UnitGallery({ slug, unitName }: UnitGalleryProps) {
     [images.length]
   );
 
+  if (isLoading) return <CmsLoading className="py-16" />;
   if (images.length === 0) return null;
 
   return (
@@ -153,7 +156,8 @@ export function UnitGallery({ slug, unitName }: UnitGalleryProps) {
               className={cn(
                 "group relative overflow-hidden rounded-2xl border border-border bg-muted/20 text-left",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-                i === 0 && "col-span-2 row-span-2 aspect-[4/3] lg:aspect-auto lg:min-h-[320px]",
+                i === 0 &&
+                  "col-span-2 row-span-2 aspect-[4/3] lg:aspect-auto lg:min-h-[320px]",
                 i !== 0 && "aspect-[4/3]"
               )}
               aria-label={`Ampliar: ${image.alt}`}

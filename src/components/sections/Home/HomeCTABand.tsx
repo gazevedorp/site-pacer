@@ -2,9 +2,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { MessageCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { whatsappNumber } from "@/data/home";
+import { CENTRAL_WHATSAPP } from "@/lib/whatsapp";
 
-const waLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+const waLink = `https://wa.me/${CENTRAL_WHATSAPP}?text=${encodeURIComponent(
   "Olá! Gostaria de conhecer os planos da Pacer Academia."
 )}`;
 

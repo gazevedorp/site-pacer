@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
-import { CENTRAL_WHATSAPP } from "@/data/unitDetail";
+import { CENTRAL_WHATSAPP } from "@/lib/whatsapp";
 
 export function WhatsAppFloat() {
   return (

@@ -1,46 +1,13 @@
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SlidersHorizontal, Navigation, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { units } from "@/data/units";
-import type { UnitAmenityId, UnitModalityId } from "@/data/units";
+import type { Modalidade, Unidade } from "@/types/cms";
+import {
+  ALL_FACILIDADE_IDS,
+  FACILIDADE_LABELS,
+} from "@/lib/cms/facilidadeMeta";
 import { formatCep } from "@/hooks/useCepGeocode";
-
-// ---------- static label maps ------------------------------------------
-
-const MODALITY_LABELS: Record<UnitModalityId, string> = {
-  musculacao: "Musculação",
-  funcional: "Funcional",
-  "muay-thai": "Muay Thai",
-  pilates: "Pilates",
-  hidroginastica: "Hidroginástica",
-  natacao: "Natação",
-  danca: "Dança",
-  zumba: "Zumba",
-};
-
-const AMENITY_LABELS: Record<UnitAmenityId, string> = {
-  estacionamento: "Estacionamento",
-  "aulas-coletivas": "Aulas Coletivas",
-  hidroginastica: "Hidroginástica",
-  "natacao-infantil": "Natação Infantil",
-  pilates: "Pilates",
-  lanchonete: "Lanchonete",
-  vestiario: "Vestiário",
-  climatizado: "Climatizado",
-};
-
-// Derive unique cities from data for the select
-const CITIES = Array.from(new Set(units.map((u) => u.city))).sort();
-
-// Derive which modalities / amenities actually appear in data
-const AVAILABLE_MODALITIES = (
-  Object.keys(MODALITY_LABELS) as UnitModalityId[]
-).filter((m) => units.some((u) => u.unitModalities.includes(m)));
-
-const AVAILABLE_AMENITIES = (Object.keys(AMENITY_LABELS) as UnitAmenityId[]).filter(
-  (a) => units.some((u) => u.amenities.includes(a))
-);
 
 // ─── Shared select style ─────────────────────────────────────────────────────
 
@@ -69,12 +36,36 @@ export function readFiltersFromParams(params: URLSearchParams): FilterState {
 
 interface UnitsFilterBarProps {
   resultCount: number;
+  unidades: Unidade[];
+  modalidades: Modalidade[];
 }
 
-export function UnitsFilterBar({ resultCount }: UnitsFilterBarProps) {
+export function UnitsFilterBar({
+  resultCount,
+  unidades,
+  modalidades,
+}: UnitsFilterBarProps) {
   const [params, setParams] = useSearchParams();
   const { cidade, modalidade, facilidade, cep } = readFiltersFromParams(params);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const cities = useMemo(
+    () => Array.from(new Set(unidades.map((u) => u.city))).sort(),
+    [unidades]
+  );
+
+  const availableModalities = useMemo(() => {
+    const slugsInUse = new Set(unidades.flatMap((u) => u.modalitySlugs));
+    return modalidades.filter((m) => slugsInUse.has(m.slug));
+  }, [unidades, modalidades]);
+
+  const availableFacilidades = useMemo(
+    () =>
+      ALL_FACILIDADE_IDS.filter((id) =>
+        unidades.some((u) => u.facilidades.includes(id))
+      ),
+    [unidades]
+  );
 
   const hasActiveFilters = Boolean(cidade || modalidade || facilidade || cep);
 
@@ -162,7 +153,7 @@ export function UnitsFilterBar({ resultCount }: UnitsFilterBarProps) {
                 className={selectBase}
               >
                 <option value="">Todas as cidades</option>
-                {CITIES.map((c) => (
+                {cities.map((c) => (
                   <option key={c} value={c}>{c}</option>
                 ))}
               </select>
@@ -186,8 +177,8 @@ export function UnitsFilterBar({ resultCount }: UnitsFilterBarProps) {
                 className={selectBase}
               >
                 <option value="">Todas as modalidades</option>
-                {AVAILABLE_MODALITIES.map((id) => (
-                  <option key={id} value={id}>{MODALITY_LABELS[id]}</option>
+                {availableModalities.map((m) => (
+                  <option key={m.slug} value={m.slug}>{m.title}</option>
                 ))}
               </select>
               <span
@@ -210,8 +201,8 @@ export function UnitsFilterBar({ resultCount }: UnitsFilterBarProps) {
                 className={selectBase}
               >
                 <option value="">Todas as facilidades</option>
-                {AVAILABLE_AMENITIES.map((id) => (
-                  <option key={id} value={id}>{AMENITY_LABELS[id]}</option>
+                {availableFacilidades.map((id) => (
+                  <option key={id} value={id}>{FACILIDADE_LABELS[id]}</option>
                 ))}
               </select>
               <span

@@ -2,13 +2,12 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { MapPin, Clock, ArrowRight, Construction } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { Unit, ComingSoonUnit } from "@/data/units";
-import gymCover from "@/assets/images/gym.png";
+import type { Unidade } from "@/types/cms";
 
 // ---------- Unit Card (active) ------------------------------------------
 
 interface UnitCardProps {
-  unit: Unit;
+  unit: Unidade;
   index: number;
 }
 
@@ -29,7 +28,7 @@ function UnitCard({ unit, index }: UnitCardProps) {
     >
       <div className="relative aspect-thumb overflow-hidden bg-muted/30">
         <img
-          src={gymCover}
+          src={unit.coverImageUrl}
           alt={`Academia Pacer ${unit.name}`}
           loading="lazy"
           decoding="async"
@@ -80,7 +79,7 @@ function UnitCard({ unit, index }: UnitCardProps) {
 // ---------- Coming Soon Card -------------------------------------------
 
 interface ComingSoonCardProps {
-  unit: ComingSoonUnit;
+  unit: Unidade;
   index: number;
 }
 
@@ -103,7 +102,7 @@ function ComingSoonCard({ unit, index }: ComingSoonCardProps) {
       {/* Blurred image placeholder */}
       <div className="aspect-card relative overflow-hidden">
         <img
-          src={gymCover}
+          src={unit.coverImageUrl}
           alt=""
           aria-hidden="true"
           width={480}
@@ -170,8 +169,8 @@ function EmptyState({ onClear }: { onClear: () => void }) {
 // ---------- Grid --------------------------------------------------------
 
 interface UnitsGridProps {
-  filteredUnits: Unit[];
-  comingSoonUnits: ComingSoonUnit[];
+  filteredUnits: Unidade[];
+  comingSoonUnits: Unidade[];
   onClearFilters: () => void;
   hasActiveFilters: boolean;
 }

@@ -1,9 +1,27 @@
 import { motion } from "framer-motion";
-import { getUnitSpecificPlanCards } from "@/data/plans";
+import { usePlanosPorUnidade } from "@/hooks/cms/usePlanos";
 import { PlanCard } from "@/components/sections/Plans/PlanCard";
+import { CmsLoading } from "@/components/shared/CmsStates";
+import type { Plano } from "@/types/cms";
+
+function toPlanCardData(plan: Plano) {
+  return {
+    id: plan.slug,
+    name: plan.name,
+    tagline: plan.tagline,
+    price: plan.price,
+    priceLabel: plan.priceLabel,
+    features: plan.features,
+    whatsappText: plan.whatsappText,
+    unitsLabel: plan.unitsLabel,
+  };
+}
 
 export function PlansUnitExtras() {
-  const plans = getUnitSpecificPlanCards();
+  const { data: plans, isLoading } = usePlanosPorUnidade();
+
+  if (isLoading) return <CmsLoading className="py-16" />;
+  if (plans.length === 0) return null;
 
   return (
     <section
@@ -19,7 +37,7 @@ export function PlansUnitExtras() {
             transition={{ duration: 0.5 }}
             className="text-xs font-semibold uppercase tracking-widest text-primary"
           >
-            Por unidade
+            Outros planos
           </motion.p>
           <motion.h2
             id="unit-plans-heading"
@@ -50,20 +68,12 @@ export function PlansUnitExtras() {
         >
           {plans.map((plan, i) => (
             <div
-              key={plan.id}
+              key={plan.slug}
               role="listitem"
               className="w-[82vw] shrink-0 snap-center sm:w-[360px] lg:w-auto"
             >
               <PlanCard
-                plan={{
-                  id: plan.id,
-                  name: plan.name,
-                  tagline: plan.tagline,
-                  priceLabel: plan.priceLabel,
-                  features: plan.features,
-                  unitsLabel: plan.unitsLabel,
-                  whatsappText: plan.whatsappText,
-                }}
+                plan={toPlanCardData(plan)}
                 index={i}
                 variant="secondary"
               />

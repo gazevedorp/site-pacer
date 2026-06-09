@@ -1,13 +1,10 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ChevronRight, Home } from "lucide-react";
-import { modalities } from "@/data/modalities";
-import gymCover from "@/assets/images/gym.png";
-
-type ModalityItem = (typeof modalities)[number];
+import type { Modalidade } from "@/types/cms";
 
 interface ModalityHeroProps {
-  modality: ModalityItem;
+  modality: Modalidade;
 }
 
 export function ModalityHero({ modality }: ModalityHeroProps) {
@@ -19,7 +16,7 @@ export function ModalityHero({ modality }: ModalityHeroProps) {
       aria-label={`Hero — ${modality.title}`}
     >
       <img
-        src={gymCover}
+        src={modality.coverImageUrl}
         alt={`${modality.title} na Pacer Academia`}
         className="absolute inset-0 h-full w-full object-cover"
         width={1440}
@@ -28,7 +25,6 @@ export function ModalityHero({ modality }: ModalityHeroProps) {
         decoding="sync"
         aria-hidden="true"
       />
-
       <div
         className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20"
         aria-hidden="true"
@@ -37,11 +33,6 @@ export function ModalityHero({ modality }: ModalityHeroProps) {
         className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent"
         aria-hidden="true"
       />
-      <div
-        className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-primary/5 to-transparent"
-        aria-hidden="true"
-      />
-
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         <nav aria-label="Breadcrumb" className="mb-6">
           <ol className="flex flex-wrap items-center gap-1.5 text-sm text-white/60">
@@ -63,7 +54,6 @@ export function ModalityHero({ modality }: ModalityHeroProps) {
             </li>
           </ol>
         </nav>
-
         <motion.h1
           className="text-display text-fluid-3xl font-black text-white"
           initial={reduced ? false : { opacity: 0, y: 24 }}
@@ -72,7 +62,6 @@ export function ModalityHero({ modality }: ModalityHeroProps) {
         >
           {modality.title}
         </motion.h1>
-
         <motion.p
           className="mt-3 max-w-2xl text-fluid-md text-white/75"
           initial={reduced ? false : { opacity: 0, y: 16 }}

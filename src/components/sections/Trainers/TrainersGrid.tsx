@@ -1,53 +1,21 @@
 import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Users } from "lucide-react";
-import type { Trainer } from "@/data/trainers";
+import type { Personal } from "@/types/cms";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { TrainerDetailModal } from "@/components/sections/Trainers/TrainerDetailModal";
-import gymCover from "@/assets/images/gym.png";
-
-const AVATAR_COLORS = [
-  "from-blue-600 to-blue-400",
-  "from-orange-600 to-orange-400",
-  "from-red-600 to-red-400",
-  "from-teal-600 to-teal-400",
-  "from-cyan-600 to-cyan-400",
-  "from-indigo-600 to-indigo-400",
-  "from-purple-600 to-purple-400",
-  "from-pink-600 to-pink-400",
-  "from-amber-600 to-amber-400",
-  "from-emerald-600 to-emerald-400",
-] as const;
-
-function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
-}
-
-function getAvatarColor(id: string): string {
-  let hash = 0;
-  for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) | 0;
-  return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
-}
 
 function TrainerCard({
   trainer,
   index,
   onViewMore,
 }: {
-  trainer: Trainer;
+  trainer: Personal;
   index: number;
-  onViewMore: (trainer: Trainer) => void;
+  onViewMore: (trainer: Personal) => void;
 }) {
   const reduced = useReducedMotion();
-  const initials = getInitials(trainer.name);
-  const avatarGradient = getAvatarColor(trainer.id);
 
   return (
     <motion.article
@@ -76,27 +44,14 @@ function TrainerCard({
 
       <div className="relative aspect-[4/3] overflow-hidden bg-muted/20">
         <img
-          src={gymCover}
-          alt=""
-          role="presentation"
+          src={trainer.photoUrl}
+          alt={trainer.name}
           loading="lazy"
           decoding="async"
           width={480}
           height={360}
-          className="absolute inset-0 h-full w-full object-cover opacity-55 transition-transform duration-500 group-hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div
-            className={cn(
-              "flex h-20 w-20 items-center justify-center rounded-full bg-linear-to-br text-2xl font-bold text-white shadow-lg",
-              avatarGradient
-            )}
-            aria-hidden
-          >
-            {initials}
-          </div>
-        </div>
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-4">
@@ -125,11 +80,11 @@ function TrainerCard({
 }
 
 interface TrainersGridProps {
-  trainers: Trainer[];
+  trainers: Personal[];
 }
 
 export function TrainersGrid({ trainers: list }: TrainersGridProps) {
-  const [selectedTrainer, setSelectedTrainer] = useState<Trainer | null>(null);
+  const [selectedTrainer, setSelectedTrainer] = useState<Personal | null>(null);
 
   return (
     <>

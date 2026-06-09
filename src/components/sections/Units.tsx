@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AnimatedSection } from "@/components/ui/animated";
-import { units, comingSoon, GOOGLE_MAPS_API_KEY, type Unit } from "@/data/units";
+import { units, comingSoon, type Unit } from "@/data/units";
 import gymCover from "@/assets/images/gym.png";
 
 const PAGE_SIZE = 4;
@@ -51,12 +51,12 @@ export function Units() {
     try {
       const cleanCep = cep.replace(/\D/g, "");
       const res = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${cleanCep}&region=br&key=${GOOGLE_MAPS_API_KEY}`
+        `https://nominatim.openstreetmap.org/search?postalcode=${cleanCep}&countrycodes=BR&format=json&limit=1`,
+        { headers: { "Accept-Language": "pt-BR" } }
       );
-      const data = await res.json();
-      if (data.results?.length > 0) {
-        const { lat, lng } = data.results[0].geometry.location;
-        setCepCoords({ lat, lng });
+      const data: Array<{ lat: string; lon: string }> = await res.json();
+      if (data.length > 0) {
+        setCepCoords({ lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) });
       } else {
         setCepCoords(null);
       }
@@ -243,18 +243,19 @@ export function Units() {
           </div>
         )}
 
-        {/* Google Maps embed */}
+        {/* Map link */}
         <AnimatedSection className="mt-16">
-          <div className="overflow-hidden rounded-2xl border border-white/10">
-            <iframe
-              title="Mapa das unidades Pacer Academia"
-              width="100%"
-              height="400"
-              style={{ border: 0 }}
-              loading="lazy"
-              src={`https://www.google.com/maps/embed/v1/search?key=${GOOGLE_MAPS_API_KEY}&q=Pacer+Academia+Ribeirão+Preto&zoom=12`}
-              allowFullScreen
-            />
+          <div className="flex justify-center">
+            <Button variant="outline" asChild>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Pacer+Academia+Ribeir%C3%A3o+Preto"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MapPin className="h-4 w-4" />
+                Ver unidades no mapa
+              </a>
+            </Button>
           </div>
         </AnimatedSection>
 
