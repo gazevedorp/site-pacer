@@ -36,6 +36,8 @@ const speedDurationSec = { fast: 20, normal: 40, slow: 60 } as const;
 
 const PREVIEW_CLAMP_LINES = 4;
 const EXPAND_THRESHOLD = 180;
+const USER_PAUSE_MS = 3000;
+const DRAG_THRESHOLD_PX = 6;
 
 function QuoteParagraphs({ quote, className }: { quote: string; className?: string }) {
   return (
@@ -147,13 +149,27 @@ export function InfiniteMovingCards({
 }: InfiniteMovingCardsProps) {
   const prefersReduced = useReducedMotion();
   const [selectedItem, setSelectedItem] = useState<MovingCardItem | null>(null);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isUserScrolling, setIsUserScrolling] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
-  const wheelTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isHoveredRef = useRef(false);
+  const isDraggingRef = useRef(false);
+  const isAutoScrollingRef = useRef(false);
+  const userPausedUntilRef = useRef(0);
+  const dragStateRef = useRef({ pointerId: -1, startX: 0, startScrollLeft: 0, moved: false });
   const duplicated = [...items, ...items];
   const displayItems = prefersReduced ? items : duplicated;
+
+  function pauseForUser(ms = USER_PAUSE_MS) {
+    userPausedUntilRef.current = Date.now() + ms;
+  }
+
+  function shouldPauseAutoScroll() {
+    return (
+      isDraggingRef.current ||
+      Date.now() < userPausedUntilRef.current ||
+      (pauseOnHover && isHoveredRef.current)
+    );
+  }
 
   useEffect(() => {
     if (prefersReduced) return;
@@ -165,17 +181,25 @@ export function InfiniteMovingCards({
       el.scrollLeft = el.scrollWidth / 2;
     }
 
+    const onScroll = () => {
+      if (!isAutoScrollingRef.current) {
+        pauseForUser();
+      }
+    };
+
+    el.addEventListener("scroll", onScroll, { passive: true });
+
     let rafId = 0;
     let lastTime = performance.now();
 
     const tick = (now: number) => {
-      const paused = isUserScrolling || (pauseOnHover && isHovered);
-
-      if (!paused && el.scrollWidth > el.clientWidth) {
+      if (!shouldPauseAutoScroll() && el.scrollWidth > el.clientWidth) {
         const half = el.scrollWidth / 2;
         const duration = speedDurationSec[speed];
         const pxPerSec = half / duration;
         const delta = (now - lastTime) / 1000;
+
+        isAutoScrollingRef.current = true;
 
         if (direction === "left") {
           el.scrollLeft += pxPerSec * delta;
@@ -188,6 +212,8 @@ export function InfiniteMovingCards({
             el.scrollLeft += half;
           }
         }
+
+        isAutoScrollingRef.current = false;
       }
 
       lastTime = now;
@@ -195,49 +221,114 @@ export function InfiniteMovingCards({
     };
 
     rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  }, [prefersReduced, isUserScrolling, isHovered, pauseOnHover, speed, direction]);
 
-  useEffect(() => {
     return () => {
-      if (wheelTimeoutRef.current) clearTimeout(wheelTimeoutRef.current);
+      el.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [prefersReduced, pauseOnHover, speed, direction]);
+
+  function isInteractiveTarget(target: EventTarget | null) {
+    return Boolean(
+      target instanceof Element && target.closest("button, a, input, textarea, select, label")
+    );
+  }
 
   function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
     if (event.pointerType === "mouse" && event.button !== 0) return;
-    setIsUserScrolling(true);
+    if (isInteractiveTarget(event.target)) return;
+
+    const el = scrollRef.current;
+    if (!el) return;
+
+    dragStateRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startScrollLeft: el.scrollLeft,
+      moved: false,
+    };
+    pauseForUser();
   }
 
-  function handlePointerUp() {
-    setIsUserScrolling(false);
+  function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
+    const el = scrollRef.current;
+    const drag = dragStateRef.current;
+    if (!el || drag.pointerId !== event.pointerId) return;
+
+    const deltaX = event.clientX - drag.startX;
+    if (!drag.moved && Math.abs(deltaX) < DRAG_THRESHOLD_PX) return;
+
+    if (!drag.moved) {
+      drag.moved = true;
+      isDraggingRef.current = true;
+      el.setPointerCapture(event.pointerId);
+    }
+
+    event.preventDefault();
+    el.scrollLeft = drag.startScrollLeft - deltaX;
+    pauseForUser();
+  }
+
+  function endDrag(event: PointerEvent<HTMLDivElement>) {
+    const el = scrollRef.current;
+    const drag = dragStateRef.current;
+    if (!el || drag.pointerId !== event.pointerId) return;
+
+    if (drag.moved) {
+      try {
+        el.releasePointerCapture(event.pointerId);
+      } catch {
+        // pointer may already be released
+      }
+      pauseForUser();
+    }
+
+    isDraggingRef.current = false;
+    dragStateRef.current = { pointerId: -1, startX: 0, startScrollLeft: 0, moved: false };
   }
 
   function handleWheel(event: WheelEvent<HTMLDivElement>) {
-    const isHorizontal = Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.shiftKey;
-    if (!isHorizontal) return;
+    const el = scrollRef.current;
+    if (!el) return;
 
-    setIsUserScrolling(true);
-    if (wheelTimeoutRef.current) clearTimeout(wheelTimeoutRef.current);
-    wheelTimeoutRef.current = setTimeout(() => setIsUserScrolling(false), 200);
+    const horizontalDelta =
+      Math.abs(event.deltaX) > Math.abs(event.deltaY)
+        ? event.deltaX
+        : event.shiftKey
+          ? event.deltaY
+          : 0;
+
+    if (horizontalDelta === 0) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    el.scrollLeft += horizontalDelta;
+    pauseForUser();
   }
 
   return (
     <>
       <div
         ref={scrollRef}
+        data-lenis-prevent
         className={cn(
-          "flex gap-4 overflow-x-auto scroll-smooth px-4 pb-2 [scrollbar-width:thin] sm:px-6",
+          "flex cursor-grab gap-4 overflow-x-auto overscroll-x-contain px-4 pb-2 [scrollbar-width:thin] active:cursor-grabbing sm:px-6",
           className
         )}
+        style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-x" }}
         aria-label="Depoimentos"
         onPointerDown={handlePointerDown}
-        onPointerUp={handlePointerUp}
-        onPointerLeave={handlePointerUp}
-        onPointerCancel={handlePointerUp}
+        onPointerMove={handlePointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onPointerLeave={endDrag}
         onWheel={handleWheel}
-        onMouseEnter={() => pauseOnHover && setIsHovered(true)}
-        onMouseLeave={() => pauseOnHover && setIsHovered(false)}
+        onMouseEnter={() => {
+          isHoveredRef.current = true;
+        }}
+        onMouseLeave={() => {
+          isHoveredRef.current = false;
+        }}
       >
         {displayItems.map((item, idx) => {
           const canExpand = expandable && item.quote.length > EXPAND_THRESHOLD;
