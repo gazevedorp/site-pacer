@@ -8,7 +8,7 @@ export function CareersTestimonials() {
   return (
     <section
       aria-labelledby="testimonials-heading"
-      className="overflow-hidden pb-6 pt-12"
+      className="pb-6 pt-12"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -41,12 +41,10 @@ export function CareersTestimonials() {
       >
         <InfiniteMovingCards
           items={employeeTestimonials}
-          direction="left"
-          speed="slow"
-          pauseOnHover
           hideAvatar
           italicQuote
           attributionRight
+          expandable
         />
       </motion.div>
     </section>
