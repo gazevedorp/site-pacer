@@ -47,6 +47,7 @@ export function CareersTestimonials() {
           hideAvatar
           italicQuote
           attributionRight
+          expandable
         />
       </motion.div>
     </section>
