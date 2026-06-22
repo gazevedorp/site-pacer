@@ -1,16 +1,14 @@
 /**
- * InfiniteMovingCards — horizontally auto-scrolling card carousel.
- * Supports manual horizontal scroll (drag, trackpad, scrollbar) alongside auto-scroll.
- * Pauses on hover and while the user is interacting. Respects prefers-reduced-motion.
+ * InfiniteMovingCards — horizontally scrollable card carousel.
+ * Supports drag, trackpad, touch and scrollbar. Respects prefers-reduced-motion.
  *
  * Usage:
- *   <InfiniteMovingCards items={[{ quote, name, title }]} speed="normal" />
+ *   <InfiniteMovingCards items={[{ quote, name, title }]} />
  */
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import type { PointerEvent, WheelEvent } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
 
 export interface MovingCardItem {
@@ -22,9 +20,6 @@ export interface MovingCardItem {
 
 interface InfiniteMovingCardsProps {
   items: MovingCardItem[];
-  direction?: "left" | "right";
-  speed?: "fast" | "normal" | "slow";
-  pauseOnHover?: boolean;
   hideAvatar?: boolean;
   italicQuote?: boolean;
   attributionRight?: boolean;
@@ -32,11 +27,8 @@ interface InfiniteMovingCardsProps {
   className?: string;
 }
 
-const speedDurationSec = { fast: 20, normal: 40, slow: 60 } as const;
-
 const PREVIEW_CLAMP_LINES = 4;
 const EXPAND_THRESHOLD = 180;
-const USER_PAUSE_MS = 3000;
 const DRAG_THRESHOLD_PX = 6;
 
 function QuoteParagraphs({ quote, className }: { quote: string; className?: string }) {
@@ -53,7 +45,6 @@ function QuoteParagraphs({ quote, className }: { quote: string; className?: stri
 
 function TestimonialCard({
   item,
-  idx,
   canExpand,
   hideAvatar,
   italicQuote,
@@ -61,7 +52,6 @@ function TestimonialCard({
   onExpand,
 }: {
   item: MovingCardItem;
-  idx: number;
   canExpand: boolean;
   hideAvatar: boolean;
   italicQuote: boolean;
@@ -69,10 +59,7 @@ function TestimonialCard({
   onExpand: (item: MovingCardItem) => void;
 }) {
   return (
-    <figure
-      key={idx}
-      className="relative flex w-72 shrink-0 flex-col rounded-2xl border border-card-border bg-card p-6 shadow-card"
-    >
+    <figure className="relative flex w-72 shrink-0 flex-col rounded-2xl border border-card-border bg-card p-6 shadow-card">
       <blockquote className="flex-1">
         <div
           className={cn(
@@ -138,95 +125,17 @@ function TestimonialCard({
 
 export function InfiniteMovingCards({
   items,
-  direction = "left",
-  speed = "normal",
-  pauseOnHover = true,
   hideAvatar = false,
   italicQuote = false,
   attributionRight = false,
   expandable = false,
   className,
 }: InfiniteMovingCardsProps) {
-  const prefersReduced = useReducedMotion();
   const [selectedItem, setSelectedItem] = useState<MovingCardItem | null>(null);
 
   const scrollRef = useRef<HTMLDivElement>(null);
-  const isHoveredRef = useRef(false);
   const isDraggingRef = useRef(false);
-  const isAutoScrollingRef = useRef(false);
-  const userPausedUntilRef = useRef(0);
   const dragStateRef = useRef({ pointerId: -1, startX: 0, startScrollLeft: 0, moved: false });
-  const duplicated = [...items, ...items];
-  const displayItems = prefersReduced ? items : duplicated;
-
-  function pauseForUser(ms = USER_PAUSE_MS) {
-    userPausedUntilRef.current = Date.now() + ms;
-  }
-
-  function shouldPauseAutoScroll() {
-    return (
-      isDraggingRef.current ||
-      Date.now() < userPausedUntilRef.current ||
-      (pauseOnHover && isHoveredRef.current)
-    );
-  }
-
-  useEffect(() => {
-    if (prefersReduced) return;
-
-    const el = scrollRef.current;
-    if (!el) return;
-
-    if (direction === "right" && el.scrollLeft === 0) {
-      el.scrollLeft = el.scrollWidth / 2;
-    }
-
-    const onScroll = () => {
-      if (!isAutoScrollingRef.current) {
-        pauseForUser();
-      }
-    };
-
-    el.addEventListener("scroll", onScroll, { passive: true });
-
-    let rafId = 0;
-    let lastTime = performance.now();
-
-    const tick = (now: number) => {
-      if (!shouldPauseAutoScroll() && el.scrollWidth > el.clientWidth) {
-        const half = el.scrollWidth / 2;
-        const duration = speedDurationSec[speed];
-        const pxPerSec = half / duration;
-        const delta = (now - lastTime) / 1000;
-
-        isAutoScrollingRef.current = true;
-
-        if (direction === "left") {
-          el.scrollLeft += pxPerSec * delta;
-          if (el.scrollLeft >= half) {
-            el.scrollLeft -= half;
-          }
-        } else {
-          el.scrollLeft -= pxPerSec * delta;
-          if (el.scrollLeft <= 0) {
-            el.scrollLeft += half;
-          }
-        }
-
-        isAutoScrollingRef.current = false;
-      }
-
-      lastTime = now;
-      rafId = requestAnimationFrame(tick);
-    };
-
-    rafId = requestAnimationFrame(tick);
-
-    return () => {
-      el.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(rafId);
-    };
-  }, [prefersReduced, pauseOnHover, speed, direction]);
 
   function isInteractiveTarget(target: EventTarget | null) {
     return Boolean(
@@ -247,7 +156,6 @@ export function InfiniteMovingCards({
       startScrollLeft: el.scrollLeft,
       moved: false,
     };
-    pauseForUser();
   }
 
   function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
@@ -266,7 +174,6 @@ export function InfiniteMovingCards({
 
     event.preventDefault();
     el.scrollLeft = drag.startScrollLeft - deltaX;
-    pauseForUser();
   }
 
   function endDrag(event: PointerEvent<HTMLDivElement>) {
@@ -280,7 +187,6 @@ export function InfiniteMovingCards({
       } catch {
         // pointer may already be released
       }
-      pauseForUser();
     }
 
     isDraggingRef.current = false;
@@ -303,7 +209,6 @@ export function InfiniteMovingCards({
     event.preventDefault();
     event.stopPropagation();
     el.scrollLeft += horizontalDelta;
-    pauseForUser();
   }
 
   return (
@@ -323,21 +228,14 @@ export function InfiniteMovingCards({
         onPointerCancel={endDrag}
         onPointerLeave={endDrag}
         onWheel={handleWheel}
-        onMouseEnter={() => {
-          isHoveredRef.current = true;
-        }}
-        onMouseLeave={() => {
-          isHoveredRef.current = false;
-        }}
       >
-        {displayItems.map((item, idx) => {
+        {items.map((item) => {
           const canExpand = expandable && item.quote.length > EXPAND_THRESHOLD;
 
           return (
             <TestimonialCard
-              key={idx}
+              key={`${item.name}-${item.title ?? "depoimento"}`}
               item={item}
-              idx={idx}
               canExpand={canExpand}
               hideAvatar={hideAvatar}
               italicQuote={italicQuote}

@@ -41,9 +41,6 @@ export function CareersTestimonials() {
       >
         <InfiniteMovingCards
           items={employeeTestimonials}
-          direction="left"
-          speed="slow"
-          pauseOnHover
           hideAvatar
           italicQuote
           attributionRight
