@@ -2,7 +2,6 @@ import { Outlet, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
-import { GridBackground } from "@/components/ui/grid-background";
 
 export function PageShell() {
   const location = useLocation();
@@ -10,7 +9,6 @@ export function PageShell() {
 
   return (
     <>
-      <GridBackground />
       <Header />
 
       <AnimatePresence mode="wait" initial={false}>
