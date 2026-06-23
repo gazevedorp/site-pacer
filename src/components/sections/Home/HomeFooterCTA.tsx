@@ -66,8 +66,7 @@ export function HomeFooterCTA() {
               Fale conosco
             </p>
             <h2 className="mt-3 text-fluid-xl font-bold tracking-tight text-white">
-              Tem alguma{" "}
-              <span className="text-white/50">dúvida?</span>
+              Tem alguma dúvida?
             </h2>
             <p className="mt-4 max-w-md text-fluid-md leading-relaxed text-white/75">
               Nossa equipe está pronta para te atender. Envie uma mensagem,

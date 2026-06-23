@@ -35,7 +35,7 @@ export function HomePlans() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           <p className="text-sm font-semibold uppercase tracking-widest text-primary">
-            Planos feito para você
+            Planos feitos para você
           </p>
           <h2 className="mt-3 text-fluid-xl font-bold tracking-tight">
             Invista em <span className="text-gradient-gold">você</span>
