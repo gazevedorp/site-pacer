@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
@@ -102,10 +103,31 @@ export function Header() {
         </button>
       </div>
 
+      {/* Mobile menu backdrop */}
+      {typeof document !== "undefined" &&
+        createPortal(
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                key="mobile-menu-backdrop"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                onClick={() => setIsOpen(false)}
+                className="fixed inset-0 z-[49] bg-black/40 backdrop-blur-[2px] lg:hidden"
+                aria-hidden="true"
+              />
+            )}
+          </AnimatePresence>,
+          document.body
+        )}
+
       {/* Mobile menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            key="mobile-menu-panel"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
