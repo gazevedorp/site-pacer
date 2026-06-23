@@ -77,11 +77,6 @@ export function PlanCard({ plan, index, variant = "default" }: PlanCardProps) {
           ) : (
             <p className="text-sm font-semibold text-foreground">{plan.priceLabel}</p>
           )}
-          {plan.price != null && (
-            <p className="mt-1 text-xs text-muted-foreground/70">
-              Sem fidelidade · Cancele quando quiser
-            </p>
-          )}
         </div>
       </div>
 
