@@ -1,6 +1,5 @@
 import { useSeoMeta } from "@/hooks/useSeoMeta";
 import { ContactBanner } from "@/components/sections/Contact/ContactBanner";
-import { ContactInfo } from "@/components/sections/Contact/ContactInfo";
 import { ContactFormBase } from "@/components/shared/ContactFormBase";
 
 export default function ContactPage() {
@@ -13,25 +12,21 @@ export default function ContactPage() {
   return (
     <main>
       <ContactBanner />
-      <ContactInfo />
 
       {/* Form section */}
       <section
         aria-labelledby="contact-form-heading"
-        className="container mx-auto px-4 pb-20 pt-4 sm:px-6 lg:px-8"
+        className="container mx-auto px-4 pb-20 pt-6 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-2xl">
-          <div className="mb-8 text-center">
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-              Formulário de contato
-            </p>
+          <div className="mb-4 text-center">
             <h2
               id="contact-form-heading"
-              className="mt-2 text-fluid-2xl font-bold text-white"
+              className="text-display text-fluid-2xl font-bold leading-tight text-foreground"
             >
               Envie sua mensagem
             </h2>
-            <p className="mx-auto mt-3 max-w-md text-sm text-white/45">
+            <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
               Preencha o formulário abaixo e retornaremos em até 2 dias úteis.
             </p>
           </div>
