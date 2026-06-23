@@ -1,6 +1,5 @@
 import { useSeoMeta } from "@/hooks/useSeoMeta";
 import { ContactBanner } from "@/components/sections/Contact/ContactBanner";
-import { ContactInfo } from "@/components/sections/Contact/ContactInfo";
 import { ContactFormBase } from "@/components/shared/ContactFormBase";
 
 export default function ContactPage() {
@@ -13,12 +12,11 @@ export default function ContactPage() {
   return (
     <main>
       <ContactBanner />
-      <ContactInfo />
 
       {/* Form section */}
       <section
         aria-labelledby="contact-form-heading"
-        className="container mx-auto px-4 pb-20 pt-4 sm:px-6 lg:px-8"
+        className="container mx-auto px-4 pb-20 pt-10 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-2xl">
           <div className="mb-8 text-center">
