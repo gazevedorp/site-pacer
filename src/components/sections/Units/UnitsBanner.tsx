@@ -72,8 +72,8 @@ export function UnitsBanner() {
           transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
           {isLoading
-            ? "Unidades em Ribeirão e região prontas"
-            : `${formatUnidadesCount(activeUnitsCount)} em Ribeirão e região prontas`}{" "}
+            ? "Unidades em Ribeirão Preto e região prontas"
+            : `${formatUnidadesCount(activeUnitsCount)} em Ribeirão Preto e região prontas`}{" "}
           para transformar o seu treino.
         </motion.p>
       </div>

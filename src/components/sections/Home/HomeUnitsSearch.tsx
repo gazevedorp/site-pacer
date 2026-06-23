@@ -62,7 +62,7 @@ export function HomeUnitsSearch() {
             Perto de <span className="text-primary">você</span>
           </h2>
           <p className="mt-4 text-fluid-md leading-relaxed text-muted-foreground">
-            {unitCountLabel} em Ribeirão e região. Mesma qualidade,
+            {unitCountLabel} em Ribeirão Preto e região. Mesma qualidade,
             equipamentos de alto padrão e ambiente 100% climatizado.
           </p>
         </motion.div>

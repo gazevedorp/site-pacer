@@ -23,7 +23,7 @@ export default function PlansPage() {
   useSeoMeta({
     title: "Planos e Preços | Pacer Academia — Ribeirão e região",
     description:
-      "Conheça os planos da Pacer Academia: Básico, Multi e Família. Sem fidelidade, sem surpresas. Acesse qualquer uma das unidades em Ribeirão e região.",
+      "Conheça os planos da Pacer Academia: Básico, Multi e Família. Sem fidelidade, sem surpresas. Acesse qualquer uma das unidades em Ribeirão Preto e região.",
     jsonLd: plansJsonLd,
   });
 

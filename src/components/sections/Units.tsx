@@ -122,8 +122,8 @@ export function Units() {
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
             {isLoadingUnits
-              ? "Unidades em Ribeirão e região. Todas com a mesma qualidade, equipamentos de alto padrão e ambiente 100% climatizado."
-              : `${formatUnidadesCount(activeUnitsCount)} em Ribeirão e região. Todas com a mesma qualidade, equipamentos de alto padrão e ambiente 100% climatizado.`}
+              ? "Unidades em Ribeirão Preto e região. Todas com a mesma qualidade, equipamentos de alto padrão e ambiente 100% climatizado."
+              : `${formatUnidadesCount(activeUnitsCount)} em Ribeirão Preto e região. Todas com a mesma qualidade, equipamentos de alto padrão e ambiente 100% climatizado.`}
           </p>
         </AnimatedSection>
 

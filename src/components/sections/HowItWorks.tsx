@@ -24,7 +24,7 @@ export function HowItWorks() {
       title: "Escolha sua unidade",
       description: isLoading
         ? "Encontre a unidade mais perto de você em Ribeirão e região e venha conhecer."
-        : `São ${formatUnidadesCount(activeUnitsCount)} em Ribeirão e região. Encontre a mais perto de você e venha conhecer.`,
+        : `São ${formatUnidadesCount(activeUnitsCount)} em Ribeirão Preto e região. Encontre a mais perto de você e venha conhecer.`,
     },
     ...steps,
   ];
