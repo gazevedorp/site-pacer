@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
@@ -102,26 +103,37 @@ export function Header() {
         </button>
       </div>
 
+      {/* Mobile menu backdrop */}
+      {typeof document !== "undefined" &&
+        createPortal(
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                key="mobile-menu-backdrop"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                onClick={() => setIsOpen(false)}
+                className="fixed inset-0 z-[49] bg-black/40 backdrop-blur-[2px] lg:hidden"
+                aria-hidden="true"
+              />
+            )}
+          </AnimatePresence>,
+          document.body
+        )}
+
       {/* Mobile menu */}
       <AnimatePresence>
         {isOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              onClick={() => setIsOpen(false)}
-              className="fixed inset-0 top-16 z-40 bg-black/40 lg:hidden"
-              aria-hidden="true"
-            />
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="relative z-50 overflow-hidden border-t border-border bg-background/95 backdrop-blur-2xl lg:hidden"
-            >
+          <motion.div
+            key="mobile-menu-panel"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden border-t border-border bg-background/95 backdrop-blur-2xl lg:hidden"
+          >
             <nav className="flex flex-col gap-1 p-4">
               {navLinks.map((link) => (
                 <NavItem
@@ -149,8 +161,7 @@ export function Header() {
                 </a>
               </div>
             </nav>
-            </motion.div>
-          </>
+          </motion.div>
         )}
       </AnimatePresence>
     </motion.header>
