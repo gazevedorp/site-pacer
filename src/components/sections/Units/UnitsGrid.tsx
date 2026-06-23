@@ -53,10 +53,19 @@ function UnitCard({ unit, index }: UnitCardProps) {
           </span>
         </p>
 
-        <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
-          <Clock className="h-3.5 w-3.5 shrink-0 text-primary/60" aria-hidden />
-          {unit.hours[0]}
-        </p>
+        {unit.hours.length > 0 && (
+          <div className="mt-2 flex items-start gap-1.5 text-xs text-muted-foreground">
+            <Clock
+              className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary/60"
+              aria-hidden
+            />
+            <div className="flex flex-col gap-0.5">
+              {unit.hours.map((h, i) => (
+                <span key={i}>{h}</span>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="mt-auto pt-4">
           <Button
