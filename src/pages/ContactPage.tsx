@@ -22,11 +22,11 @@ export default function ContactPage() {
           <div className="mb-4 text-center">
             <h2
               id="contact-form-heading"
-              className="font-display text-fluid-2xl font-bold leading-tight text-white"
+              className="text-display text-fluid-2xl font-bold leading-tight text-foreground"
             >
               Envie sua mensagem
             </h2>
-            <p className="mx-auto mt-2 max-w-md text-sm text-white/50">
+            <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
               Preencha o formulário abaixo e retornaremos em até 2 dias úteis.
             </p>
           </div>
