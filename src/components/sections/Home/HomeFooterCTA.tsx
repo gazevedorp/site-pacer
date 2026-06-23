@@ -23,7 +23,7 @@ const socialLinks: SocialItem[] = [
   },
   {
     title: "TikTok",
-    link: "https://tiktok.com/@paceracademia",
+    link: "https://www.tiktok.com/@pacer.academia",
     icon: <Music2 className="h-5 w-5" />,
   },
 ];
