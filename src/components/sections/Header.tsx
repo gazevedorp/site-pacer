@@ -105,13 +105,23 @@ export function Header() {
       {/* Mobile menu */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden border-t border-border bg-background/95 backdrop-blur-2xl lg:hidden"
-          >
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 top-16 z-40 bg-black/40 lg:hidden"
+              aria-hidden="true"
+            />
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="relative z-50 overflow-hidden border-t border-border bg-background/95 backdrop-blur-2xl lg:hidden"
+            >
             <nav className="flex flex-col gap-1 p-4">
               {navLinks.map((link) => (
                 <NavItem
@@ -139,7 +149,8 @@ export function Header() {
                 </a>
               </div>
             </nav>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </motion.header>
