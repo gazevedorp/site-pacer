@@ -65,8 +65,7 @@ export function PlansBanner() {
             Planos e Precos
           </h1>
           <p className="mt-2 max-w-lg text-sm text-white/55 sm:text-base">
-            Escolha o plano ideal para o seu estilo de vida. Sem fidelidade,
-            sem surpresas.
+            Escolha o plano ideal para o seu estilo de vida.
           </p>
         </motion.div>
       </div>
