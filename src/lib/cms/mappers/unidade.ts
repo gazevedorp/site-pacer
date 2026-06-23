@@ -45,6 +45,10 @@ export function isActiveUnit(u: Unidade): boolean {
   return u.status === "active";
 }
 
+export function formatUnidadesCount(count: number): string {
+  return `${count} unidade${count === 1 ? "" : "s"}`;
+}
+
 export function isComingSoonUnit(u: Unidade): boolean {
   return u.status === "coming_soon";
 }

@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { AnimatedSection } from "@/components/ui/animated";
 import { units, comingSoon, type Unit } from "@/data/units";
 import gymCover from "@/assets/images/gym.png";
+import { useActiveUnits } from "@/hooks/cms/useUnidades";
+import { formatUnidadesCount } from "@/lib/cms/mappers/unidade";
 
 const PAGE_SIZE = 4;
 
@@ -45,6 +47,7 @@ export function Units() {
   const [cepCoords, setCepCoords] = useState<{ lat: number; lng: number } | null>(null);
   const reduced = useReducedMotion();
   const [loadingCep, setLoadingCep] = useState(false);
+  const { count: activeUnitsCount, isLoading: isLoadingUnits } = useActiveUnits();
 
   const fetchCepCoords = useCallback(async (cep: string) => {
     setLoadingCep(true);
@@ -118,8 +121,9 @@ export function Units() {
             <span className="text-muted-foreground">você</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            13 unidades em Ribeirão e região. Todas com a mesma
-            qualidade, equipamentos de alto padrão e ambiente 100% climatizado.
+            {isLoadingUnits
+              ? "Unidades em Ribeirão Preto e região. Todas com a mesma qualidade, equipamentos de alto padrão e ambiente 100% climatizado."
+              : `${formatUnidadesCount(activeUnitsCount)} em Ribeirão Preto e região. Todas com a mesma qualidade, equipamentos de alto padrão e ambiente 100% climatizado.`}
           </p>
         </AnimatedSection>
 

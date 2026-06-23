@@ -1,9 +1,12 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ChevronRight, Home } from "lucide-react";
+import { useActiveUnits } from "@/hooks/cms/useUnidades";
+import { formatUnidadesCount } from "@/lib/cms/mappers/unidade";
 
 export function UnitsBanner() {
   const reduced = useReducedMotion();
+  const { count: activeUnitsCount, isLoading } = useActiveUnits();
 
   return (
     <section
@@ -68,7 +71,9 @@ export function UnitsBanner() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
-          13 unidades em Ribeirão e região prontas
+          {isLoading
+            ? "Unidades em Ribeirão Preto e região prontas"
+            : `${formatUnidadesCount(activeUnitsCount)} em Ribeirão Preto e região prontas`}{" "}
           para transformar o seu treino.
         </motion.p>
       </div>
