@@ -1,11 +1,8 @@
 import { AnimatedSection, StaggerContainer, StaggerItem } from "@/components/ui/animated";
+import { useActiveUnits } from "@/hooks/cms/useUnidades";
+import { formatUnidadesCount } from "@/lib/cms/mappers/unidade";
 
 const steps = [
-  {
-    step: "01",
-    title: "Escolha sua unidade",
-    description: "São 13 unidades em Ribeirão e região. Encontre a mais perto de você e venha conhecer.",
-  },
   {
     step: "02",
     title: "Conheça a estrutura",
@@ -16,9 +13,21 @@ const steps = [
     title: "Comece a treinar",
     description: "Montamos um programa de exercícios para seus objetivos: perder peso, tonificar ou ganhar massa. #pacernoseuritmo",
   },
-];
+] as const;
 
 export function HowItWorks() {
+  const { count: activeUnitsCount, isLoading } = useActiveUnits();
+
+  const allSteps = [
+    {
+      step: "01",
+      title: "Escolha sua unidade",
+      description: isLoading
+        ? "Encontre a unidade mais perto de você em Ribeirão e região e venha conhecer."
+        : `São ${formatUnidadesCount(activeUnitsCount)} em Ribeirão e região. Encontre a mais perto de você e venha conhecer.`,
+    },
+    ...steps,
+  ];
   return (
     <section id="como-funciona" className="relative py-24 sm:py-32">
       {/* Subtle divider gradient */}
@@ -36,11 +45,11 @@ export function HowItWorks() {
         </AnimatedSection>
 
         <StaggerContainer className="mt-16 grid gap-8 md:grid-cols-3">
-          {steps.map((item, i) => (
+          {allSteps.map((item, i) => (
             <StaggerItem key={item.step}>
               <div className="relative text-center">
                 {/* Connector line */}
-                {i < steps.length - 1 && (
+                {i < allSteps.length - 1 && (
                   <div className="absolute right-0 top-8 hidden h-px w-full translate-x-1/2 bg-gradient-to-r from-border to-transparent md:block" />
                 )}
                 <div className="relative mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10">

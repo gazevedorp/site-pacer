@@ -4,8 +4,8 @@ import { MapPin, Clock, ArrowRight, Loader2, X, Navigation } from "lucide-react"
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useCepGeocode, haversineKm, formatCep } from "@/hooks/useCepGeocode";
-import { useUnidades } from "@/hooks/cms/useUnidades";
-import { isActiveUnit } from "@/lib/cms/mappers/unidade";
+import { useActiveUnits } from "@/hooks/cms/useUnidades";
+import { formatUnidadesCount } from "@/lib/cms/mappers/unidade";
 import { CmsEmpty, CmsLoading } from "@/components/shared/CmsStates";
 import type { Unidade } from "@/types/cms";
 
@@ -16,12 +16,7 @@ export function HomeUnitsSearch() {
   const [cep, setCep] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const geocode = useCepGeocode(cep);
-  const { data: unidades, isLoading } = useUnidades();
-
-  const activeUnits = useMemo(
-    () => unidades.filter(isActiveUnit),
-    [unidades]
-  );
+  const { units: activeUnits, count: activeUnitsCount, isLoading } = useActiveUnits();
 
   const sortedUnits = useMemo((): UnitWithDistance[] => {
     if (geocode.result) {
@@ -37,8 +32,8 @@ export function HomeUnitsSearch() {
   }, [activeUnits, geocode.result]);
 
   const unitCountLabel =
-    activeUnits.length > 0
-      ? `${activeUnits.length} unidade${activeUnits.length === 1 ? "" : "s"}`
+    activeUnitsCount > 0
+      ? formatUnidadesCount(activeUnitsCount)
       : "Unidades";
 
   return (

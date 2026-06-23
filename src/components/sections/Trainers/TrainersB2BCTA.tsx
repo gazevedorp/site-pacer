@@ -1,13 +1,12 @@
+import { useMemo } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { MovingBorder } from "@/components/ui/moving-border";
+import { useActiveUnits } from "@/hooks/cms/useUnidades";
+import { formatUnidadesCount } from "@/lib/cms/mappers/unidade";
 
 const PERKS = [
-  {
-    label: "Base de alunos",
-    description: "Acesso a milhares de alunos ativos em 12 unidades.",
-  },
   {
     label: "Visibilidade",
     description: "Perfil destacado no nosso site.",
@@ -20,6 +19,18 @@ const PERKS = [
 
 export function TrainersB2BCTA() {
   const reduced = useReducedMotion();
+  const { count: activeUnitsCount, isLoading } = useActiveUnits();
+
+  const perks = useMemo(() => {
+    const basePerk = {
+      label: "Base de alunos",
+      description: isLoading
+        ? "Acesso a milhares de alunos ativos em nossas unidades."
+        : `Acesso a milhares de alunos ativos em ${formatUnidadesCount(activeUnitsCount)}.`,
+    };
+
+    return [basePerk, ...PERKS];
+  }, [activeUnitsCount, isLoading]);
 
   return (
     <section
@@ -101,7 +112,7 @@ export function TrainersB2BCTA() {
 
             {/* Right: perks grid */}
             <div className="grid w-full grid-cols-2 gap-3 lg:max-w-sm">
-              {PERKS.map((perk, i) => (
+              {perks.map((perk, i) => (
                   <motion.div
                     key={perk.label}
                     initial={reduced ? false : { opacity: 0, scale: 0.95 }}

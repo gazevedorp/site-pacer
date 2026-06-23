@@ -4,10 +4,12 @@ import { MapPin, Dumbbell } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Spotlight } from "@/components/ui/spotlight";
+import { useActiveUnits } from "@/hooks/cms/useUnidades";
 
 export function HomeHero() {
   const prefersReduced = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const { count: activeUnitsCount, isLoading: isLoadingUnits } = useActiveUnits();
 
   return (
     <section
@@ -126,7 +128,9 @@ export function HomeHero() {
           </div>
           <div className="h-8 w-px bg-white/15 hidden sm:block" aria-hidden />
           <div className="flex flex-col items-center gap-0.5">
-            <span className="text-2xl font-black text-white">13</span>
+            <span className="text-2xl font-black text-white">
+              {isLoadingUnits ? "—" : activeUnitsCount}
+            </span>
             <span className="text-[12px] uppercase tracking-widest text-white/50">unidades</span>
           </div>
         </motion.div>
