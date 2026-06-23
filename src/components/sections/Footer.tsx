@@ -23,7 +23,7 @@ const footerLinks = {
   Social: [
     { label: "Instagram", href: "https://instagram.com/paceracademia" },
     { label: "YouTube", href: "https://youtube.com/@paceracademia" },
-    { label: "TikTok", href: "https://tiktok.com/@paceracademia" },
+    { label: "TikTok", href: "https://www.tiktok.com/@pacer.academia" },
   ],
 };
 
