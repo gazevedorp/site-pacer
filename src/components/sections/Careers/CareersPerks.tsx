@@ -94,7 +94,7 @@ export function CareersPerks() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-white/50"
             >
-              Não só mais um emprego — uma carreira com propósito, num ambiente
+              Não só mais um emprego, uma carreira com propósito, em um ambiente
               que valoriza quem move o mundo.
             </motion.p>
           </div>
