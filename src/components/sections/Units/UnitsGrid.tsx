@@ -2,16 +2,20 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { MapPin, Clock, ArrowRight, Construction } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { formatDistance } from "@/hooks/useCepGeocode";
 import type { Unidade } from "@/types/cms";
+
+type UnitWithDistance = Unidade & { distance?: number | null };
 
 // ---------- Unit Card (active) ------------------------------------------
 
 interface UnitCardProps {
-  unit: Unidade;
+  unit: UnitWithDistance;
   index: number;
+  showDistance?: boolean;
 }
 
-function UnitCard({ unit, index }: UnitCardProps) {
+function UnitCard({ unit, index, showDistance = false }: UnitCardProps) {
   const reduced = useReducedMotion();
 
   return (
@@ -39,9 +43,16 @@ function UnitCard({ unit, index }: UnitCardProps) {
       </div>
 
       <div className="flex flex-1 flex-col p-4">
-        <h3 className="text-base font-semibold leading-snug text-foreground">
-          Pacer {unit.name}
-        </h3>
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="text-base font-semibold leading-snug text-foreground">
+            Pacer {unit.name}
+          </h3>
+          {showDistance && unit.distance != null && (
+            <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-[12px] font-medium text-primary">
+              {formatDistance(unit.distance)}
+            </span>
+          )}
+        </div>
 
         <p className="mt-1.5 flex items-start gap-1.5 text-xs leading-snug text-muted-foreground">
           <MapPin
@@ -178,10 +189,11 @@ function EmptyState({ onClear }: { onClear: () => void }) {
 // ---------- Grid --------------------------------------------------------
 
 interface UnitsGridProps {
-  filteredUnits: Unidade[];
+  filteredUnits: UnitWithDistance[];
   comingSoonUnits: Unidade[];
   onClearFilters: () => void;
   hasActiveFilters: boolean;
+  showDistance?: boolean;
 }
 
 export function UnitsGrid({
@@ -189,6 +201,7 @@ export function UnitsGrid({
   comingSoonUnits,
   onClearFilters,
   hasActiveFilters,
+  showDistance = false,
 }: UnitsGridProps) {
   const hasComingSoon = !hasActiveFilters && comingSoonUnits.length > 0;
 
@@ -205,7 +218,7 @@ export function UnitsGrid({
         >
           {filteredUnits.map((unit, i) => (
             <div key={unit.slug} role="listitem" className="h-full">
-              <UnitCard unit={unit} index={i} />
+              <UnitCard unit={unit} index={i} showDistance={showDistance} />
             </div>
           ))}
         </div>

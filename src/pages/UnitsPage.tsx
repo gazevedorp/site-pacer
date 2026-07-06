@@ -9,7 +9,9 @@ import { useCepGeocode, haversineKm } from "@/hooks/useCepGeocode";
 import { useUnidades } from "@/hooks/cms/useUnidades";
 import { useModalidades } from "@/hooks/cms/useModalidades";
 import { isActiveUnit, isComingSoonUnit } from "@/lib/cms/mappers/unidade";
-import type { FacilidadeId } from "@/types/cms";
+import type { FacilidadeId, Unidade } from "@/types/cms";
+
+type UnitWithDistance = Unidade & { distance: number | null };
 
 export default function UnitsPage() {
   const [params, setParams] = useSearchParams();
@@ -41,17 +43,18 @@ export default function UnitsPage() {
     });
   }, [activeUnits, cidade, modalidade, facilidade]);
 
-  const sortedFiltered = useMemo(() => {
-    if (geocode.result) {
+  const sortedFiltered = useMemo((): UnitWithDistance[] => {
+    if (geocode.status === "success" && geocode.result) {
       const { lat, lng } = geocode.result;
-      return [...filtered].sort(
-        (a, b) =>
-          haversineKm(lat, lng, a.lat, a.lng) -
-          haversineKm(lat, lng, b.lat, b.lng)
-      );
+      return [...filtered]
+        .map((unit) => ({
+          ...unit,
+          distance: haversineKm(lat, lng, unit.lat, unit.lng),
+        }))
+        .sort((a, b) => (a.distance ?? 0) - (b.distance ?? 0));
     }
-    return filtered;
-  }, [filtered, geocode.result]);
+    return filtered.map((unit) => ({ ...unit, distance: null }));
+  }, [filtered, geocode.result, geocode.status]);
 
   function clearFilters() {
     setParams(new URLSearchParams(), { replace: true });
@@ -79,6 +82,7 @@ export default function UnitsPage() {
         comingSoonUnits={comingSoonUnits}
         onClearFilters={clearFilters}
         hasActiveFilters={hasActiveFilters}
+        showDistance={geocode.status === "success" && Boolean(geocode.result)}
       />
     </main>
   );

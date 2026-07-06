@@ -125,4 +125,10 @@ export const employeeTestimonials: MovingCardItem[] = [
     quote:
       "Minha trajetória na Pacer começou como uma oportunidade de aprendizado e crescimento na área da Educação Física, e hoje posso dizer que essa experiência tem sido fundamental para minha formação profissional. Cada atendimento é uma chance de desenvolver não apenas conhecimentos técnicos, mas tbm habilidades como comunicação, empatia e trabalho em equipe. O ambiente de trabalho é acolhedor e a disposição de todos em compartilhar conhecimento. A Pacer me proporciona experiências práticas que complementam minha formação acadêmica e me ajudam a construir a profissional que desejo ser. Sou muito grata por fazer parte dessa equipe e por poder contribuir diariamente para o bem estar e a qualidade de vida das pessoas. Tenho orgulho da minha trajetória na Pacer e de tudo que venho aprendendo ao longo do caminho e que vou ainda aprender.",
   },
+  {
+    name: "Peterson",
+    title: "Professor de Musculação",
+    quote:
+      "Eu Peterson, gosto de trabalhar neste ambiente porque me sinto motivado, valorizado e em constante evolução. Sinto que é um lugar onde tem seus privilégios e oportunidades de crescimento e também é um lugar onde consigo desenvolver minhas habilidades, aprender coisas novas e contribuir com meu trabalho.\n\nAlém disso, o ambiente e as pessoas fazem diferença no meu dia a dia, tornando o trabalho mais produtivo e agradável. Agradeço por fazer parte desta equipe onde sou professor e personal e também adoro mudar a vida das pessoas.",
+  },
 ];

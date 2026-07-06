@@ -3,7 +3,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { MapPin, Clock, ArrowRight, Loader2, X, Navigation } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { useCepGeocode, haversineKm, formatCep } from "@/hooks/useCepGeocode";
+import { useCepGeocode, haversineKm, formatCep, formatDistance } from "@/hooks/useCepGeocode";
 import { useActiveUnits } from "@/hooks/cms/useUnidades";
 import { formatUnidadesCount } from "@/lib/cms/mappers/unidade";
 import { CmsEmpty, CmsLoading } from "@/components/shared/CmsStates";
@@ -19,7 +19,7 @@ export function HomeUnitsSearch() {
   const { units: activeUnits, count: activeUnitsCount, isLoading } = useActiveUnits();
 
   const sortedUnits = useMemo((): UnitWithDistance[] => {
-    if (geocode.result) {
+    if (geocode.status === "success" && geocode.result) {
       const { lat, lng } = geocode.result;
       return [...activeUnits]
         .map((u) => ({
@@ -29,7 +29,7 @@ export function HomeUnitsSearch() {
         .sort((a, b) => (a.distance ?? 0) - (b.distance ?? 0));
     }
     return activeUnits.slice(0, 8).map((u) => ({ ...u, distance: null }));
-  }, [activeUnits, geocode.result]);
+  }, [activeUnits, geocode.result, geocode.status]);
 
   const unitCountLabel =
     activeUnitsCount > 0
@@ -160,9 +160,7 @@ export function HomeUnitsSearch() {
                     </h3>
                     {unit.distance !== null && (
                       <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-[12px] font-medium text-primary">
-                        {unit.distance < 1
-                          ? `${Math.round(unit.distance * 1000)} m`
-                          : `${unit.distance.toFixed(1)} km`}
+                        {formatDistance(unit.distance)}
                       </span>
                     )}
                   </div>

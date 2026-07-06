@@ -119,7 +119,7 @@ export function UnitsFilterBar({
                   setParams(
                     (p) => {
                       const next = new URLSearchParams(p);
-                      if (formatted.replace(/\D/g, "").length === 8) next.set("cep", formatted);
+                      if (formatted) next.set("cep", formatted);
                       else next.delete("cep");
                       return next;
                     },
