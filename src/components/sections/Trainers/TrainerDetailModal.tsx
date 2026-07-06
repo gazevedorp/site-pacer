@@ -2,8 +2,8 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { X, MapPin, MessageCircle, Instagram, Mail, Phone } from "lucide-react";
 import { useMemo } from "react";
 import { useUnidades } from "@/hooks/cms/useUnidades";
-import { useModalidades } from "@/hooks/cms/useModalidades";
 import { getTrainerWhatsAppLink } from "@/lib/cms/trainerHelpers";
+import { buildTelLink } from "@/lib/whatsapp";
 import { isActiveUnit } from "@/lib/cms/mappers/unidade";
 import type { Personal } from "@/types/cms";
 import { cn } from "@/lib/utils";
@@ -16,7 +16,6 @@ interface TrainerDetailModalProps {
 export function TrainerDetailModal({ trainer, onClose }: TrainerDetailModalProps) {
   const open = trainer !== null;
   const { data: unidades } = useUnidades();
-  const { data: modalidades } = useModalidades();
 
   const trainerUnits = useMemo(() => {
     if (!trainer) return [];
@@ -24,16 +23,8 @@ export function TrainerDetailModal({ trainer, onClose }: TrainerDetailModalProps
     return unidades.filter((u) => isActiveUnit(u) && slugSet.has(u.slug));
   }, [trainer, unidades]);
 
-  const modalityLabels = useMemo(() => {
-    if (!trainer) return [];
-    const slugSet = new Set(trainer.modalitySlugs);
-    return modalidades.filter((m) => slugSet.has(m.slug));
-  }, [trainer, modalidades]);
-
   const contact = trainer?.contact;
-  const phoneHref = contact
-    ? `tel:+${contact.phone.replace(/\D/g, "")}`
-    : undefined;
+  const phoneHref = contact ? buildTelLink(contact.phone) : undefined;
 
   return (
     <Dialog.Root open={open} onOpenChange={(next) => !next && onClose()}>
@@ -75,37 +66,20 @@ export function TrainerDetailModal({ trainer, onClose }: TrainerDetailModalProps
                   {trainer.bio}
                 </Dialog.Description>
 
-                <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
-                      Modalidades
-                    </p>
-                    <div className="mt-2 flex flex-wrap gap-1.5">
-                      {modalityLabels.map((m) => (
-                        <span
-                          key={m.slug}
-                          className="rounded-full border border-border bg-muted/40 px-2.5 py-0.5 text-xs text-foreground/80"
-                        >
-                          {m.title}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
-                      Unidades
-                    </p>
-                    <ul className="mt-2 space-y-1" role="list">
-                      {trainerUnits.map((unit) => (
-                        <li
-                          key={unit.slug}
-                          className="text-xs leading-snug text-muted-foreground sm:text-sm"
-                        >
-                          Pacer {unit.name}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                <div className="mt-4">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
+                    Unidades
+                  </p>
+                  <ul className="mt-2 space-y-1" role="list">
+                    {trainerUnits.map((unit) => (
+                      <li
+                        key={unit.slug}
+                        className="text-xs leading-snug text-muted-foreground sm:text-sm"
+                      >
+                        Pacer {unit.name}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
                 {contact && (
