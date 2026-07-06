@@ -64,7 +64,7 @@ export function ContactBanner() {
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-primary">
             Estamos aqui para você
           </p>
-          <h1 className="font-display text-fluid-3xl font-bold leading-tight text-white">
+          <h1 className="text-display text-fluid-3xl leading-tight text-white">
             Fale{" "}
             <span className="text-primary">Conosco</span>
           </h1>

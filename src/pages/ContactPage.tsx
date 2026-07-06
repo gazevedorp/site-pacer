@@ -22,7 +22,7 @@ export default function ContactPage() {
           <div className="mb-4 text-center">
             <h2
               id="contact-form-heading"
-              className="text-display text-fluid-2xl font-bold leading-tight text-foreground"
+              className="text-display text-fluid-2xl leading-tight text-foreground"
             >
               Envie sua mensagem
             </h2>

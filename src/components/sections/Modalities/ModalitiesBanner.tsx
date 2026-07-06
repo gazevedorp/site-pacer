@@ -50,7 +50,7 @@ export function ModalitiesBanner() {
         </nav>
 
         <motion.h1
-          className="text-display text-fluid-3xl font-black tracking-tight text-white"
+          className="text-display text-fluid-3xl tracking-tight text-white"
           initial={reduced ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}

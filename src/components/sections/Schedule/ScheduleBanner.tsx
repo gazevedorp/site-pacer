@@ -58,7 +58,7 @@ export function ScheduleBanner() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <h1 className="font-display text-fluid-3xl font-bold leading-tight text-white">
+          <h1 className="text-display text-fluid-3xl leading-tight text-white">
             Grade de Aulas
           </h1>
           <p className="mt-2 max-w-lg text-sm text-white/55 sm:text-base">

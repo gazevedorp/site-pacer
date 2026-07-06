@@ -59,7 +59,7 @@ export function FAQBanner() {
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-primary">
             Dúvidas frequentes
           </p>
-          <h1 className="font-display text-fluid-3xl font-bold leading-tight text-white">
+          <h1 className="text-display text-fluid-3xl leading-tight text-white">
             Perguntas{" "}
             <span className="text-primary">Frequentes</span>
           </h1>

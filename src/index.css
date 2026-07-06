@@ -1,14 +1,6 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: "CocoPuff";
-  src: url("@/assets/fonts/CocoPuff/CocoPuff-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
   font-family: "Abel";
   src: url("@/assets/fonts/Abel/Abel-Regular.ttf") format("truetype");
   font-weight: 400;
@@ -20,7 +12,7 @@
   /* ─── Typography ─────────────────────────────────────────── */
   --font-sans: "Abel", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "Abel", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "CocoPuff", "Abel", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Montserrat", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
 
   /* ─── Pacer Brand Colors ─────────────────────────────────── */
@@ -158,6 +150,8 @@
   /* Text utilities */
   .text-display {
     font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
   }
 
   .text-balance {
