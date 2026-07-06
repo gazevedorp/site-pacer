@@ -62,7 +62,7 @@ export function PlansBanner() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           <h1 className="text-display text-fluid-3xl leading-tight text-white">
-            Planos e Precos
+            Planos e Preços
           </h1>
           <p className="mt-2 max-w-lg text-sm text-white/55 sm:text-base">
             Escolha o plano ideal para o seu estilo de vida.
