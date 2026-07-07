@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, AnimatePresence, useInView, useReducedMotion } from "framer-motion";
 import { MapPin, Clock, ChevronRight, MessageCircle } from "lucide-react";
 import { ImagesSlider } from "@/components/ui/images-slider";
+import { PageBreadcrumb } from "@/components/shared/PageBreadcrumb";
 import type { Unidade } from "@/types/cms";
 
 interface UnitHeroProps {
@@ -33,14 +34,12 @@ export function UnitHero({ unit, whatsappHref }: UnitHeroProps) {
             {/* Bottom content */}
             <div className="relative w-full pb-10 pt-24">
               <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Breadcrumb */}
-                <p className="mb-3 text-sm text-white/50">
-                  <a href="/unidades" className="transition-colors hover:text-white/80">
-                    Unidades
-                  </a>
-                  {" / "}
-                  <span className="text-white/70">{unit.name}</span>
-                </p>
+                <PageBreadcrumb
+                  items={[
+                    { label: "Unidades", href: "/unidades" },
+                    { label: unit.name },
+                  ]}
+                />
 
                 {/* Name */}
                 <motion.h1

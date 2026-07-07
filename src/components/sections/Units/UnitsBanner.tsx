@@ -1,6 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { ChevronRight, Home } from "lucide-react";
+import { PageBreadcrumb } from "@/components/shared/PageBreadcrumb";
 import { useActiveUnits } from "@/hooks/cms/useUnidades";
 import { formatUnidadesCount } from "@/lib/cms/mappers/unidade";
 
@@ -31,28 +30,7 @@ export function UnitsBanner() {
       />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-4">
-          <ol className="flex items-center gap-1.5 text-sm text-white/60">
-            <li>
-              <Link
-                to="/"
-                className="flex items-center gap-1 transition-colors hover:text-white"
-              >
-                <Home className="h-3.5 w-3.5" />
-                <span>Home</span>
-              </Link>
-            </li>
-            <li aria-hidden="true">
-              <ChevronRight className="h-3.5 w-3.5" />
-            </li>
-            <li>
-              <span className="text-primary" aria-current="page">
-                Unidades
-              </span>
-            </li>
-          </ol>
-        </nav>
+        <PageBreadcrumb items={[{ label: "Unidades" }]} />
 
         {/* Title */}
         <motion.h1

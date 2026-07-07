@@ -1,6 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { ChevronRight, Home } from "lucide-react";
+import { PageBreadcrumb } from "@/components/shared/PageBreadcrumb";
 
 export function CareersBanner() {
   const reduced = useReducedMotion();
@@ -8,7 +7,7 @@ export function CareersBanner() {
   return (
     <section
       aria-label="Trabalhe Conosco — Pacer Academia"
-      className="relative flex min-h-[340px] items-end overflow-hidden pt-16 sm:min-h-[400px]"
+      className="relative flex min-h-[340px] items-end overflow-hidden pt-24 sm:min-h-[400px]"
     >
       {/* Background */}
       <img
@@ -35,26 +34,7 @@ export function CareersBanner() {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto w-full px-4 pb-12 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <nav aria-label="Navegação estrutural" className="mb-4">
-          <ol className="flex items-center gap-1.5 text-xs text-white/40">
-            <li>
-              <Link
-                to="/"
-                className="inline-flex items-center gap-1 transition-colors hover:text-white/70 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
-              >
-                <Home className="h-3 w-3" aria-hidden />
-                Home
-              </Link>
-            </li>
-            <li aria-hidden>
-              <ChevronRight className="h-3 w-3" />
-            </li>
-            <li>
-              <span className="text-white/70">Trabalhe Conosco</span>
-            </li>
-          </ol>
-        </nav>
+        <PageBreadcrumb items={[{ label: "Trabalhe Conosco" }]} />
 
         <motion.div
           initial={reduced ? false : { opacity: 0, y: 20 }}

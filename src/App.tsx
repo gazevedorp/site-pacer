@@ -2,7 +2,7 @@ import { lazy, Suspense, useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { SplashScreen } from "@/components/SplashScreen";
 import { AlertModal } from "@/components/AlertModal";
-import { WhatsAppFloat } from "@/components/WhatsAppFloat";
+import { AppFloat } from "@/components/AppFloat";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageSkeleton } from "@/components/layout/PageSkeleton";
 import { LenisProvider, useLenis } from "@/hooks/useLenis";
@@ -20,6 +20,7 @@ const PlansPage          = lazy(() => import("@/pages/PlansPage"));
 const CareersPage        = lazy(() => import("@/pages/CareersPage"));
 const ContactPage        = lazy(() => import("@/pages/ContactPage"));
 const FAQPage            = lazy(() => import("@/pages/FAQPage"));
+const AppPage            = lazy(() => import("@/pages/AppPage"));
 
 // ─── Scroll-to-top on route change (Lenis-aware) ─────────────────────────────
 function ScrollToTop() {
@@ -66,6 +67,7 @@ function AppRoutes() {
           <Route path="/trabalhe-conosco"    element={wrap(CareersPage)} />
           <Route path="/contato"             element={wrap(ContactPage)} />
           <Route path="/faq"                  element={wrap(FAQPage)} />
+          <Route path="/app"                  element={wrap(AppPage)} />
         </Route>
       </Routes>
     </>
@@ -85,7 +87,7 @@ export function App() {
           className="min-h-screen"
           style={{ opacity: showSplash ? 0 : 1, transition: "opacity 0.5s ease" }}
         >
-          <WhatsAppFloat />
+          <AppFloat />
           <AlertModal enabled={!showSplash} />
           <AppRoutes />
         </div>
