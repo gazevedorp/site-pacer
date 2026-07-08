@@ -160,7 +160,7 @@ type PlanosRow = {
   name: string;
   tagline: string | null;
   plan_type: "terrestre" | "unidade";
-  categoria_id: string | null;
+  categoria_plano_id: string | null;
   price: number | null;
   price_label: string | null;
   period: string;

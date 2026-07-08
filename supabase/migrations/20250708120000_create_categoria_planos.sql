@@ -21,9 +21,9 @@ create trigger categoria_planos_set_updated_at
   for each row execute function public.set_updated_at();
 
 alter table public.planos
-  add column categoria_id uuid references public.categoria_planos (id) on delete set null;
+  add column if not exists categoria_plano_id uuid references public.categoria_planos (id) on delete set null;
 
-create index planos_categoria_id_idx on public.planos (categoria_id);
+create index if not exists planos_categoria_plano_id_idx on public.planos (categoria_plano_id);
 
 -- Categorias padrão (espelham as seções atuais da página de planos)
 insert into public.categoria_planos (slug, name, description, sort_order)
@@ -42,12 +42,12 @@ values
   );
 
 update public.planos p
-set categoria_id = c.id
+set categoria_plano_id = c.id
 from public.categoria_planos c
 where p.plan_type = 'terrestre' and c.slug = 'terrestres';
 
 update public.planos p
-set categoria_id = c.id
+set categoria_plano_id = c.id
 from public.categoria_planos c
 where p.plan_type = 'unidade' and c.slug = 'unidades';
 

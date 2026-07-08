@@ -45,7 +45,7 @@ export async function fetchCategoriasComPlanos(): Promise<CategoriaComPlanos[]> 
       .from("planos")
       .select("*")
       .eq("is_active", true)
-      .not("categoria_id", "is", null)
+      .not("categoria_plano_id", "is", null)
       .order("sort_order", { ascending: true }),
     fetchUnitInfoByPlano(),
   ]);
@@ -55,10 +55,10 @@ export async function fetchCategoriasComPlanos(): Promise<CategoriaComPlanos[]> 
 
   const planosByCategoria = new Map<string, PlanoRow[]>();
   for (const row of planos ?? []) {
-    if (!row.categoria_id) continue;
-    const list = planosByCategoria.get(row.categoria_id) ?? [];
+    if (!row.categoria_plano_id) continue;
+    const list = planosByCategoria.get(row.categoria_plano_id) ?? [];
     list.push(row);
-    planosByCategoria.set(row.categoria_id, list);
+    planosByCategoria.set(row.categoria_plano_id, list);
   }
 
   return (categorias ?? [])
