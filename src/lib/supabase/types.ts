@@ -143,12 +143,24 @@ type ModalidadesRow = {
   updated_at: string;
 };
 
+type CategoriaPlanosRow = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+  sort_order: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
 type PlanosRow = {
   id: string;
   slug: string;
   name: string;
   tagline: string | null;
   plan_type: "terrestre" | "unidade";
+  categoria_id: string | null;
   price: number | null;
   price_label: string | null;
   period: string;
@@ -269,6 +281,14 @@ export type Database = {
         Partial<{ modalidade_id: string; unidade_id: string }>,
         ModalidadeUnidadeRelationships
       >;
+      categoria_planos: TableDef<
+        CategoriaPlanosRow,
+        Omit<CategoriaPlanosRow, "id" | "created_at" | "updated_at"> & {
+          id?: string;
+          created_at?: string;
+          updated_at?: string;
+        }
+      >;
       planos: TableDef<
         PlanosRow,
         Omit<PlanosRow, "id" | "created_at" | "updated_at"> & {
@@ -375,6 +395,7 @@ export type Database = {
 
 export type UnidadeRow = UnidadesRow;
 export type ModalidadeRow = ModalidadesRow;
+export type CategoriaPlanoRow = CategoriaPlanosRow;
 export type PlanoRow = PlanosRow;
 export type PersonalRow = PersonaisRow;
 export type FaqRow = FaqsRow;
