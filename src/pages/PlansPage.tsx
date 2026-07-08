@@ -1,18 +1,19 @@
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { usePlanosTerrestres } from "@/hooks/cms/usePlanos";
+import { useCategoriasComPlanos } from "@/hooks/cms/useCategoriaPlanos";
 import { PlansBanner } from "@/components/sections/Plans/PlansBanner";
-import { PlansShowcase } from "@/components/sections/Plans/PlansShowcase";
-import { PlansUnitExtras } from "@/components/sections/Plans/PlansUnitExtras";
+import { PlansCategories } from "@/components/sections/Plans/PlansCategories";
 
 export default function PlansPage() {
-  const { data: terrestres } = usePlanosTerrestres();
+  const { data: categorias } = useCategoriasComPlanos();
+
+  const allPlans = categorias.flatMap((categoria) => categoria.planos);
 
   const plansJsonLd = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Planos Pacer Academia",
     url: "https://paceracademia.com.br/planos",
-    itemListElement: terrestres.map((plan, i) => ({
+    itemListElement: allPlans.map((plan, i) => ({
       "@type": "ListItem",
       position: i + 1,
       name: plan.name,
@@ -30,8 +31,7 @@ export default function PlansPage() {
   return (
     <main>
       <PlansBanner />
-      <PlansShowcase />
-      <PlansUnitExtras />
+      <PlansCategories />
     </main>
   );
 }

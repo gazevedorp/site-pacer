@@ -41,12 +41,25 @@ export interface Modalidade {
   unitSlugs: string[];
 }
 
+export interface CategoriaPlano {
+  id: string;
+  slug: string;
+  name: string;
+  description?: string;
+  sortOrder: number;
+}
+
+export interface CategoriaComPlanos extends CategoriaPlano {
+  planos: Plano[];
+}
+
 export interface Plano {
   id: string;
   slug: string;
   name: string;
   tagline: string;
   planType: "terrestre" | "unidade";
+  categoriaId?: string;
   price?: number;
   priceLabel?: string;
   period: string;

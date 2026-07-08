@@ -19,6 +19,7 @@ export function mapPlano(
     name: row.name,
     tagline: row.tagline ?? "",
     planType: row.plan_type,
+    categoriaId: row.categoria_plano_id ?? undefined,
     price,
     priceLabel: row.price_label ?? undefined,
     period: row.period,
