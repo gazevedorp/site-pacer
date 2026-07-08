@@ -15,6 +15,12 @@ import { cn } from "@/lib/utils";
 import { buildWhatsAppLink, CENTRAL_WHATSAPP } from "@/lib/whatsapp";
 import { usePlanosTerrestres } from "@/hooks/cms/usePlanos";
 import { CmsLoading } from "@/components/shared/CmsStates";
+import {
+  plansCarouselItemClass,
+  plansCarouselNavButtonClass,
+  plansCarouselTrackClass,
+  plansSectionContainerClass,
+} from "@/components/sections/Plans/plansCarouselLayout";
 
 export function HomePlans() {
   const reduced = useReducedMotion();
@@ -92,7 +98,7 @@ export function HomePlans() {
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent"
       />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className={plansSectionContainerClass}>
         <motion.div
           className="mx-auto max-w-2xl text-center"
           initial={reduced ? false : { opacity: 0, y: 24 }}
@@ -123,10 +129,8 @@ export function HomePlans() {
                 disabled={!canScrollPrev}
                 aria-label="Plano anterior"
                 className={cn(
-                  "absolute left-0 top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 sm:flex",
-                  "h-10 w-10 items-center justify-center rounded-full border border-border bg-white shadow-md transition",
-                  "hover:border-primary/30 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-                  "disabled:pointer-events-none disabled:opacity-40"
+                  plansCarouselNavButtonClass,
+                  "left-0 -translate-x-1/2"
                 )}
               >
                 <ChevronLeft className="h-5 w-5" />
@@ -137,10 +141,8 @@ export function HomePlans() {
                 disabled={!canScrollNext}
                 aria-label="Próximo plano"
                 className={cn(
-                  "absolute right-0 top-1/2 z-10 hidden translate-x-1/2 -translate-y-1/2 sm:flex",
-                  "h-10 w-10 items-center justify-center rounded-full border border-border bg-white shadow-md transition",
-                  "hover:border-primary/30 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-                  "disabled:pointer-events-none disabled:opacity-40"
+                  plansCarouselNavButtonClass,
+                  "right-0 translate-x-1/2"
                 )}
               >
                 <ChevronRight className="h-5 w-5" />
@@ -150,11 +152,7 @@ export function HomePlans() {
 
           <div
             ref={trackRef}
-            className={cn(
-              "flex snap-x snap-mandatory gap-5 overflow-x-auto pb-8 pt-10",
-              "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-              "-mx-4 px-4 sm:mx-0 sm:px-0"
-            )}
+            className={plansCarouselTrackClass}
             role="list"
             aria-label="Opções de planos"
           >
@@ -178,7 +176,7 @@ export function HomePlans() {
                     ease: [0.22, 1, 0.36, 1],
                   }}
                   className={cn(
-                    "w-[85vw] max-w-[360px] shrink-0 snap-center",
+                    plansCarouselItemClass,
                     "relative flex flex-col rounded-2xl border p-6 transition-shadow duration-300",
                     plan.highlighted
                       ? "border-primary/50 bg-white shadow-glow-sm"

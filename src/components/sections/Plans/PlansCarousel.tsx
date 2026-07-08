@@ -2,6 +2,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PlanCard, type PlanCardData } from "@/components/sections/Plans/PlanCard";
+import {
+  plansCarouselItemClass,
+  plansCarouselNavButtonClass,
+  plansCarouselTrackClass,
+} from "@/components/sections/Plans/plansCarouselLayout";
 import { cn } from "@/lib/utils";
 import type { Plano } from "@/types/cms";
 
@@ -103,12 +108,7 @@ export function PlansCarousel({
             onClick={() => scrollToIndex(activeIndex - 1)}
             disabled={!canScrollPrev}
             aria-label="Plano anterior"
-            className={cn(
-              "absolute left-0 top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 sm:flex",
-              "h-10 w-10 items-center justify-center rounded-full border border-border bg-white shadow-md transition",
-              "hover:border-primary/30 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-              "disabled:pointer-events-none disabled:opacity-40"
-            )}
+            className={cn(plansCarouselNavButtonClass, "left-0 -translate-x-1/2")}
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -117,12 +117,7 @@ export function PlansCarousel({
             onClick={() => scrollToIndex(activeIndex + 1)}
             disabled={!canScrollNext}
             aria-label="Próximo plano"
-            className={cn(
-              "absolute right-0 top-1/2 z-10 hidden translate-x-1/2 -translate-y-1/2 sm:flex",
-              "h-10 w-10 items-center justify-center rounded-full border border-border bg-white shadow-md transition",
-              "hover:border-primary/30 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-              "disabled:pointer-events-none disabled:opacity-40"
-            )}
+            className={cn(plansCarouselNavButtonClass, "right-0 translate-x-1/2")}
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -131,11 +126,7 @@ export function PlansCarousel({
 
       <div
         ref={trackRef}
-        className={cn(
-          "flex snap-x snap-mandatory gap-5 overflow-x-auto pb-8 pt-10",
-          "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-          "-mx-4 px-4 sm:mx-0 sm:px-0"
-        )}
+        className={plansCarouselTrackClass}
         role="list"
         aria-label={ariaLabel}
       >
@@ -143,7 +134,7 @@ export function PlansCarousel({
           <div
             key={plan.slug}
             role="listitem"
-            className="w-[85vw] max-w-[360px] shrink-0 snap-center"
+            className={plansCarouselItemClass}
           >
             <PlanCard plan={toPlanCardData(plan)} index={i} variant={variant} />
           </div>

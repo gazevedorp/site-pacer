@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useCategoriasComPlanos } from "@/hooks/cms/useCategoriaPlanos";
 import { PlansCarousel } from "@/components/sections/Plans/PlansCarousel";
+import { plansSectionContainerClass } from "@/components/sections/Plans/plansCarouselLayout";
 import { CmsLoading } from "@/components/shared/CmsStates";
 import { cn } from "@/lib/utils";
 
@@ -24,8 +25,8 @@ export function PlansCategories() {
               index > 0 && "relative border-t border-border bg-muted/30"
             )}
           >
-            <div className="container mx-auto px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-              <div className="mb-10 text-center">
+            <div className={cn(plansSectionContainerClass, "py-12 sm:py-16")}>
+              <div className="text-center">
                 <motion.h2
                   id={headingId}
                   initial={{ opacity: 0, y: 12 }}
@@ -49,11 +50,13 @@ export function PlansCategories() {
                 )}
               </div>
 
-              <PlansCarousel
-                plans={categoria.planos}
-                variant={isSecondary ? "secondary" : "default"}
-                ariaLabel={categoria.name}
-              />
+              <div className="mt-10">
+                <PlansCarousel
+                  plans={categoria.planos}
+                  variant={isSecondary ? "secondary" : "default"}
+                  ariaLabel={categoria.name}
+                />
+              </div>
 
               {index === 0 && (
                 <p className="mt-8 text-center text-xs text-muted-foreground/80">
