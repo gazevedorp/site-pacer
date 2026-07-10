@@ -134,6 +134,15 @@ export function HomeHero() {
             <span className="text-[12px] uppercase tracking-widest text-white/50">unidades</span>
           </div>
         </motion.div>
+
+        <motion.p
+          className="mt-4 text-sm font-medium text-primary/90"
+          initial={prefersReduced ? false : { opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 1.5 }}
+        >
+          Aluno Pacer pode treinar em todas as unidades!
+        </motion.p>
       </div>
 
       {/* ── Scroll cue ────────────────────────────────────────────── */}

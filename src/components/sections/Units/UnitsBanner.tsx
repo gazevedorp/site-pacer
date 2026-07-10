@@ -51,8 +51,8 @@ export function UnitsBanner() {
         >
           {isLoading
             ? "Unidades em Ribeirão Preto e região prontas"
-            : `${formatUnidadesCount(activeUnitsCount)} em Ribeirão Preto e região prontas`}{" "}
-          para transformar o seu treino.
+            : `${formatUnidadesCount(activeUnitsCount)} em Ribeirão Preto e região.`}{" "}
+          Aluno Pacer pode treinar em todas.
         </motion.p>
       </div>
     </section>
