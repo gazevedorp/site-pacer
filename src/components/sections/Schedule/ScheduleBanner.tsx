@@ -41,7 +41,7 @@ export function ScheduleBanner() {
           <h1 className="text-display text-fluid-3xl leading-tight text-white">
             Grade de Aulas
           </h1>
-          <p className="mt-2 max-w-lg text-sm text-white/55 sm:text-base">
+          <p className="mt-2 max-w-lg text-fluid-md text-white/55">
             Selecione sua unidade e modalidade para ver os horários disponíveis.
           </p>
         </motion.div>
