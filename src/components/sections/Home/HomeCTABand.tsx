@@ -73,9 +73,8 @@ export function HomeCTABand() {
           viewport={{ once: true, margin: "-10%" }}
           transition={{ duration: 0.6, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
         >
-          Fale com a gente pelo WhatsApp. Agendamos uma{" "}
-          <strong className="text-white">aula experimental gratuita</strong>{" "}
-          na unidade mais próxima de você.
+          Fale com a gente pelo WhatsApp ou visite a unidade mais próxima de
+          você.
         </motion.p>
 
         <motion.div
