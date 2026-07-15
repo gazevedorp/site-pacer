@@ -44,7 +44,7 @@ export function TrainersBanner() {
           <h1 className="text-display text-fluid-3xl leading-tight text-white">
             Personal Trainers
           </h1>
-          <p className="mt-2 max-w-lg text-sm text-white/55 sm:text-base">
+          <p className="mt-2 max-w-lg text-fluid-md text-white/55">
             Conheça os profissionais certificados da rede Pacer. Use os filtros
             para encontrar o trainer ideal para você.
           </p>

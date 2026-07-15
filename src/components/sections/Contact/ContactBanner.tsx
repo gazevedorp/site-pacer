@@ -48,7 +48,7 @@ export function ContactBanner() {
             Fale{" "}
             <span className="text-primary">Conosco</span>
           </h1>
-          <p className="mt-3 max-w-lg text-sm text-white/50 sm:text-base">
+          <p className="mt-3 max-w-lg text-fluid-md text-white/50">
             Dúvida, elogio, reclamação ou sugestão — nossa equipe está pronta
             para te atender com atenção e agilidade.
           </p>

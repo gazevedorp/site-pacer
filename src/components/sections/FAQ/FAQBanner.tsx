@@ -44,7 +44,7 @@ export function FAQBanner() {
             Perguntas{" "}
             <span className="text-primary">Frequentes</span>
           </h1>
-          <p className="mt-3 max-w-lg text-sm text-white/50 sm:text-base">
+          <p className="mt-3 max-w-lg text-fluid-md text-white/50">
             Encontre respostas sobre planos, unidades, aulas e matrícula. Não
             achou o que procura? Fale com a gente pelo WhatsApp ou contato.
           </p>

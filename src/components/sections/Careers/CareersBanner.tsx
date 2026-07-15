@@ -48,7 +48,7 @@ export function CareersBanner() {
             Trabalhe{" "}
             <span className="text-primary">Conosco</span>
           </h1>
-          <p className="mt-3 max-w-lg text-sm text-white/50 sm:text-base">
+          <p className="mt-3 max-w-lg text-fluid-md text-white/50">
             Construa sua carreira na maior rede de academias de Ribeirão e
             região. Aqui o seu talento encontra propósito.
           </p>

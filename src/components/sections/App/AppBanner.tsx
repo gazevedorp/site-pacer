@@ -44,7 +44,7 @@ export function AppBanner() {
             App{" "}
             <span className="text-primary">Pacer Academia</span>
           </h1>
-          <p className="mt-3 max-w-md text-sm text-white/50 sm:max-w-lg sm:text-base">
+          <p className="mt-3 max-w-md text-fluid-md text-white/50 sm:max-w-lg">
             Leve a experiência do treino para onde estiver. Treinos, agenda de
             aulas e notificações, tudo no seu celular.
           </p>

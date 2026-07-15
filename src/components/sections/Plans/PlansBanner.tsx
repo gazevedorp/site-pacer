@@ -44,7 +44,7 @@ export function PlansBanner() {
           <h1 className="text-display text-fluid-3xl leading-tight text-white">
             Planos e Preços
           </h1>
-          <p className="mt-2 max-w-lg text-sm text-white/55 sm:text-base">
+          <p className="mt-2 max-w-lg text-fluid-md text-white/55">
             Escolha o plano ideal para o seu estilo de vida, com acesso livre a todas as unidades.
           </p>
         </motion.div>
