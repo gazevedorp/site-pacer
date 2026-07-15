@@ -67,7 +67,7 @@ export function HomeCTABand() {
         </motion.h2>
 
         <motion.p
-          className="mx-auto mt-5 max-w-lg text-fluid-md leading-relaxed text-white/75"
+          className="mx-auto mt-5 max-w-lg text-fluid-sm leading-relaxed text-white/75"
           initial={reduced ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10%" }}
