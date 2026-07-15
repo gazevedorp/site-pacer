@@ -67,15 +67,14 @@ export function HomeCTABand() {
         </motion.h2>
 
         <motion.p
-          className="mx-auto mt-5 max-w-lg text-fluid-md leading-relaxed text-white/75"
+          className="mx-auto mt-5 max-w-lg text-fluid-sm leading-relaxed text-white/75"
           initial={reduced ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10%" }}
           transition={{ duration: 0.6, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
         >
-          Fale com a gente pelo WhatsApp. Agendamos uma{" "}
-          <strong className="text-white">aula experimental gratuita</strong>{" "}
-          na unidade mais próxima de você.
+          Fale com a gente pelo WhatsApp ou visite a unidade mais próxima de
+          você.
         </motion.p>
 
         <motion.div
