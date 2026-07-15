@@ -116,7 +116,7 @@ export function HomeHero() {
         </motion.div>
 
         <motion.p
-          className="mt-10 text-base font-semibold text-white sm:text-lg"
+          className="mt-3 text-base font-semibold text-white sm:mt-4 sm:text-lg"
           initial={prefersReduced ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1.3 }}
