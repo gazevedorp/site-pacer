@@ -115,34 +115,34 @@ export function HomeHero() {
           </Button>
         </motion.div>
 
-        {/* Social proof stats */}
-        <motion.div
-          className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3"
+        <motion.p
+          className="mt-3 text-base font-semibold text-white sm:mt-4 sm:text-lg"
           initial={prefersReduced ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1.3 }}
         >
-          <div className="flex flex-col items-center gap-0.5">
-            <span className="text-2xl font-black text-white">+ de 1500</span>
-            <span className="text-[12px] uppercase tracking-widest text-white/50">aulas coletivas no mês</span>
-          </div>
-          <div className="h-8 w-px bg-white/15 hidden sm:block" aria-hidden />
-          <div className="flex flex-col items-center gap-0.5">
-            <span className="text-2xl font-black text-white">
-              {isLoadingUnits ? "—" : activeUnitsCount}
-            </span>
-            <span className="text-[12px] uppercase tracking-widest text-white/50">unidades</span>
-          </div>
-        </motion.div>
+          Aluno Pacer pode treinar em todas as unidades!
+        </motion.p>
 
-        <motion.p
-          className="mt-4 text-sm font-medium text-primary/90"
+        {/* Social proof stats */}
+        <motion.div
+          className="mt-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-3"
           initial={prefersReduced ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1.5 }}
         >
-          Aluno Pacer pode treinar em todas as unidades!
-        </motion.p>
+          <div className="flex flex-col items-center gap-0.5">
+            <span className="text-base font-black text-primary sm:text-lg">+ de 1500</span>
+            <span className="text-[10px] uppercase tracking-widest text-primary/70">aulas coletivas no mês</span>
+          </div>
+          <div className="h-6 w-px bg-primary/25 hidden sm:block" aria-hidden />
+          <div className="flex flex-col items-center gap-0.5">
+            <span className="text-base font-black text-primary sm:text-lg">
+              {isLoadingUnits ? "—" : activeUnitsCount}
+            </span>
+            <span className="text-[10px] uppercase tracking-widest text-primary/70">unidades</span>
+          </div>
+        </motion.div>
       </div>
 
       {/* ── Scroll cue ────────────────────────────────────────────── */}
