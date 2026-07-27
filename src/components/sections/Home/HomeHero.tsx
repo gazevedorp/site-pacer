@@ -53,6 +53,36 @@ export function HomeHero() {
         <div className="absolute inset-0 bg-black/55" aria-hidden />
       </div>
 
+      {/* ── Text marquee band ─────────────────────────────────────── */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-16 z-20 overflow-hidden border-y border-white/5 bg-black/25 py-3.5 [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+      >
+        <div
+          className={
+            prefersReduced
+              ? "flex w-max"
+              : "flex w-max animate-logo-marquee"
+          }
+        >
+          {[0, 1].map((group) => (
+            <div
+              key={group}
+              className="flex min-w-[100vw] shrink-0 items-center justify-around gap-10 px-5"
+            >
+              {Array.from({ length: 6 }).map((_, i) => (
+                <span
+                  key={`${group}-${i}`}
+                  className="shrink-0 whitespace-nowrap text-xs font-medium tracking-wide text-white/80 sm:text-sm"
+                >
+                  Aluno Pacer pode treinar em todas as unidades!
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* ── Spotlight glow ────────────────────────────────────────── */}
       <Spotlight
         className="absolute inset-0"
@@ -115,32 +145,23 @@ export function HomeHero() {
           </Button>
         </motion.div>
 
-        <motion.p
-          className="mt-3 text-base font-semibold text-white sm:mt-4 sm:text-lg"
+        {/* Social proof stats */}
+        <motion.div
+          className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3"
           initial={prefersReduced ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1.3 }}
         >
-          Aluno Pacer pode treinar em todas as unidades!
-        </motion.p>
-
-        {/* Social proof stats */}
-        <motion.div
-          className="mt-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-3"
-          initial={prefersReduced ? false : { opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 1.5 }}
-        >
           <div className="flex flex-col items-center gap-0.5">
-            <span className="text-base font-black text-primary sm:text-lg">+ de 1500</span>
-            <span className="text-[10px] uppercase tracking-widest text-primary/70">aulas coletivas no mês</span>
+            <span className="text-base font-black text-white sm:text-lg">+ de 1500</span>
+            <span className="text-[10px] uppercase tracking-widest text-white/70">aulas coletivas no mês</span>
           </div>
-          <div className="h-6 w-px bg-primary/25 hidden sm:block" aria-hidden />
+          <div className="h-6 w-px bg-white/25 hidden sm:block" aria-hidden />
           <div className="flex flex-col items-center gap-0.5">
-            <span className="text-base font-black text-primary sm:text-lg">
+            <span className="text-base font-black text-white sm:text-lg">
               {isLoadingUnits ? "—" : activeUnitsCount}
             </span>
-            <span className="text-[10px] uppercase tracking-widest text-primary/70">unidades</span>
+            <span className="text-[10px] uppercase tracking-widest text-white/70">unidades</span>
           </div>
         </motion.div>
       </div>

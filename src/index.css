@@ -74,6 +74,14 @@
   /* ─── Spacing scale extras ───────────────────────────────── */
   --spacing-section: clamp(4rem, 8vw, 7rem);
   --spacing-container: clamp(1rem, 4vw, 2rem);
+
+  /* ─── Animations ─────────────────────────────────────────── */
+  --animate-logo-marquee: logo-marquee 35s linear infinite;
+}
+
+@keyframes logo-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 @layer base {
