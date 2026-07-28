@@ -73,7 +73,7 @@ export function HomeHero() {
               {Array.from({ length: 6 }).map((_, i) => (
                 <span
                   key={`${group}-${i}`}
-                  className="shrink-0 whitespace-nowrap text-xs font-medium tracking-wide text-white/80 sm:text-sm"
+                  className="shrink-0 whitespace-nowrap text-xs font-medium tracking-wide text-white/80 sm:text-[calc(0.875rem+2px)]"
                 >
                   Aluno Pacer pode treinar em todas as unidades!
                 </span>
@@ -153,15 +153,15 @@ export function HomeHero() {
           transition={{ duration: 0.5, delay: 1.3 }}
         >
           <div className="flex flex-col items-center gap-0.5">
-            <span className="text-base font-black text-white sm:text-lg">+ de 1500</span>
-            <span className="text-[10px] uppercase tracking-widest text-white/70">aulas coletivas no mês</span>
+            <span className="text-base font-black text-white sm:text-[calc(1.125rem+2px)]">+ de 1500</span>
+            <span className="text-[10px] uppercase tracking-widest text-white/70 sm:text-[12px]">aulas coletivas no mês</span>
           </div>
           <div className="h-6 w-px bg-white/25 hidden sm:block" aria-hidden />
           <div className="flex flex-col items-center gap-0.5">
-            <span className="text-base font-black text-white sm:text-lg">
+            <span className="text-base font-black text-white sm:text-[calc(1.125rem+2px)]">
               {isLoadingUnits ? "—" : activeUnitsCount}
             </span>
-            <span className="text-[10px] uppercase tracking-widest text-white/70">unidades</span>
+            <span className="text-[10px] uppercase tracking-widest text-white/70 sm:text-[12px]">unidades</span>
           </div>
         </motion.div>
       </div>
