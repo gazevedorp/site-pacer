@@ -12,7 +12,7 @@ export function ModalitiesBanner() {
       {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url(/fundo.jpg)" }}
+        style={{ backgroundImage: "url(/fundo.webp)" }}
         aria-hidden="true"
       />
       <div

@@ -22,7 +22,7 @@ export function HomeHero() {
         <video
           ref={videoRef}
           src="/fundo.mp4"
-          poster="/fundo.jpg"
+          poster="/fundo.webp"
           className="h-full w-full object-cover object-center"
           autoPlay={!prefersReduced}
           loop

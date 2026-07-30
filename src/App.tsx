@@ -1,8 +1,9 @@
 import { lazy, Suspense, useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
-import { SplashScreen } from "@/components/SplashScreen";
+import { SplashScreen, shouldShowSplash } from "@/components/SplashScreen";
 import { AlertModal } from "@/components/AlertModal";
 import { AppFloat } from "@/components/AppFloat";
+import { Analytics } from "@/components/Analytics";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageSkeleton } from "@/components/layout/PageSkeleton";
 import { LenisProvider, useLenis } from "@/hooks/useLenis";
@@ -21,6 +22,7 @@ const CareersPage        = lazy(() => import("@/pages/CareersPage"));
 const ContactPage        = lazy(() => import("@/pages/ContactPage"));
 const FAQPage            = lazy(() => import("@/pages/FAQPage"));
 const AppPage            = lazy(() => import("@/pages/AppPage"));
+const NotFoundPage       = lazy(() => import("@/pages/NotFoundPage"));
 
 // ─── Scroll-to-top on route change (Lenis-aware) ─────────────────────────────
 function ScrollToTop() {
@@ -49,6 +51,7 @@ function AppRoutes() {
   return (
     <>
       <ScrollToTop />
+      <Analytics />
       <Routes>
         <Route element={<PageShell />}>
           <Route path="/"                    element={wrap(HomePage)} />
@@ -68,6 +71,7 @@ function AppRoutes() {
           <Route path="/contato"             element={wrap(ContactPage)} />
           <Route path="/faq"                  element={wrap(FAQPage)} />
           <Route path="/app"                  element={wrap(AppPage)} />
+          <Route path="*"                     element={wrap(NotFoundPage)} />
         </Route>
       </Routes>
     </>
@@ -76,7 +80,7 @@ function AppRoutes() {
 
 // ─── Root ─────────────────────────────────────────────────────────────────────
 export function App() {
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(shouldShowSplash);
 
   return (
     <BrowserRouter>
@@ -85,7 +89,10 @@ export function App() {
 
         <div
           className="min-h-screen"
-          style={{ opacity: showSplash ? 0 : 1, transition: "opacity 0.5s ease" }}
+          style={{
+            opacity: showSplash ? 0 : 1,
+            transition: showSplash ? undefined : "opacity 0.5s ease",
+          }}
         >
           <AppFloat />
           <AlertModal enabled={!showSplash} />

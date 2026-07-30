@@ -96,10 +96,14 @@ export function Header() {
 
         {/* Mobile toggle */}
         <button
+          type="button"
           onClick={() => setIsOpen(!isOpen)}
           className="inline-flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:text-foreground lg:hidden"
+          aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={isOpen}
+          aria-controls="mobile-nav"
         >
-          {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {isOpen ? <X className="h-5 w-5" aria-hidden /> : <Menu className="h-5 w-5" aria-hidden />}
         </button>
       </div>
 
@@ -127,6 +131,7 @@ export function Header() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id="mobile-nav"
             key="mobile-menu-panel"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
@@ -134,7 +139,7 @@ export function Header() {
             transition={{ duration: 0.3 }}
             className="overflow-hidden border-t border-border bg-background/95 backdrop-blur-2xl lg:hidden"
           >
-            <nav className="flex flex-col gap-1 p-4">
+            <nav aria-label="Menu mobile" className="flex flex-col gap-1 p-4">
               {navLinks.map((link) => (
                 <NavItem
                   key={link.label}

@@ -11,7 +11,7 @@ export function CareersBanner() {
     >
       {/* Background */}
       <img
-        src="/fundo.jpg"
+        src="/fundo.webp"
         alt=""
         role="presentation"
         loading="eager"

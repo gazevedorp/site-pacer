@@ -10,6 +10,7 @@ import { AnimatedSection, StaggerContainer, StaggerItem } from "@/components/ui/
 import { getUnitBySlug, getOtherUnits } from "@/data/units";
 import { modalities } from "@/data/modalities";
 import { getModalityIcon } from "@/lib/cms/iconMap";
+import { CENTRAL_WHATSAPP } from "@/lib/whatsapp";
 
 function mapsSearchUrl(query: string): string {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
@@ -145,7 +146,7 @@ export function UnitPage() {
                       asChild
                     >
                       <a
-                        href="https://wa.me/5516999999999"
+                        href={`https://wa.me/${CENTRAL_WHATSAPP}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >

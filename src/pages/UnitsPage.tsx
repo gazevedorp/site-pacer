@@ -9,11 +9,19 @@ import { useCepGeocode, haversineKm } from "@/hooks/useCepGeocode";
 import { useUnidades } from "@/hooks/cms/useUnidades";
 import { useModalidades } from "@/hooks/cms/useModalidades";
 import { isActiveUnit, isComingSoonUnit } from "@/lib/cms/mappers/unidade";
+import { useSeoMeta } from "@/hooks/useSeoMeta";
 import type { FacilidadeId, Unidade } from "@/types/cms";
 
 type UnitWithDistance = Unidade & { distance: number | null };
 
 export default function UnitsPage() {
+  useSeoMeta({
+    title: "Unidades — Pacer Academia",
+    description:
+      "Encontre a unidade Pacer Academia mais perto de você em Ribeirão Preto e região. Filtre por cidade, modalidade e facilidades.",
+    canonical: "/unidades",
+  });
+
   const [params, setParams] = useSearchParams();
   const { cidade, modalidade, facilidade, cep } = readFiltersFromParams(params);
   const geocode = useCepGeocode(cep);

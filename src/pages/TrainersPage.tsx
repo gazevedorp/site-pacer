@@ -7,6 +7,7 @@ import { TrainersB2BCTA } from "@/components/sections/Trainers/TrainersB2BCTA";
 import { CmsLoading } from "@/components/shared/CmsStates";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
 import { usePersonais } from "@/hooks/cms/usePersonais";
+import { SITE_URL } from "@/config/site";
 
 export default function TrainersPage() {
   const [params] = useSearchParams();
@@ -22,11 +23,18 @@ export default function TrainersPage() {
     title: "Personal Trainers | Pacer Academia — Ribeirão e região",
     description:
       "Conheça os personal trainers certificados da Pacer Academia. Profissionais experientes em musculação, funcional, Muay Thai, Pilates, hidroginástica e muito mais.",
+    canonical: "/personais",
     jsonLd: JSON.stringify({
       "@context": "https://schema.org",
       "@type": "ItemList",
       name: "Personal Trainers — Pacer Academia",
-      url: "https://paceracademia.com.br/personais",
+      url: `${SITE_URL}/personais`,
+      itemListElement: filtered.map((trainer, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: trainer.name,
+        url: `${SITE_URL}/personais`,
+      })),
     }),
   });
 

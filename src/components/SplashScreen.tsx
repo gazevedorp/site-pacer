@@ -1,29 +1,59 @@
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+
+const SPLASH_SESSION_KEY = "pacer-splash-seen";
 
 interface SplashScreenProps {
   onComplete: () => void;
 }
 
+export function shouldShowSplash(): boolean {
+  if (typeof window === "undefined") return false;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return false;
+  }
+  try {
+    return sessionStorage.getItem(SPLASH_SESSION_KEY) !== "1";
+  } catch {
+    return true;
+  }
+}
+
+function markSplashSeen() {
+  try {
+    sessionStorage.setItem(SPLASH_SESSION_KEY, "1");
+  } catch {
+    /* ignore quota / private mode */
+  }
+}
+
 export function SplashScreen({ onComplete }: SplashScreenProps) {
   const [phase, setPhase] = useState<"logo" | "exit">("logo");
+  const reduced = useReducedMotion();
 
   const handleExit = useCallback(() => {
+    markSplashSeen();
     onComplete();
   }, [onComplete]);
 
   useEffect(() => {
+    if (reduced) {
+      handleExit();
+      return;
+    }
     const exitTimer = setTimeout(() => setPhase("exit"), 2500);
     const completeTimer = setTimeout(handleExit, 3200);
     return () => {
       clearTimeout(exitTimer);
       clearTimeout(completeTimer);
     };
-  }, [handleExit]);
+  }, [handleExit, reduced]);
+
+  if (reduced) return null;
 
   return (
     <AnimatePresence>
-      {phase !== "exit" || true ? (
+      {phase === "logo" || phase === "exit" ? (
         <motion.div
           className="fixed inset-0 z-[100] flex items-center justify-center"
           style={{ backgroundColor: "#010205" }}
@@ -31,7 +61,6 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
           animate={phase === "exit" ? { opacity: 0 } : { opacity: 1 }}
           transition={{ duration: 0.7, ease: "easeInOut" }}
         >
-          {/* Subtle ambient glow — no visible circle */}
           <motion.div
             className="pointer-events-none absolute inset-0"
             initial={{ opacity: 0 }}
@@ -51,7 +80,6 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
             />
           </motion.div>
 
-          {/* Logo + tagline */}
           <motion.div
             className="relative z-10 flex flex-col items-center"
             initial={{ opacity: 0, scale: 0.85, y: 10 }}
@@ -74,7 +102,6 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
               transition={{ duration: 1.4, delay: 0.2 }}
             />
 
-            {/* Tagline */}
             <motion.p
               className="mt-6 text-sm font-medium tracking-[0.3em] uppercase text-primary/70"
               initial={{ opacity: 0, y: 10 }}

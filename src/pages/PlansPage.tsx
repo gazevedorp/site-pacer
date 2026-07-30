@@ -2,6 +2,7 @@ import { useSeoMeta } from "@/hooks/useSeoMeta";
 import { useCategoriasComPlanos } from "@/hooks/cms/useCategoriaPlanos";
 import { PlansBanner } from "@/components/sections/Plans/PlansBanner";
 import { PlansCategories } from "@/components/sections/Plans/PlansCategories";
+import { SITE_URL } from "@/config/site";
 
 export default function PlansPage() {
   const { data: categorias } = useCategoriasComPlanos();
@@ -12,7 +13,7 @@ export default function PlansPage() {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Planos Pacer Academia",
-    url: "https://paceracademia.com.br/planos",
+    url: `${SITE_URL}/planos`,
     itemListElement: allPlans.map((plan, i) => ({
       "@type": "ListItem",
       position: i + 1,
@@ -25,6 +26,7 @@ export default function PlansPage() {
     title: "Planos e Preços | Pacer Academia — Ribeirão e região",
     description:
       "Conheça os planos da Pacer Academia: Básico, Multi e Família. Acesse qualquer uma das unidades em Ribeirão Preto e região.",
+    canonical: "/planos",
     jsonLd: plansJsonLd,
   });
 

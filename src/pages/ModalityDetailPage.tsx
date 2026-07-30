@@ -6,6 +6,7 @@ import { ModalityHero } from "@/components/sections/ModalityDetail/ModalityHero"
 import { ModalityAbout } from "@/components/sections/ModalityDetail/ModalityAbout";
 import { ModalityWhereToFind } from "@/components/sections/ModalityDetail/ModalityWhereToFind";
 import { CmsLoading } from "@/components/shared/CmsStates";
+import { SITE_URL } from "@/config/site";
 
 export default function ModalityDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -28,12 +29,17 @@ export default function ModalityDetailPage() {
         "@type": "SportsActivityLocation",
         name: `Pacer Academia — ${modality.title}`,
         description: seoDescription,
-        url: `https://paceracademia.com.br/modalidades/${modality.slug}`,
+        url: `${SITE_URL}/modalidades/${modality.slug}`,
         sport: modality.title,
       })
     : undefined;
 
-  useSeoMeta({ title: seoTitle, description: seoDescription, jsonLd });
+  useSeoMeta({
+    title: seoTitle,
+    description: seoDescription,
+    canonical: modality ? `/modalidades/${modality.slug}` : undefined,
+    jsonLd,
+  });
 
   if (isLoading) {
     return (

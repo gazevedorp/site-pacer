@@ -6,8 +6,16 @@ import { ModalitiesFilterBar } from "@/components/sections/Modalities/Modalities
 import { ModalitiesGrid } from "@/components/sections/Modalities/ModalitiesGrid";
 import { CmsLoading } from "@/components/shared/CmsStates";
 import { useModalidades } from "@/hooks/cms/useModalidades";
+import { useSeoMeta } from "@/hooks/useSeoMeta";
 
 export default function ModalitiesPage() {
+  useSeoMeta({
+    title: "Modalidades — Pacer Academia",
+    description:
+      "Conheça as modalidades da Pacer Academia: musculação, aulas coletivas, luta, dança e muito mais. Treine no seu ritmo.",
+    canonical: "/modalidades",
+  });
+
   const [params] = useSearchParams();
   const selectedUnit = readModalityFilter(params);
   const { data: modalidades, isLoading } = useModalidades();

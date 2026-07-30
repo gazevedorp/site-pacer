@@ -22,6 +22,11 @@ interface LenisProviderProps {
   wheelMultiplier?: number;
 }
 
+function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 export function LenisProvider({
   children,
   lerp = 0.1,
@@ -30,6 +35,11 @@ export function LenisProvider({
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    if (prefersReducedMotion()) {
+      lenisRef.current = null;
+      return;
+    }
+
     const lenis = new Lenis({ lerp, smoothWheel: true, wheelMultiplier });
     lenisRef.current = lenis;
 
@@ -40,7 +50,18 @@ export function LenisProvider({
     };
     rafHandle = requestAnimationFrame(raf);
 
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const onMotionChange = () => {
+      if (media.matches) {
+        cancelAnimationFrame(rafHandle);
+        lenis.destroy();
+        lenisRef.current = null;
+      }
+    };
+    media.addEventListener("change", onMotionChange);
+
     return () => {
+      media.removeEventListener("change", onMotionChange);
       cancelAnimationFrame(rafHandle);
       lenis.destroy();
       lenisRef.current = null;

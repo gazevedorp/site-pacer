@@ -9,11 +9,20 @@ export function PageShell() {
 
   return (
     <>
+      <a
+        href="#conteudo-principal"
+        className="absolute left-4 top-4 z-[200] -translate-y-[200%] rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground outline-none transition-transform focus:translate-y-0"
+      >
+        Ir para o conteúdo
+      </a>
+
       <Header />
 
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
+          id="conteudo-principal"
           key={location.pathname}
+          tabIndex={-1}
           initial={prefersReduced ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={prefersReduced ? undefined : { opacity: 0, y: -10 }}

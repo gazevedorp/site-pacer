@@ -12,6 +12,10 @@ import { contactSubjectOptions } from "@/data/contact";
 import { submitContato } from "@/lib/cms/mutations/contatos";
 import { submitCandidatura } from "@/lib/cms/mutations/candidaturas";
 import { cn } from "@/lib/utils";
+import {
+  TurnstileWidget,
+  isTurnstileRequired,
+} from "@/components/shared/TurnstileWidget";
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
@@ -23,7 +27,9 @@ type FormState = "idle" | "loading" | "success" | "error";
 // Separate counters per variant so one page doesn't block the other.
 
 const lastSubmitTimes: Record<FormVariant, number> = { careers: 0, contact: 0 };
-const RATE_LIMIT_MS = 30_000;
+const RATE_LIMIT_MS = 60_000;
+/** Reject instant bot submits (form filled faster than a human). */
+const MIN_FILL_MS = 3_000;
 
 // ─── Phone mask ───────────────────────────────────────────────────────────────
 
@@ -228,6 +234,8 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
   const [errors, setErrors] = useState<FormErrors>({});
   const [formState, setFormState] = useState<FormState>("idle");
   const [rateLimited, setRateLimited] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const mountedAtRef = useRef(Date.now());
   const fileInputRef = useRef<HTMLInputElement>(null);
   const resumeUploadRef = useRef<HTMLButtonElement>(null);
 
@@ -275,6 +283,22 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
 
       // Honeypot check
       if ((fields as BaseFields)._hp) return;
+
+      // Timing honeypot — bots often submit instantly
+      if (Date.now() - mountedAtRef.current < MIN_FILL_MS) {
+        setErrors({
+          form: "Aguarde um momento e tente novamente.",
+        });
+        return;
+      }
+
+      // Optional Turnstile (enabled when VITE_TURNSTILE_SITE_KEY is set)
+      if (isTurnstileRequired() && !turnstileToken) {
+        setErrors({
+          form: "Confirme que você não é um robô antes de enviar.",
+        });
+        return;
+      }
 
       // Rate limit
       const now = Date.now();
@@ -330,7 +354,7 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
         setFormState("error");
       }
     },
-    [variant, fields, careersFields, contactFields, resume]
+    [variant, fields, careersFields, contactFields, resume, turnstileToken]
   );
 
   // ── Success ────────────────────────────────────────────────────────────────
@@ -378,7 +402,7 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
           ? "Formulário de candidatura"
           : "Formulário de contato"
       }
-      className="flex flex-col gap-5"
+      className="relative flex flex-col gap-5"
     >
       {/* Honeypot */}
       <div
@@ -641,10 +665,34 @@ export function ContactFormBase({ variant }: ContactFormBaseProps) {
             aria-live="assertive"
           >
             <AlertCircle className="h-4 w-4 shrink-0" aria-hidden />
-            Aguarde 30 segundos antes de reenviar.
+            Aguarde 60 segundos antes de reenviar.
           </motion.p>
         )}
       </AnimatePresence>
+
+      <AnimatePresence>
+        {errors.form && (
+          <motion.p
+            key="form-err"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="flex items-center gap-2 rounded-xl border border-error/20 bg-error/[0.06] px-4 py-3 text-sm text-error"
+            role="alert"
+            aria-live="assertive"
+          >
+            <AlertCircle className="h-4 w-4 shrink-0" aria-hidden />
+            {errors.form}
+          </motion.p>
+        )}
+      </AnimatePresence>
+
+      <TurnstileWidget
+        onToken={(token) => {
+          setTurnstileToken(token);
+          setErrors((prev) => ({ ...prev, form: undefined }));
+        }}
+      />
 
       {/* Submit */}
       <button

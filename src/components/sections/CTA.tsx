@@ -2,6 +2,7 @@ import { Mail, MapPin, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AnimatedSection } from "@/components/ui/animated";
 import { ParallaxLayer } from "@/components/ui/parallax-layer";
+import { CENTRAL_WHATSAPP } from "@/lib/whatsapp";
 
 export function CTA() {
   return (
@@ -34,7 +35,7 @@ export function CTA() {
               style={{ backgroundColor: "#25D366", color: "#fff" }}
               asChild
             >
-              <a href="https://wa.me/5516999999999" target="_blank" rel="noopener noreferrer">
+              <a href={`https://wa.me/${CENTRAL_WHATSAPP}`} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="h-4 w-4" />
                 Falar pelo WhatsApp
               </a>

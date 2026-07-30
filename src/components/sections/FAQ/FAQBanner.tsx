@@ -10,7 +10,7 @@ export function FAQBanner() {
       className="relative flex min-h-[300px] items-end overflow-hidden pt-24 sm:min-h-[340px]"
     >
       <img
-        src="/fundo.jpg"
+        src="/fundo.webp"
         alt=""
         role="presentation"
         loading="eager"

@@ -1,6 +1,7 @@
 import { Check, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AnimatedSection, StaggerContainer, StaggerItem } from "@/components/ui/animated";
+import { CENTRAL_WHATSAPP } from "@/lib/whatsapp";
 
 const benefits = [
   "Musculação e cardio com equipamentos de alto padrão",
@@ -13,7 +14,7 @@ const benefits = [
 
 export function Pricing() {
   return (
-    <section id="planos" className="relative py-24 sm:py-32 bg-cover bg-center" style={{ backgroundImage: "url('/fundo.jpg')" }}>
+    <section id="planos" className="relative py-24 sm:py-32 bg-cover bg-center" style={{ backgroundImage: "url('/fundo.webp')" }}>
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-border to-transparent" />
       <div className="absolute inset-0 bg-black/50" />
 
@@ -53,7 +54,7 @@ export function Pricing() {
                 className="w-52 justify-center"
                 asChild
               >
-                <a href="https://wa.me/5516999999999" target="_blank" rel="noopener noreferrer">
+                <a href={`https://wa.me/${CENTRAL_WHATSAPP}`} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="h-4 w-4" />
                   Falar no WhatsApp
                 </a>

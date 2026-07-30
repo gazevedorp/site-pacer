@@ -18,7 +18,7 @@ export function HomeCTABand() {
       {/* Background image */}
       <div aria-hidden className="absolute inset-0">
         <img
-          src="/fundo-section.jpeg"
+          src="/fundo-section.webp"
           alt=""
           className="h-full w-full object-cover object-center"
           loading="lazy"

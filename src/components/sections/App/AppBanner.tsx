@@ -10,7 +10,7 @@ export function AppBanner() {
       className="relative flex min-h-[240px] items-end overflow-hidden pt-24 sm:min-h-[300px] md:min-h-[340px]"
     >
       <img
-        src="/fundo.jpg"
+        src="/fundo.webp"
         alt=""
         role="presentation"
         loading="eager"

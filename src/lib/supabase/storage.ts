@@ -1,4 +1,4 @@
-const PLACEHOLDER_IMAGE = "/fundo-section.jpeg";
+const PLACEHOLDER_IMAGE = "/placeholder.jpg";
 
 export type StorageBucket =
   | "modalidades"

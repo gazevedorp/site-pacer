@@ -10,9 +10,9 @@
 
 @theme {
   /* ─── Typography ─────────────────────────────────────────── */
-  --font-sans: "Abel", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Abel", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Montserrat", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Abel", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Abel", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Montserrat", "Abel", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
 
   /* ─── Pacer Brand Colors ─────────────────────────────────── */

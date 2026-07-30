@@ -5,6 +5,7 @@ import { useUnidade } from "@/hooks/cms/useUnidades";
 import { useModalidades } from "@/hooks/cms/useModalidades";
 import { usePlanosUnidade } from "@/hooks/cms/usePlanos";
 import { buildWhatsAppLink, CENTRAL_WHATSAPP } from "@/lib/whatsapp";
+import { SITE_URL } from "@/config/site";
 import { UnitHero } from "@/components/sections/UnitDetail/UnitHero";
 import { UnitAmenities } from "@/components/sections/UnitDetail/UnitAmenities";
 import { UnitGallery } from "@/components/sections/UnitDetail/UnitGallery";
@@ -57,13 +58,14 @@ export default function UnitDetailPage() {
         telephone: unit.whatsapp
           ? `+${unit.whatsapp}`
           : `+${CENTRAL_WHATSAPP}`,
-        url: `https://paceracademia.com.br/unidades/${unit.slug}`,
+        url: `${SITE_URL}/unidades/${unit.slug}`,
       })
     : undefined;
 
   useSeoMeta({
     title: seoTitle,
     description: seoDescription,
+    canonical: unit ? `/unidades/${unit.slug}` : undefined,
     jsonLd,
   });
 

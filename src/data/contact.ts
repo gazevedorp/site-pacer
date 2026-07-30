@@ -52,9 +52,9 @@ export const contactChannels: ContactChannel[] = [
     id: "phone",
     icon: "Phone",
     label: "Telefone",
-    value: "(16) 3333-4444",
-    href: "tel:+551633334444",
-    description: "Central de atendimento presencial.",
+    value: "(16) 95782-0040",
+    href: "tel:+5516957820040",
+    description: "Central de atendimento.",
   },
   {
     id: "instagram",

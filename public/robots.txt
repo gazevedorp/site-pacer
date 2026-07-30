@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://paceracademia.com.br/sitemap.xml

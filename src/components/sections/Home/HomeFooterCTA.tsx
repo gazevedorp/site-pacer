@@ -38,7 +38,7 @@ export function HomeFooterCTA() {
       {/* Background image */}
       <div aria-hidden className="absolute inset-0">
         <img
-          src="/fundo-section-2.jpeg"
+          src="/fundo-section-2.webp"
           alt=""
           className="h-full w-full object-cover object-center"
           loading="lazy"
