@@ -1,46 +1,35 @@
 import { useSearchParams } from "react-router-dom";
 import { SlidersHorizontal, X } from "lucide-react";
-import { units } from "@/data/units";
-import type { UnitModalityId } from "@/data/units";
-import { MODALITY_LABELS } from "@/data/schedule";
-import type { PublicoAlvo } from "@/data/schedule";
+import { EVO_BRANCHES } from "@/lib/evo/branches";
 import { cn } from "@/lib/utils";
-
-// ─── URL helper ───────────────────────────────────────────────────────────────
 
 export function readScheduleFilters(params: URLSearchParams) {
   return {
     unitSlug: params.get("unidade") ?? "",
     modalityId: params.get("modalidade") ?? "",
-    publico: (params.get("publico") ?? "") as PublicoAlvo | "",
   };
 }
-
-// ─── Component ───────────────────────────────────────────────────────────────
 
 const selectBase =
   "w-full appearance-none rounded-xl border border-border bg-card/5 px-4 py-2.5 text-sm text-foreground transition-colors hover:border-primary/40 focus:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-40 pr-8";
 
-export function ScheduleFilterBar() {
+interface ScheduleFilterBarProps {
+  modalities: { id: string; name: string }[];
+}
+
+export function ScheduleFilterBar({ modalities }: ScheduleFilterBarProps) {
   const [params, setParams] = useSearchParams();
-  const { unitSlug, modalityId, publico } = readScheduleFilters(params);
-
-  const selectedUnit = units.find((u) => u.slug === unitSlug);
-  const availableModalities: UnitModalityId[] = selectedUnit
-    ? selectedUnit.unitModalities
-    : (Object.keys(MODALITY_LABELS) as UnitModalityId[]);
-
+  const { unitSlug, modalityId } = readScheduleFilters(params);
   function update(key: string, value: string) {
     setParams(
       (p) => {
         const next = new URLSearchParams(p);
         if (value) next.set(key, value);
         else next.delete(key);
-        // When unit changes, reset modality, day, and publico
+        next.delete("publico");
         if (key === "unidade") {
           next.delete("modalidade");
           next.delete("dia");
-          next.delete("publico");
         }
         return next;
       },
@@ -52,7 +41,7 @@ export function ScheduleFilterBar() {
     setParams({}, { replace: true });
   }
 
-  const hasFilters = Boolean(unitSlug || modalityId || publico);
+  const hasFilters = Boolean(unitSlug || modalityId);
 
   return (
     <div className="sticky top-16 z-30 border-b border-border bg-background/85 backdrop-blur-xl">
@@ -61,13 +50,11 @@ export function ScheduleFilterBar() {
           <legend className="sr-only">Filtros da grade de aulas</legend>
 
           <div className="flex flex-wrap items-center gap-3">
-            {/* Filter icon */}
             <SlidersHorizontal
               className="h-4 w-4 shrink-0 text-muted-foreground"
               aria-hidden
             />
 
-            {/* Unit select */}
             <div className="relative min-w-[180px] flex-1 sm:flex-none sm:w-56">
               <label htmlFor="filter-unidade" className="sr-only">
                 Unidade
@@ -79,9 +66,9 @@ export function ScheduleFilterBar() {
                 className={selectBase}
               >
                 <option value="">Selecione a unidade</option>
-                {units.map((u) => (
-                  <option key={u.slug} value={u.slug}>
-                    Pacer {u.name}
+                {EVO_BRANCHES.map((branch) => (
+                  <option key={branch.slug} value={branch.slug}>
+                    Pacer {branch.name}
                   </option>
                 ))}
               </select>
@@ -93,7 +80,6 @@ export function ScheduleFilterBar() {
               </span>
             </div>
 
-            {/* Modality select */}
             <div className="relative min-w-[160px] flex-1 sm:flex-none sm:w-52">
               <label htmlFor="filter-modalidade" className="sr-only">
                 Modalidade
@@ -106,9 +92,9 @@ export function ScheduleFilterBar() {
                 className={selectBase}
               >
                 <option value="">Todas as modalidades</option>
-                {availableModalities.map((id) => (
-                  <option key={id} value={id}>
-                    {MODALITY_LABELS[id]}
+                {modalities.map((modality) => (
+                  <option key={modality.id} value={modality.id}>
+                    {modality.name}
                   </option>
                 ))}
               </select>
@@ -120,31 +106,7 @@ export function ScheduleFilterBar() {
               </span>
             </div>
 
-            {/* Público-alvo select */}
-            <div className="relative min-w-[130px] flex-1 sm:flex-none sm:w-40">
-              <label htmlFor="filter-publico" className="sr-only">
-                Público
-              </label>
-              <select
-                id="filter-publico"
-                value={publico}
-                onChange={(e) => update("publico", e.target.value)}
-                className={selectBase}
-              >
-                <option value="">Adulto &amp; Kids</option>
-                <option value="adulto">Adulto</option>
-                <option value="kids">Kids</option>
-              </select>
-              <span
-                className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground"
-                aria-hidden
-              >
-                ▾
-              </span>
-            </div>
-
-            {/* Clear button */}
-            {hasFilters && (
+            {hasFilters ? (
               <button
                 type="button"
                 onClick={clearAll}
@@ -158,7 +120,7 @@ export function ScheduleFilterBar() {
                 <X className="h-3 w-3" aria-hidden />
                 Limpar
               </button>
-            )}
+            ) : null}
           </div>
         </fieldset>
       </div>

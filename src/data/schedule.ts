@@ -20,11 +20,14 @@ export interface ScheduleClass {
   day: ScheduleDay;
   time: string; // "HH:MM"
   durationMin: number;
-  modalityId: UnitModalityId;
+  modalityId: string;
   modalityLabel: string;
   instructor: string;
   room?: string;
   publicoAlvo: PublicoAlvo;
+  accentColor?: string;
+  description?: string;
+  endTime?: string;
 }
 
 export interface DayMeta {
@@ -68,17 +71,29 @@ export const MODALITY_LABELS: Record<UnitModalityId, string> = {
 
 export const MODALITY_COLORS: Record<
   string,
-  { bg: string; text: string; border: string }
+  { bg: string; text: string; border: string; accent: string }
 > = {
-  musculacao:    { bg: "bg-blue-500/15",   text: "text-blue-300",   border: "border-blue-500/30"   },
-  funcional:     { bg: "bg-orange-500/15", text: "text-orange-300", border: "border-orange-500/30" },
-  "muay-thai":   { bg: "bg-red-500/15",    text: "text-red-300",    border: "border-red-500/30"    },
-  pilates:       { bg: "bg-teal-500/15",   text: "text-teal-300",   border: "border-teal-500/30"   },
-  hidroginastica:{ bg: "bg-cyan-500/15",   text: "text-cyan-300",   border: "border-cyan-500/30"   },
-  natacao:       { bg: "bg-indigo-500/15", text: "text-indigo-300", border: "border-indigo-500/30" },
-  danca:         { bg: "bg-purple-500/15", text: "text-purple-300", border: "border-purple-500/30" },
-  zumba:         { bg: "bg-pink-500/15",   text: "text-pink-300",   border: "border-pink-500/30"   },
+  musculacao:    { bg: "bg-blue-50",    text: "text-blue-800",    border: "border-blue-200",    accent: "bg-blue-500"    },
+  funcional:     { bg: "bg-orange-50",  text: "text-orange-800",  border: "border-orange-200",  accent: "bg-orange-500"  },
+  "muay-thai":   { bg: "bg-red-50",     text: "text-red-800",     border: "border-red-200",     accent: "bg-red-500"     },
+  pilates:       { bg: "bg-teal-50",    text: "text-teal-800",    border: "border-teal-200",    accent: "bg-teal-500"    },
+  hidroginastica:{ bg: "bg-cyan-50",    text: "text-cyan-800",    border: "border-cyan-200",    accent: "bg-cyan-500"    },
+  natacao:       { bg: "bg-indigo-50",  text: "text-indigo-800",  border: "border-indigo-200",  accent: "bg-indigo-500"  },
+  danca:         { bg: "bg-purple-50",  text: "text-purple-800",  border: "border-purple-200",  accent: "bg-purple-500"  },
+  zumba:         { bg: "bg-pink-50",    text: "text-pink-800",    border: "border-pink-200",    accent: "bg-pink-500"    },
 };
+
+const COLOR_PALETTE = Object.values(MODALITY_COLORS);
+
+export function getModalityColor(modalityId: string) {
+  const exact = MODALITY_COLORS[modalityId];
+  if (exact) return exact;
+  let hash = 0;
+  for (let i = 0; i < modalityId.length; i++) {
+    hash = (hash * 31 + modalityId.charCodeAt(i)) >>> 0;
+  }
+  return COLOR_PALETTE[hash % COLOR_PALETTE.length];
+}
 
 // ─── Instructor pool per modality ─────────────────────────────────────────────
 

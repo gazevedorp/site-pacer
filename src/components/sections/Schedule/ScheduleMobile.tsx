@@ -1,73 +1,70 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Clock, User, MapPin } from "lucide-react";
-import { DAYS, MODALITY_COLORS } from "@/data/schedule";
+import { DAYS, getModalityColor } from "@/data/schedule";
 import type { ScheduleClass, ScheduleDay } from "@/data/schedule";
 import { cn } from "@/lib/utils";
-
-// ─── Mobile class card ────────────────────────────────────────────────────────
+import { ScheduleClassModal } from "@/components/sections/Schedule/ScheduleClassCard";
 
 function MobileClassCard({
   cls,
   index,
+  onSelect,
 }: {
   cls: ScheduleClass;
   index: number;
+  onSelect: (cls: ScheduleClass) => void;
 }) {
-  const color = MODALITY_COLORS[cls.modalityId] ?? MODALITY_COLORS["funcional"];
+  const tone = getModalityColor(cls.modalityId);
   const reduced = useReducedMotion();
 
   return (
-    <motion.article
+    <motion.button
+      type="button"
       initial={reduced ? false : { opacity: 0, x: -12 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3, delay: Math.min(index * 0.04, 0.3) }}
+      onClick={() => onSelect(cls)}
       className={cn(
-        "flex gap-4 rounded-xl border p-4",
-        "contain-content",
-        color.bg,
-        color.border
+        "relative flex h-[5.75rem] w-full gap-4 overflow-hidden rounded-xl border border-border bg-white p-4 pl-5 text-left shadow-sm",
+        "transition-shadow hover:border-primary/30 hover:shadow-md",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       )}
-      aria-label={`${cls.modalityLabel} às ${cls.time} com ${cls.instructor}`}
+      aria-label={`Ver detalhes de ${cls.modalityLabel} às ${cls.time}`}
     >
-      {/* Time column */}
-      <div className="shrink-0 text-center">
-        <p className={cn("text-lg font-bold leading-none", color.text)}>
+      <div
+        className={cn("absolute inset-y-0 left-0 w-1", !cls.accentColor && tone.accent)}
+        style={cls.accentColor ? { backgroundColor: cls.accentColor } : undefined}
+        aria-hidden
+      />
+
+      <div className="w-14 shrink-0 text-center">
+        <p className="text-lg font-bold leading-none tabular-nums text-primary">
           {cls.time}
         </p>
-        <p className="mt-1 text-[12px] text-white/35">{cls.durationMin}min</p>
+        <p className="mt-1 truncate text-[12px] text-muted-foreground">
+          {cls.durationMin}min
+        </p>
       </div>
 
-      {/* Divider */}
-      <div className={cn("w-px self-stretch rounded-full opacity-40", color.border)} />
+      <div className="w-px self-stretch rounded-full bg-border" />
 
-      {/* Details */}
       <div className="min-w-0 flex-1">
-        <p className={cn("text-sm font-semibold", color.text)}>
+        <p className="truncate text-sm font-semibold text-foreground">
           {cls.modalityLabel}
         </p>
-        <div className="mt-1.5 flex flex-col gap-1">
-          <span className="flex items-center gap-1.5 text-xs text-white/55">
-            <User className="h-3 w-3 shrink-0" aria-hidden />
-            {cls.instructor}
-          </span>
-          {cls.room && (
-            <span className="flex items-center gap-1.5 text-xs text-white/40">
-              <MapPin className="h-3 w-3 shrink-0" aria-hidden />
-              {cls.room}
-            </span>
-          )}
-          <span className="flex items-center gap-1.5 text-xs text-white/35">
-            <Clock className="h-3 w-3 shrink-0" aria-hidden />
-            {cls.time} · {cls.durationMin} minutos
-          </span>
-        </div>
+        <p className="mt-1.5 flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
+          <User className="h-3 w-3 shrink-0" aria-hidden />
+          <span className="truncate">{cls.instructor}</span>
+        </p>
+        <p className="mt-1 flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground/80">
+          <MapPin className="h-3 w-3 shrink-0" aria-hidden />
+          <span className="truncate">{cls.room || "Sala a confirmar"}</span>
+        </p>
       </div>
-    </motion.article>
+    </motion.button>
   );
 }
-
-// ─── Props ────────────────────────────────────────────────────────────────────
 
 interface ScheduleMobileProps {
   classes: ScheduleClass[];
@@ -75,17 +72,15 @@ interface ScheduleMobileProps {
   onDayChange: (day: ScheduleDay) => void;
 }
 
-// ─── Component ───────────────────────────────────────────────────────────────
-
 export function ScheduleMobile({
   classes,
   selectedDay,
   onDayChange,
 }: ScheduleMobileProps) {
+  const [selected, setSelected] = useState<ScheduleClass | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef<HTMLButtonElement>(null);
 
-  // Scroll active day button into view when it changes
   useEffect(() => {
     if (activeRef.current && carouselRef.current) {
       activeRef.current.scrollIntoView({
@@ -102,7 +97,6 @@ export function ScheduleMobile({
 
   return (
     <div>
-      {/* Day carousel */}
       <div
         ref={carouselRef}
         role="tablist"
@@ -126,27 +120,26 @@ export function ScheduleMobile({
                 "flex shrink-0 flex-col items-center gap-0.5 rounded-xl border px-4 py-2.5 text-sm transition-all",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 isActive
-                  ? "border-primary bg-primary/10 text-primary font-semibold"
-                  : "border-white/10 bg-white/[0.03] text-white/50 hover:border-white/20 hover:text-white/80"
+                  ? "border-primary bg-primary/15 font-semibold text-foreground"
+                  : "border-border bg-white text-muted-foreground hover:border-primary/40 hover:text-foreground"
               )}
             >
               <span>{day.short}</span>
-              {count > 0 && (
+              {count > 0 ? (
                 <span
                   className={cn(
                     "text-[12px] leading-none",
-                    isActive ? "text-primary/70" : "text-white/30"
+                    isActive ? "text-primary" : "text-muted-foreground/70"
                   )}
                 >
                   {count}
                 </span>
-              )}
+              ) : null}
             </button>
           );
         })}
       </div>
 
-      {/* Class list */}
       <div
         id="schedule-mobile-list"
         role="tabpanel"
@@ -156,14 +149,14 @@ export function ScheduleMobile({
         {dayClasses.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 text-center">
             <Clock
-              className="mb-4 h-12 w-12 text-white/15"
+              className="mb-4 h-12 w-12 text-muted"
               aria-hidden
               strokeWidth={1.5}
             />
-            <p className="text-sm font-medium text-white/40">
+            <p className="text-sm font-medium text-muted-foreground">
               Nenhuma aula neste dia
             </p>
-            <p className="mt-1 text-xs text-white/25">
+            <p className="mt-1 text-xs text-muted-foreground/70">
               Tente outro dia ou ajuste os filtros acima.
             </p>
           </div>
@@ -175,11 +168,18 @@ export function ScheduleMobile({
             aria-atomic="true"
           >
             {dayClasses.map((cls, i) => (
-              <MobileClassCard key={cls.id} cls={cls} index={i} />
+              <MobileClassCard
+                key={cls.id}
+                cls={cls}
+                index={i}
+                onSelect={setSelected}
+              />
             ))}
           </div>
         )}
       </div>
+
+      <ScheduleClassModal cls={selected} onClose={() => setSelected(null)} />
     </div>
   );
 }
