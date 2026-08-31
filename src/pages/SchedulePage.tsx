@@ -2,7 +2,6 @@ import { useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { CalendarDays } from "lucide-react";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { useActivities } from "@/hooks/evo/useActivities";
 import { useActivitySchedule } from "@/hooks/evo/useActivitySchedule";
 import { getEvoBranch } from "@/lib/evo/branches";
 import {
@@ -42,25 +41,17 @@ export default function SchedulePage() {
   const unitName = selectedBranch ? `Pacer ${selectedBranch.name}` : undefined;
   const idBranch = selectedBranch?.idBranch;
 
-  const { data: activities } = useActivities();
   const {
     data: scheduleItems,
     isLoading,
     error,
   } = useActivitySchedule(idBranch);
 
-  const activityById = useMemo(() => {
-    const map = new Map(activities.map((activity) => [activity.idActivity, activity]));
-    return map;
-  }, [activities]);
-
   const classes = useMemo(() => {
     if (!unitSlug) return [];
     const items = Array.isArray(scheduleItems) ? scheduleItems : [];
-    return items.map((item) =>
-      mapScheduleItem(item, unitSlug, activityById.get(item.idActivity))
-    );
-  }, [scheduleItems, unitSlug, activityById]);
+    return items.map((item) => mapScheduleItem(item, unitSlug));
+  }, [scheduleItems, unitSlug]);
 
   const modalities = useMemo(() => uniqueScheduleModalities(classes), [classes]);
 
@@ -120,7 +111,8 @@ export default function SchedulePage() {
           <CmsLoading className="py-24" />
         ) : error ? (
           <p className="py-24 text-center text-sm text-muted-foreground" role="alert">
-            Não foi possível carregar a grade. Tente novamente em instantes.
+            {error.message ||
+              "Não foi possível carregar a grade. Tente novamente em instantes."}
           </p>
         ) : filteredClasses.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
