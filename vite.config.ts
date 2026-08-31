@@ -1,9 +1,9 @@
-import { defineConfig, loadEnv, type ProxyOptions } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), "");
+  const env = loadEnv(mode, ".", "");
   const evoTarget =
     env.EVO_API_URL || "https://evo-integracao-api.w12app.com.br";
   const evoAuth =
@@ -11,18 +11,25 @@ export default defineConfig(({ mode }) => {
       ? btoa(`${env.EVO_API_DNS}:${env.EVO_API_KEY}`)
       : "";
 
-  const evoProxy: Record<string, ProxyOptions> = {
+  const attachEvoAuth = (proxy: {
+    on: (
+      event: "proxyReq",
+      listener: (proxyReq: { setHeader: (name: string, value: string) => void }) => void
+    ) => void;
+  }) => {
+    proxy.on("proxyReq", (proxyReq) => {
+      if (evoAuth) {
+        proxyReq.setHeader("Authorization", `Basic ${evoAuth}`);
+      }
+    });
+  };
+
+  const evoProxy = {
     "/api/evo": {
       target: evoTarget,
       changeOrigin: true,
-      rewrite: (path) => path.replace(/^\/api\/evo/, "/api/v1"),
-      configure(proxy) {
-        proxy.on("proxyReq", (proxyReq) => {
-          if (evoAuth) {
-            proxyReq.setHeader("Authorization", `Basic ${evoAuth}`);
-          }
-        });
-      },
+      rewrite: (path: string) => path.replace(/^\/api\/evo/, "/api/v1"),
+      configure: attachEvoAuth,
     },
   };
 
