@@ -1,2 +1,2 @@
-/** Toggle when the schedule (/aulas) page is ready to go live. */
+/** Public nav link for /aulas. The route stays reachable for tests even when false. */
 export const SCHEDULE_PAGE_ENABLED = false;
