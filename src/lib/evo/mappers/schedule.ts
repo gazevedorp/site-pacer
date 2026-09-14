@@ -15,17 +15,36 @@ function dayFromActivityDate(iso: string): ScheduleDay {
   return DAYS.find((item) => item.jsDay === date.getDay())?.key ?? "seg";
 }
 
+function audienceText(audience: unknown): string {
+  if (!audience) return "";
+  if (typeof audience === "string") return audience;
+  if (Array.isArray(audience)) return audience.map(audienceText).join(" ");
+  if (typeof audience === "object") {
+    const record = audience as Record<string, unknown>;
+    return [record.name, record.audience, record.description, record.title]
+      .filter((value): value is string => typeof value === "string")
+      .join(" ");
+  }
+  return "";
+}
+
+const KIDS_PATTERN = /kid|infantil|beb[êe]|baby|\d+\s*a\s*\d+\s*anos/;
+
 function isKidsClass(item: EvoScheduleItem, activity?: EvoActivity): boolean {
   const haystack = [
     item.audience,
+    audienceText(activity?.audience),
     activity?.activityGroup,
+    activity?.name,
+    activity?.description,
     item.name,
+    item.description,
   ]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
 
-  return /kid|infantil|beb[êe]|baby|\d+\s*a\s*\d+\s*anos/.test(haystack);
+  return KIDS_PATTERN.test(haystack);
 }
 
 export function mapScheduleItem(

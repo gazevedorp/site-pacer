@@ -15,6 +15,7 @@ export const EVO_BRANCHES: EvoBranch[] = [
   { idBranch: 2, slug: "novo-shopping", name: "Novo Shopping" },
   { idBranch: 4, slug: "ribeirania", name: "Ribeirânia" },
   { idBranch: 6, slug: "sertaozinho-1", name: "Sertãozinho 1" },
+  { idBranch: 13, slug: "sertaozinho-2", name: "Sertãozinho 2" },
   { idBranch: 1, slug: "sertaozinho-3", name: "Sertãozinho 3" },
 ];
 

@@ -2,12 +2,14 @@ import { useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { CalendarDays } from "lucide-react";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
+import { useActivities } from "@/hooks/evo/useActivities";
 import { useActivitySchedule } from "@/hooks/evo/useActivitySchedule";
 import { getEvoBranch } from "@/lib/evo/branches";
 import {
   mapScheduleItem,
   uniqueScheduleModalities,
 } from "@/lib/evo/mappers/schedule";
+import type { EvoActivity } from "@/types/evo";
 import {
   getTodayScheduleDay,
   type ScheduleDay,
@@ -46,12 +48,25 @@ export default function SchedulePage() {
     isLoading,
     error,
   } = useActivitySchedule(idBranch);
+  const { data: activities, isLoading: activitiesLoading } = useActivities();
+
+  const activitiesById = useMemo(() => {
+    const map = new Map<number, EvoActivity>();
+    for (const activity of Array.isArray(activities) ? activities : []) {
+      map.set(activity.idActivity, activity);
+    }
+    return map;
+  }, [activities]);
 
   const classes = useMemo(() => {
     if (!unitSlug) return [];
     const items = Array.isArray(scheduleItems) ? scheduleItems : [];
-    return items.map((item) => mapScheduleItem(item, unitSlug));
-  }, [scheduleItems, unitSlug]);
+    return items
+      .map((item) =>
+        mapScheduleItem(item, unitSlug, activitiesById.get(item.idActivity))
+      )
+      .filter((cls) => cls.publicoAlvo !== "kids");
+  }, [scheduleItems, unitSlug, activitiesById]);
 
   const modalities = useMemo(() => uniqueScheduleModalities(classes), [classes]);
 
@@ -84,7 +99,9 @@ export default function SchedulePage() {
     );
   }
 
-  const showLoading = Boolean(unitSlug && idBranch && isLoading);
+  const showLoading = Boolean(
+    unitSlug && idBranch && (isLoading || activitiesLoading)
+  );
 
   return (
     <main>

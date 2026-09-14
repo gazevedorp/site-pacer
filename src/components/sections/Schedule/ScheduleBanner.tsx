@@ -42,7 +42,7 @@ export function ScheduleBanner() {
             Grade de Aulas
           </h1>
           <p className="mt-2 max-w-lg text-fluid-md text-white/55">
-            Selecione sua unidade e modalidade para ver os horários disponíveis.
+            Selecione sua unidade e modalidade para ver os horários disponíveis. (Aulas de natação e hidroginástica na unidade Novo Shopping estão inclusas somente no plano aquático)
           </p>
         </motion.div>
       </div>
